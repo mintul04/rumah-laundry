@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
-@section('title', 'Kelola Layanan - RumahLaundry')
-@section('page-title', 'Kelola Layanan')
+@section('title', 'Kelola Pesanan - RumahLaundry')
+@section('page-title', 'Kelola Pesanan')
 
 @push('styles')
     <style>
@@ -85,6 +85,44 @@
             border-bottom: none;
         }
 
+        .badge-status {
+            display: inline-block;
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-dipending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-dijemput {
+            background-color: #cce7ff;
+            color: #004085;
+        }
+
+        .badge-diproses {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-dipacking {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-diantar {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-selesai {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
         .badge-tipe {
             display: inline-block;
             padding: 0.4rem 0.75rem;
@@ -143,6 +181,15 @@
 
         .btn-delete:hover {
             background-color: #c82333;
+        }
+
+        .btn-detail {
+            background-color: var(--primary-blue);
+            color: var(--neutral-white);
+        }
+
+        .btn-detail:hover {
+            background-color: var(--primary-dark);
         }
 
         .empty-state {
@@ -231,6 +278,29 @@
             background-color: #c82333;
         }
 
+        .text-muted {
+            color: #6c757d !important;
+        }
+
+        .text-success {
+            color: #28a745 !important;
+        }
+
+        .catatan-cell {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .catatan-cell:hover {
+            white-space: normal;
+            overflow: visible;
+            background: var(--neutral-white);
+            position: relative;
+            z-index: 10;
+        }
+
         @media (max-width: 768px) {
             .table-header {
                 flex-direction: column;
@@ -255,6 +325,19 @@
                 padding: 0.4rem 0.6rem;
                 font-size: 0.75rem;
             }
+
+            .catatan-cell {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table th:nth-child(6),
+            .table td:nth-child(6),
+            .table th:nth-child(9),
+            .table td:nth-child(9) {
+                display: none;
+            }
         }
     </style>
 @endpush
@@ -262,9 +345,9 @@
 @section('content')
     <div class="table-container">
         <div class="table-header">
-            <h5><i class="fas fa-concierge-bell"></i> Data Kategori</h5>
-            <a href="{{ route('layanan.create') }}" class="btn-add">
-                <i class="fas fa-plus"></i> Tambah Layanan
+            <h5><i class="fas fa-shopping-cart"></i> Data Pesanan</h5>
+            <a href="{{ route('pesanan.create') }}" class="btn-add">
+                <i class="fas fa-plus"></i> Tambah Pesanan
             </a>
         </div>
 
@@ -273,34 +356,43 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Id Layanan</th>
+                        <th>Kode Pesanan</th>
                         <th>Nama Layanan</th>
+                        <th>Nama Paket</th>
+                        <th>Harga</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($layanan ?? [] as $item)
+                    @forelse($pesanan ?? [] as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><strong>{{ $item['id_layanan'] }}</strong></td>
-                            <td><strong>{{ $item['nama_layanan'] }}</strong></td>
+                            <td>
+                                <strong class="text-primary">{{ $item['kode_pesanan'] }}</strong>
+                            </td>
+                            <td>{{ $item['layanan']['nama_layanan'] ?? 'Layanan Tidak Ditemukan' }}</td>
+                            <td>{{ $item['layanan']['nama_paket'] ?? 'Paket Tidak Ditemukan' }}</td>
+                            <td>{{ number_format($item['total_harga'], 0, ',', '.') }}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{{ route('layanan.edit', $item['id']) }}" class="btn-action btn-edit">
-                                        <i class="fas fa-pen"></i> Edit
+                                    <a href="{{ route('pesanan.show', $item['id']) }}" class="btn-action btn-detail" title="Detail">
+                                        <i class="fas fa-eye"></i>
                                     </a>
-                                    <button class="btn-action btn-delete"
-                                        onclick="openDeleteModal({{ $item['id'] }}, '{{ $item['nama_layanan'] }}')">
-                                        <i class="fas fa-trash"></i> Hapus
+                                    <a href="{{ route('pesanan.edit', $item['id']) }}" class="btn-action btn-edit" title="Edit">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <button class="btn-action btn-delete" title="Hapus"
+                                        onclick="openDeleteModal({{ $item['id'] }}, '{{ $item['kode_pesanan'] }}')">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="empty-state">
+                            <td colspan="11" class="empty-state">
                                 <i class="fas fa-inbox"></i>
-                                <p>Belum ada data layanan</p>
+                                <p>Belum ada data pesanan</p>
                             </td>
                         </tr>
                     @endforelse
@@ -313,7 +405,7 @@
     <div class="modal-backdrop" id="deleteModal">
         <div class="modal-content-custom">
             <h5><i class="fas fa-exclamation-triangle" style="color: var(--accent-danger);"></i> Konfirmasi Hapus</h5>
-            <p id="deleteMessage">Apakah Anda yakin ingin menghapus layanan ini?</p>
+            <p id="deleteMessage">Apakah Anda yakin ingin menghapus pesanan ini?</p>
             <div class="modal-actions">
                 <button class="btn-cancel" onclick="closeDeleteModal()">Batal</button>
                 <button class="btn-confirm" onclick="confirmDelete()">Hapus</button>
@@ -327,9 +419,9 @@
     <script>
         let deleteId = null;
 
-        function openDeleteModal(id, nama) {
+        function openDeleteModal(id, kodePesanan) {
             deleteId = id;
-            document.getElementById('deleteMessage').textContent = `Apakah Anda yakin ingin menghapus layanan "${nama}"?`;
+            document.getElementById('deleteMessage').textContent = `Apakah Anda yakin ingin menghapus pesanan "${kodePesanan}"?`;
             document.getElementById('deleteModal').classList.add('show');
         }
 
@@ -341,7 +433,7 @@
         function confirmDelete() {
             if (deleteId) {
                 // Redirect to delete route (dalam implementasi real, gunakan AJAX atau form submission)
-                window.location.href = `/layanan/${deleteId}/delete`;
+                window.location.href = `/pesanan/${deleteId}/delete`;
             }
         }
 
@@ -350,6 +442,23 @@
             if (e.target === this) {
                 closeDeleteModal();
             }
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDeleteModal();
+            }
+        });
+
+        // Tooltip for catatan
+        document.addEventListener('DOMContentLoaded', function() {
+            const catatanCells = document.querySelectorAll('.catatan-cell');
+            catatanCells.forEach(cell => {
+                cell.addEventListener('mouseenter', function() {
+                    this.setAttribute('data-original-title', this.getAttribute('title'));
+                });
+            });
         });
     </script>
 @endpush

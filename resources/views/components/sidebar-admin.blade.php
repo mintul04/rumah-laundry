@@ -15,7 +15,13 @@
             <li>
                 <a href="{{ route('layanan.index') }}" class="@if (request()->routeIs('layanan.*')) active @endif">
                     <i class="fas fa-concierge-bell"></i>
-                    <span>Kelola Layanan</span>
+                    <span>Data Kategori</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('paket-laundry.index') }}" class="@if (request()->routeIs('paket-laundry.*')) active @endif">
+                    <i class="fas fa-list-check"></i>
+                    <span>Paket Laundry</span>
                 </a>
             </li>
             <li>
@@ -25,21 +31,15 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="">
-                    <i class="fas fa-list-check"></i>
-                    <span>Pesanan</span>
-                </a>
-            </li>
-            <li>
+                <li>
+                    <a href="#" class="">
+                        <i class="fas fa-cog"></i>
+                        <span>Transaksi</span>
+                    </a>
+                </li>
                 <a href="#" class="">
                     <i class="fas fa-file-invoice"></i>
                     <span>Laporan</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="">
-                    <i class="fas fa-cog"></i>
-                    <span>Pengaturan</span>
                 </a>
             </li>
             <li style="margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 2rem;">

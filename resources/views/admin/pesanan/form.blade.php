@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
-@section('title', 'Tambah Layanan - RumahLaundry')
-@section('page-title', 'Tambah Layanan Baru')
+@section('title', 'Tambah Pesanan - RumahLaundry')
+@section('page-title', 'Tambah Pesanan Baru')
 
 @push('styles')
     <style>
@@ -147,34 +147,56 @@
 
 @section('content')
     <div class="form-container">
-        <div class="form-info">
-            <i class="fas fa-info-circle"></i>
-            Isi semua kolom dengan benar untuk menambah layanan baru
-        </div>
-
-        <form action="{{ isset($layanan) ? route('layanan.update', $layanan->id) : route('layanan.store') }}" method="POST">
+        <h5><i class="fas fa-concierge-bell"></i> Tambah Pesanan Baru</h5>
+        <form action="{{ route('pesanan.store') }}" method="POST">
             @csrf
-            @if (isset($layanan))
-                @method('PUT')
-            @endif
-            <div class="mb-3">
-                <label>Id Layanan</label>
-                <input type="text" name="id_layanan" class="form-control"
-                    value="{{ old('id_layanan', $layanan->id_layanan ?? '') }}" placeholder="Masukkan id layanan">
-            </div>
-            <div class="mb-3">
-                <label>Nama Layanan</label>
-                <input type="text" name="nama_layanan" class="form-control"
-                    value="{{ old('nama_layanans', $layanan->nama_layanan ?? '') }}" placeholder="Masukkan nama layanan">
+
+            <div class="form-group">
+                <label for="kode_pesanan">Kode Pesanan</label>
+                <input type="text" class="form-control @error('kode_pesanan') is-invalid @enderror" id="kode_pesanan"
+                    name="kode_pesanan" value="{{ old('kode_pesanan', 'PSN-' . date('YmdHis')) }}" required>
+                @error('kode_pesanan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
-            <a href="{{ route('layanan.index') }}" class="btn-cancel">
-                <i class="fas fa-times"></i> Batal
-            </a>
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-save"></i> Simpan Layanan
-            </button>
-    </div>
-    </form>
-    </div>
-@endsection
+            <div class="form-group">
+                <label for="nama_layanan">Nama Layanan</label>
+                <input type="text" class="form-control" placeholder="Pilih nama layanan">
+            </div>
+            
+            <div class="form-group">
+            <label for="nama_paket">Nama Paket</label>
+            <select name="nama_layanan" id="nama_layanan" class="form-select" required>
+                <option value="">-- Pilih Paket --</option>
+                <?php
+                if (isset($layanan) && !empty($layanan)) {
+                    foreach ($layanan as $item) {
+                        $selected = isset($_POST['nama_layanan']) && $_POST['nama_layanan'] == $item['id_layanan'] ? 'selected' : '';
+                        echo "<option value='{$item['id_layanan']}' $selected>{$item['nama_layanan']}</option>";
+                    }
+                } else {
+                    echo "<option value='' disabled>-- Data layanan tidak tersedia --</option>";
+                }
+                ?>
+            </select>
+            </div>
+
+            <div class="form-group">
+                <label for="total_harga">Harga</label>
+                <input type="number" class="form-control @error('total_harga') is-invalid @enderror" id="total_harga"
+                    name="total_harga" value="{{ old('total_harga') }}" required>
+                @error('total_harga')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ route('layanan.index') }}" class="btn-cancel">
+                    <i class="fas fa-times"></i> Batal
+                </a>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Simpan Layanan
+                </button>
+            </div>
+        @endsection

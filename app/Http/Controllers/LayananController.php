@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Layanan;
+
+
 use Illuminate\Http\Request;
 
 class LayananController extends Controller
@@ -11,7 +14,8 @@ class LayananController extends Controller
      */
     public function index()
     {
-        return view('admin.layanan.data');
+        $layanan = Layanan::all();
+        return view('admin.layanan.data', compact('layanan'));
     }
 
     /**
@@ -27,7 +31,16 @@ class LayananController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_layanan' => 'required|string',
+            'nama_layanan' => 'required|string|max:255',
+        ]);
+
+        // Gunakan only() untuk memastikan field yang diambil
+        layanan::create($request->only(['id_layanan', 'nama_layanan']));
+
+        return redirect()->route('layanan.index')
+            ->with('success', 'Layanan berhasil ditambahkan');
     }
 
     /**
@@ -43,7 +56,8 @@ class LayananController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $layanan = Layanan::findOrFail($id);
+        return view('admin.layanan.form', compact('layanan'));
     }
 
     /**
@@ -51,7 +65,20 @@ class LayananController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'id_layanan' => 'required|string',
+            'nama_layanan' => 'required|string|max:255',
+        ]);
+
+        $layanan = Layanan::findOrFail($id);
+
+        $layanan->update([
+            'id_layanan' => $request->id_layanan,
+            'nama_layanan' => $request->nama_layanan,
+        ]);
+
+        return redirect()->route('layanan.index')
+            ->with('success', 'Layanan berhasil diperbarui');
     }
 
     /**

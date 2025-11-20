@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_layanan');
-            $table->foreignId('id_pelanggan');
             $table->string('kode_pesanan');
-            $table->string('tipe');
-            $table->string('berat');
-            $table->text('catatan');
+            $table->string('nama_layanan');
+            $table->string('nama_paket');
             $table->decimal('total_harga', 10, 2);
-            $table->enum('status', ['pending', 'jemput', 'proses', 'packing', 'antar', 'selesai']);
             $table->timestamps();
         });
     }

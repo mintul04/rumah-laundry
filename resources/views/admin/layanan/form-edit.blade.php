@@ -109,20 +109,6 @@
             position: relative;
         }
 
-        .price-input-group::before {
-            content: 'Rp';
-            position: absolute;
-            left: 0.75rem;
-            top: 2.75rem;
-            font-weight: 600;
-            color: var(--neutral-dark);
-            pointer-events: none;
-        }
-
-        .price-input-group .form-control {
-            padding-left: 2rem;
-        }
-
         .form-warning {
             background-color: #fff3cd;
             border-left: 4px solid var(--accent-warning);
@@ -162,46 +148,21 @@
             Perbarui informasi layanan sesuai kebutuhan
         </div>
 
-        <form action="{{ route('layanan.update', $layanan['id'] ?? 1) }}" method="POST">
+        <form action="{{ route('layanan.update', $layanan->id) }}" method="POST">
             @csrf
             @method('PUT')
-
+            <form id="layananForm">
+                    <div class="form-group">
+                        <label for="nama_layanan">Nama Layanan</label>
+                        <input type="text" id="nama_layanan" name="nama_layanan" class="form-control" placeholder="Masukkan nama layanan" required>
+                    </div>
             <div class="form-group">
                 <label class="form-label">
-                    Nama Layanan <span class="required">*</span>
+                    Id Layanan <span class="required">*</span>
                 </label>
-                <input type="text" name="nama_layanan" class="form-control" placeholder="Contoh: Cuci Reguler"
-                    value="{{ old('nama_layanan', $layanan['nama_layanan'] ?? '') }}" required>
+                <input type="text" name="id_layanan" class="form-control" value="{{ $layanan['id_layanan'] ?? '' }}" required>
             </div>
-
-            <div class="form-group">
-                <label class="form-label">
-                    Tipe Layanan <span class="required">*</span>
-                </label>
-                <select name="tipe" class="form-control" required>
-                    <option value="">-- Pilih Tipe --</option>
-                    <option value="express" @if (old('tipe', $layanan['tipe'] ?? '') === 'express') selected @endif>Express (1 Hari)</option>
-                    <option value="regular" @if (old('tipe', $layanan['tipe'] ?? '') === 'regular') selected @endif>Regular (3 Hari)</option>
-                    <option value="economy" @if (old('tipe', $layanan['tipe'] ?? '') === 'economy') selected @endif>Economy (5 Hari)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">
-                    Harga (per kg) <span class="required">*</span>
-                </label>
-                <div class="price-input-group">
-                    <input type="number" name="harga" class="form-control" placeholder="50000"
-                        value="{{ old('harga', $layanan['harga'] ?? '') }}" min="0" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">
-                    Deskripsi <span class="required">*</span>
-                </label>
-                <textarea name="deskripsi" class="form-control" placeholder="Jelaskan detail layanan ini..." required>{{ old('deskripsi', $layanan['deskripsi'] ?? '') }}</textarea>
-            </div>
+            
 
             <div class="form-actions">
                 <a href="{{ route('layanan.index') }}" class="btn-cancel">
