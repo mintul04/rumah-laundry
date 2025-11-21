@@ -72,7 +72,11 @@ class PaketLaundryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Cari paket laundry berdasarkan ID
+        $paketLaundry = PaketLaundry::findOrFail($id);
+
+        // Tampilkan view edit dengan data paket laundry
+        return view('admin.paket-laundry.edit', compact('paketLaundry'));
     }
 
     /**
@@ -80,7 +84,35 @@ class PaketLaundryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validasi data input
+        $validator = Validator::make($request->all(), [
+            'nama_paket' => 'required|string|max:255', // Ganti 'jenis_paket' menjadi 'nama_paket'
+            'harga' => 'required|numeric|min:0',
+            'waktu_pengerjaan' => 'required|string|max:255',
+            'deskripsi' => 'required|string'
+        ]);
+        
+        // Jika validasi gagal
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Cari paket laundry berdasarkan ID
+        $paketLaundry = PaketLaundry::findOrFail($id);
+
+        // Update data
+        $paketLaundry->update([
+            'nama_paket' => $request->nama_paket, // Ganti 'jenis_paket' menjadi 'nama_paket'
+            'harga' => $request->harga,
+            'waktu_pengerjaan' => $request->waktu_pengerjaan,
+            'deskripsi' => $request->deskripsi
+        ]);
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('paket-laundry.index')
+            ->with('success', 'Paket laundry berhasil diupdate!');
     }
 
     /**
@@ -88,6 +120,11 @@ class PaketLaundryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Hapus data
+        $paketLaundry = PaketLaundry::findOrFail($id);
+        $paketLaundry->delete();
+
+        return redirect()->route('paket-laundry.index')
+            ->with('success', 'Paket laundry berhasil dihapus!');
     }
 }

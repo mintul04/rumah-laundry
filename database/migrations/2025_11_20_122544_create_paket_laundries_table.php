@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_paket');
             $table->decimal('harga', 10, 2);
-            $table->string('waktu_pengerjaan');
+            $table->string('waktu_pengerjaan')->default(24);
             $table->text('deskripsi')->nullable();
             $table->timestamps();
         });

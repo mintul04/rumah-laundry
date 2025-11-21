@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PaketLaundryController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PesananController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +14,16 @@ Route::get('/', function () {
 
 // Route Resource untuk Paket Laundry
 Route::resource('paket-laundry', PaketLaundryController::class);
+
+// Route Resource untuk Pelanggan
+Route::resource('pelanggan', PelangganController::class);
+
+// Route Resource untuk Transaksi
+Route::resource('transaksi', TransaksiController::class);
+Route::put('/transaksi/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
+Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
+
+
 
 Route::resource('layanan', LayananController::class);
 Route::get('dashboard-admin', [AuthController::class, 'dashboardAdmin'])->name('dashboard-admin');

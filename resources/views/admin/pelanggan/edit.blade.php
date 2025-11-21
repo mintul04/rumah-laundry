@@ -155,64 +155,103 @@
 
 @section('content')
     <div class="form-container">
-        <h2>Tambah Paket Laundry Baru</h2>
+        <h2>Edit Data Pelanggan</h2>
 
-        <form action="{{ route('paket-laundry.store') }}" method="POST">
+        <form action="{{ route('pelanggan.update', $pelanggan->id) }}" method="POST">
             @csrf
+            @method('PUT')
 
+            {{-- Nama Pelanggan --}}
             <div class="form-group">
-                <label class="form-label">Jenis Paket</label>
-                <input type="text" name="nama_paket" class="form-control"
-                    placeholder="Masukkan nama paket" value="{{ old('nama_paket') }}" required>
-
-                @error('nama_paket')
+                <label class="form-label">Nama Pelanggan</label>
+                <input type="text" name="nama_pelanggan" class="form-control"
+                    value="{{ old('nama_pelanggan', $pelanggan->nama_pelanggan) }}" required>
+                @error('nama_pelanggan')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- Email --}}
             <div class="form-group">
-                <label class="form-label">Harga (Rp.)</label>
-                <input type="number" name="harga" class="form-control" value="{{ old('harga') }}"
-                    placeholder="Masukkan harga" required>
-                @error('harga')
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control"
+                    value="{{ old('email', $pelanggan->email) }}" required>
+                @error('email')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- Tanggal Lahir --}}
             <div class="form-group">
-                <label class="form-label">Waktu Pengerjaan</label>
-                <select name="waktu_pengerjaan" class="form-control" required>
-                    <option value="">Pilih Waktu Pengerjaan</option>
-                    <option value="3 Jam" {{ old('waktu_pengerjaan') == '1 Jam' ? 'selected' : '' }}>1 Jam (Express)</option>
-                    <option value="6 Jam" {{ old('waktu_pengerjaan') == '2 Jam' ? 'selected' : '' }}>2 Jam</option>
-                    <option value="1 Hari" {{ old('waktu_pengerjaan') == '3 Jam' ? 'selected' : '' }}>3 Jam</option>
-                    <option value="2 Hari" {{ old('waktu_pengerjaan') == '4 Jam' ? 'selected' : '' }}>4 Jam</option>
-                    <option value="3 Hari" {{ old('waktu_pengerjaan') == '1 Hari' ? 'selected' : '' }}>1 Hari</option>
-                    <option value="5 Hari" {{ old('waktu_pengerjaan') == '2 Hari' ? 'selected' : '' }}>2 Hari</option>
-                    <option value="7 Hari" {{ old('waktu_pengerjaan') == '3 Hari' ? 'selected' : '' }}>3 Hari</option>
-                    <option value="7 Hari" {{ old('waktu_pengerjaan') == '4 Hari' ? 'selected' : '' }}>4 Hari</option>
-                </select>
-                @error('waktu_pengerjaan')
+                <label class="form-label">Tanggal Lahir</label>
+                <input type="date" name="tanggal_lahir" class="form-control"
+                    value="{{ old('tanggal_lahir', $pelanggan->tanggal_lahir) }}" required>
+                @error('tanggal_lahir')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- Pekerjaan --}}
             <div class="form-group">
-                <label class="form-label">Deskripsi Paket</label>
-                <textarea name="deskripsi" class="form-control" placeholder="Masukkan deskripsi paket laundry" required>{{ old('deskripsi') }}</textarea>
-                @error('deskripsi')
+                <label class="form-label">Pekerjaan</label>
+                <input type="text" name="pekerjaan" class="form-control"
+                    value="{{ old('pekerjaan', $pelanggan->pekerjaan) }}">
+                @error('pekerjaan')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Telepon --}}
+            <div class="form-group">
+                <label class="form-label">Telepon</label>
+                <input type="text" name="telepon" class="form-control"
+                    value="{{ old('telepon', $pelanggan->telepon) }}" required>
+                @error('telepon')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Alamat --}}
+            <div class="form-group">
+                <label class="form-label">Alamat</label>
+                <textarea name="alamat" class="form-control" required>{{ old('alamat', $pelanggan->alamat) }}</textarea>
+                @error('alamat')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Jenis Kelamin --}}
+            <div class="form-group">
+                <label class="form-label">Jenis Kelamin</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="jenis_kelamin_L" name="jenis_kelamin" value="L"
+                            {{ old('jenis_kelamin', $pelanggan->jenis_kelamin) == 'L' ? 'checked' : '' }} required>
+                        <label for="jenis_kelamin_L">Laki-laki</label>
+                    </div>
+
+                    <div class="radio-option">
+                        <input type="radio" id="jenis_kelamin_P" name="jenis_kelamin" value="P"
+                            {{ old('jenis_kelamin', $pelanggan->jenis_kelamin) == 'P' ? 'checked' : '' }} required>
+                        <label for="jenis_kelamin_P">Perempuan</label>
+                    </div>
+                </div>
+
+                @error('jenis_kelamin')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
             <div class="form-actions">
-                <a href="{{ route('paket-laundry.index') }}" class="btn-cancel">
+                <a href="{{ route('pelanggan.index') }}" class="btn-cancel">
                     <i class="fas fa-arrow-left"></i> Batal
                 </a>
+
                 <button type="submit" class="btn-submit">
-                    <i class="fas fa-save"></i> Simpan Paket
+                    <i class="fas fa-save"></i> Update Pelanggan
                 </button>
             </div>
+
         </form>
     </div>
 @endsection

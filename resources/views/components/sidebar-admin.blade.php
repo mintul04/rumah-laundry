@@ -19,28 +19,28 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('paket-laundry.index') }}" class="@if (request()->routeIs('paket-laundry.*')) active @endif">
+                <a href="{{ route('paket-laundry.index') }}" class="@if (request()->routeIs('admin.paket-laundry.*')) active @endif">
                     <i class="fas fa-list-check"></i>
                     <span>Paket Laundry</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="">
+                <a href="{{ route('pelanggan.index') }}" class="@if (request()->routeIs('admin.pelanggan.*')) active @endif">
                     <i class="fas fa-users"></i>
                     <span>Pelanggan</span>
                 </a>
             </li>
             <li>
-                <li>
-                    <a href="#" class="">
-                        <i class="fas fa-cog"></i>
-                        <span>Transaksi</span>
-                    </a>
-                </li>
-                <a href="#" class="">
-                    <i class="fas fa-file-invoice"></i>
-                    <span>Laporan</span>
+            <li>
+                <a href="{{ route('transaksi.index') }}" class="@if (request()->routeIs('admin.transaksi.*')) active @endif">
+                    <i class="fas fa-cog"></i>
+                    <span>Transaksi</span>
                 </a>
+            </li>
+            <a href="#" class="">
+                <i class="fas fa-file-invoice"></i>
+                <span>Laporan</span>
+            </a>
             </li>
             <li style="margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 2rem;">
                 <a href="#" class="">
