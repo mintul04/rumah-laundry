@@ -84,7 +84,7 @@ class TransaksiController extends Controller
             ]
         ];
 
-        return view('transaksi.show', compact('transaksi', 'detailProduk'));
+        return view('admin.transaksi.detail-transaksi', compact('transaksi', 'detailProduk'));
     }
 
 
@@ -93,9 +93,7 @@ class TransaksiController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $transaksi = Transaksi::findOrFail($id);
-        return view('admin.transaksi.edit', compact('transaksi'));
+        //edit', compact('transaksi'));
     }
 
     /**
@@ -103,20 +101,7 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaksi = Transaksi::findOrFail($id);
-
-        $validated = $request->validate([
-            'nama_pelanggan' => 'required|string|max:255',
-            'tanggal_transaksi' => 'required|date',
-            'pembayaran' => 'required|in:lunas,dp',
-            'status_order' => 'required|in:baru,diproses,selesai,diambil'
-        ]);
-
-        $transaksi->update($validated);
-
-
-        return redirect()->route('transaksi.index')
-            ->with('success', 'Transaksi berhasil diupdate!');
+        //
     }
     /**
      * Remove the specified resource from storage.
