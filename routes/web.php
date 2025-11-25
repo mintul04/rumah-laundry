@@ -17,7 +17,7 @@ Route::resource('paket-laundry', PaketLaundryController::class);
 
 // Route Resource untuk Transaksi
 Route::resource('transaksi', TransaksiController::class);
-// Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+Route::put('/transaksi/{id}/update-status', [TransaksiController::class, 'updateStatus'])->name('transaksi.update-status');
 
 Route::get('dashboard-admin', [AuthController::class, 'dashboardAdmin'])->name('dashboard-admin');
 // Pastikan route ada

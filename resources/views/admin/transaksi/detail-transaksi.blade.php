@@ -431,9 +431,16 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-            <a href="{{ route('transaksi.edit', $transaksi->id) }}" class="btn-action btn-edit">
-                <i class="fas fa-edit"></i> Edit Transaksi
-            </a>
+            <form action="{{ route('transaksi.update-status', $transaksi->id) }}" method="POST" class="d-inline">
+                @csrf
+                @method('PUT')
+                <select name="status_order" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
+                    <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>Baru</option>
+                    <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                    <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                    <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>Diambil</option>
+                </select>
+            </form>
             <button class="btn-action btn-print" onclick="window.print()">
                 <i class="fas fa-print"></i> Cetak Invoice
             </button>

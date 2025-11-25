@@ -7,6 +7,7 @@ use App\Models\PaketLaundry;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TransaksiController extends Controller
 {
@@ -73,10 +74,10 @@ class TransaksiController extends Controller
     public function show($id)
     {
         $transaksi = Transaksi::findOrFail($id);
-        
+
         // Data dummy untuk detail produk (sesuaikan dengan struktur database Anda)
         $detailProduk = [
-            (object)[
+            (object) [
                 'nama_produk' => 'Cuci Setrika Reguler',
                 'harga' => 10000,
                 'jumlah' => 2,
@@ -93,9 +94,7 @@ class TransaksiController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $transaksi = Transaksi::findOrFail($id);
-        return view('admin.transaksi.edit', compact('transaksi'));
+        //edit', compact('transaksi'));
     }
 
     /**
@@ -103,20 +102,7 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaksi = Transaksi::findOrFail($id);
-
-        $validated = $request->validate([
-            'nama_pelanggan' => 'required|string|max:255',
-            'tanggal_transaksi' => 'required|date',
-            'pembayaran' => 'required|in:lunas,dp',
-            'status_order' => 'required|in:baru,diproses,selesai,diambil'
-        ]);
-
-        $transaksi->update($validated);
-
-
-        return redirect()->route('transaksi.index')
-            ->with('success', 'Transaksi berhasil diupdate!');
+        //
     }
     /**
      * Remove the specified resource from storage.
@@ -129,5 +115,28 @@ class TransaksiController extends Controller
         // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('transaksi.index')
             ->with('success', 'Transaksi berhasil dihapus!');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'status_order' => [
+                'required',
+                'string',
+                Rule::in(['diproses', 'selesai', 'diambil']), // 'baru' dihapus sesuai permintaan
+            ],
+        ]);
+
+        // Temukan transaksi
+        $transaksi = Transaksi::findOrFail($id);
+
+        // Update status
+        $transaksi->update([
+            'status_order' => $request->status_order,
+        ]);
+
+        // Redirect kembali dengan pesan sukses
+        return back()->with('success', 'Status transaksi berhasil diperbarui.');
     }
 }

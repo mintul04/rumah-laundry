@@ -295,7 +295,6 @@
                                 <a href="{{ route('transaksi.show', $item->id) }}" class="btn btn-sm btn-info text-white">
                                     Detail
                                 </a>
-                                <a href="{{ route('transaksi.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
 
                                 <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST" class="d-inline"
                                     onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
