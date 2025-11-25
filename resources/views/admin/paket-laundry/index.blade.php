@@ -221,11 +221,12 @@
         </div>
 
         @if($paketLaundries->count() > 0)
-        <table>
-            <thead>
+         <table class="table table-bordered table-hover align-middle">
+            <thead class="table-primary">
                 <tr>
                     <th>Jenis Paket</th>
                     <th>Harga</th>
+                    <th>Satuan</th>
                     <th>Waktu Pengerjaan</th>
                     <th>Deskripsi</th>
                     <th>Aksi</th>
@@ -240,6 +241,7 @@
                         </span>
                     </td>
                     <td class="price">Rp {{ number_format($paket->harga, 0, ',', '.') }}</td>
+                    <td>{{ $paket->satuan }}</td>
                     <td>{{ $paket->waktu_pengerjaan ?? '3 Hari' }}</td>
                     <td>{{ $paket->deskripsi ?? 'Tidak ada deskripsi' }}</td>
                     <td>

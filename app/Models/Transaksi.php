@@ -15,18 +15,12 @@ class Transaksi extends Model
     // Kolom yang boleh diisi (fillable)
     protected $fillable = [
         'no_order',
-        'pelanggan_id',
+        'nama_pelanggan',
         'tanggal_transaksi',
         'pembayaran',
         'status_order',
         'total',
     ];
-
-    // Relasi: transaksi dimiliki oleh satu pelanggan
-    public function pelanggan()
-    {
-        return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
-    }
 
     // Generate nomor order otomatis (misal: ORD-0001)
     public static function generateNoOrder()

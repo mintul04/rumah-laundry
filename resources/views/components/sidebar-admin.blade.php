@@ -13,24 +13,11 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('layanan.index') }}" class="@if (request()->routeIs('layanan.*')) active @endif">
-                    <i class="fas fa-concierge-bell"></i>
-                    <span>Data Kategori</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('paket-laundry.index') }}" class="@if (request()->routeIs('admin.paket-laundry.*')) active @endif">
                     <i class="fas fa-list-check"></i>
                     <span>Paket Laundry</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('pelanggan.index') }}" class="@if (request()->routeIs('admin.pelanggan.*')) active @endif">
-                    <i class="fas fa-users"></i>
-                    <span>Pelanggan</span>
-                </a>
-            </li>
-            <li>
             <li>
                 <a href="{{ route('transaksi.index') }}" class="@if (request()->routeIs('admin.transaksi.*')) active @endif">
                     <i class="fas fa-cog"></i>

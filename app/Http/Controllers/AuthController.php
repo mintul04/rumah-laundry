@@ -14,31 +14,22 @@ class AuthController extends Controller
         return view('admin.dashboard');
     }
 
+    public function login(){
+        return view('auth.login');
+    }
+
     public function loginProses(Request $request)
     {
-        $validation = $request->only('name', 'password');
+        $validation = $request->only('email', 'password');
 
         if (Auth::attempt($validation)) {
             $request->session()->regenerate();
-            return redirect()->route('layanan.index');
+            return redirect()->intended('dashboard-admin');
         }
 
         return back()->with('error', 'Password atau Username Salah');
     }
 
-    public function registerProses(Request $request)
-    {
-        $validation = $request->validate([
-            'name'       => 'required',
-            'email'      => 'required',
-            'password'   => 'required',
-            'no_telepon' => 'required',
-            'alamat'     => 'required',
-        ]);
+    
 
-        $validation['password'] = Hash::make($request->password);
-        User::create($validation);
-
-        return redirect()->route('layanan.index');
-    }
 }

@@ -33,8 +33,9 @@ class PaketLaundryController extends Controller
 {
     // Validasi data input
     $validator = Validator::make($request->all(), [
-        'nama_paket' => 'required|string|max:255', // Ganti 'jenis_paket' menjadi 'nama_paket'
+        'nama_paket' => 'required|string|max:255', 
         'harga' => 'required|numeric|min:0',
+        'satuan' => 'required|in:kg,pcs,lusin',
         'waktu_pengerjaan' => 'required|string|max:255',
         'deskripsi' => 'required|string'
     ]);
@@ -50,6 +51,7 @@ class PaketLaundryController extends Controller
     PaketLaundry::create([
         'nama_paket' => $request->nama_paket, // Ganti 'jenis_paket' menjadi 'nama_paket'
         'harga' => $request->harga,
+        'satuan' => $request->satuan,
         'waktu_pengerjaan' => $request->waktu_pengerjaan,
         'deskripsi' => $request->deskripsi
     ]);
@@ -88,6 +90,7 @@ class PaketLaundryController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_paket' => 'required|string|max:255', // Ganti 'jenis_paket' menjadi 'nama_paket'
             'harga' => 'required|numeric|min:0',
+            'satuan' => 'required|in:kg,pcs,lusin',
             'waktu_pengerjaan' => 'required|string|max:255',
             'deskripsi' => 'required|string'
         ]);
@@ -104,8 +107,9 @@ class PaketLaundryController extends Controller
 
         // Update data
         $paketLaundry->update([
-            'nama_paket' => $request->nama_paket, // Ganti 'jenis_paket' menjadi 'nama_paket'
+            'nama_paket' => $request->nama_paket, 
             'harga' => $request->harga,
+            'satuan' => $request->satuan,
             'waktu_pengerjaan' => $request->waktu_pengerjaan,
             'deskripsi' => $request->deskripsi
         ]);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
-use App\Models\Pelanggan;
 use App\Models\PaketLaundry;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,9 +16,7 @@ class TransaksiController extends Controller
     public function index()
     {
         // Pastikan menggunakan with() untuk memuat relasi
-        $transaksis = Transaksi::with(['pelanggan' => function ($query) {
-            $query->select('id', 'nama_pelanggan'); // hanya ambil field yang diperlukan
-        }])->latest()->get();
+        $transaksis = Transaksi::latest()->get();
 
         return view('admin.transaksi.index', compact('transaksis'));
     }
@@ -29,13 +26,11 @@ class TransaksiController extends Controller
      */
     public function create()
     {
-        $pelanggan = Pelanggan::all();
         $pakets = PaketLaundry::all();
 
-        $lastOrder = Transaksi::latest()->first();
-        $lastOrderNumber = $lastOrder ? intval(substr($lastOrder->no_order, 2)) : 0;
+        $lastOrderNumber = Transaksi::generateNoOrder();
 
-        return view('admin.transaksi.create', compact('pelanggan', 'pakets', 'lastOrderNumber'));
+        return view('admin.transaksi.create', compact('pakets', 'lastOrderNumber'));
     }
 
     /**
@@ -45,9 +40,9 @@ class TransaksiController extends Controller
     {
         // Validasi data input
         $validator = Validator::make($request->all(), [
-            'pelanggan_id' => 'required|exists:pelanggans,id',
+            'nama_pelanggan' => 'required|string|max:255',
             'tanggal_transaksi' => 'required|date',
-            'pembayaran' => 'required|in:lunas,belum_lunas,dp',
+            'pembayaran' => 'required|in:lunas,dp',
             'status_order' => 'required|in:baru,diproses,selesai,diambil',
             'total' => 'required|numeric|min:0'
         ]);
@@ -60,7 +55,7 @@ class TransaksiController extends Controller
         // Simpan data ke database
         Transaksi::create([
             'no_order' => Transaksi::generateNoOrder(),
-            'pelanggan_id' => $request->pelanggan_id,
+            'nama_pelanggan' => $request->nama_pelanggan,
             'tanggal_transaksi' => $request->tanggal_transaksi,
             'pembayaran' => $request->pembayaran,
             'status_order' => $request->status_order,
@@ -75,10 +70,23 @@ class TransaksiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $transaksi = Transaksi::findOrFail($id);
+        
+        // Data dummy untuk detail produk (sesuaikan dengan struktur database Anda)
+        $detailProduk = [
+            (object)[
+                'nama_produk' => 'Cuci Setrika Reguler',
+                'harga' => 10000,
+                'jumlah' => 2,
+                'subtotal' => 20000
+            ]
+        ];
+
+        return view('transaksi.show', compact('transaksi', 'detailProduk'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -87,8 +95,7 @@ class TransaksiController extends Controller
     {
         //
         $transaksi = Transaksi::findOrFail($id);
-        $pelanggans = Pelanggan::all();
-        return view('admin.transaksi.edit', compact('transaksi', 'pelanggans'));
+        return view('admin.transaksi.edit', compact('transaksi'));
     }
 
     /**
@@ -99,13 +106,14 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::findOrFail($id);
 
         $validated = $request->validate([
-            'pelanggan_id' => 'required|exists:pelanggans,id',
+            'nama_pelanggan' => 'required|string|max:255',
             'tanggal_transaksi' => 'required|date',
-            'pembayaran' => 'required|in:lunas,belum lunas,dp',
+            'pembayaran' => 'required|in:lunas,dp',
             'status_order' => 'required|in:baru,diproses,selesai,diambil'
         ]);
 
         $transaksi->update($validated);
+
 
         return redirect()->route('transaksi.index')
             ->with('success', 'Transaksi berhasil diupdate!');

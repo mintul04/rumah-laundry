@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->string('no_order')->unique();
-            $table->foreignId('pelanggan_id')->constrained('pelanggans')->onDelete('cascade');
+            $table->string('nama_pelanggan');
             $table->date('tanggal_transaksi');
             $table->enum('pembayaran', ['lunas', 'belum_lunas', 'dp'])->default('belum_lunas');
+            $table->string('jumlah_dp')->nullable();
             $table->enum('status_order', ['baru', 'diproses', 'selesai', 'diambil'])->default('baru');
             $table->integer('total')->default(0);
             $table->timestamps();

@@ -163,67 +163,47 @@
                     <form action="{{ route('transaksi.store') }}" method="POST">
                         @csrf
 
-                        {{-- Informasi Transaksi --}}
-                        <div class="section-title">Informasi Transaksi</div>
-
                         <div class="row">
                             <div class="col-md-6">
-                                {{-- No Order --}}
+
                                 <div class="form-group">
                                     <label class="form-label">No. Order</label>
                                     <input type="text" class="form-control" name="no_order"
-                                        value="{{ 'LO' . str_pad(($lastOrderNumber ?? 0) + 1, 3, '0', STR_PAD_LEFT) }}"
-                                        readonly style="background-color: #f8f9fa; font-weight: 600;">
+                                        value="{{ $lastOrderNumber }}" readonly
+                                        style="background-color: #f8f9fa; font-weight: 600;">
                                 </div>
                             </div>
+
                             <div class="col-md-6">
-                                {{-- Status Pembayaran --}}
+                                <div class="form-group">
+                                    <label class="form-label">Nama Pelanggan</label>
+                                    <input type="text" class="form-control" name="nama_pelanggan" required
+                                        placeholder="Masukkan nama pelanggan">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Status Pembayaran</label>
                                     <select name="pembayaran" class="form-control" required>
                                         <option value="">-- Pilih Status Pembayaran --</option>
                                         <option value="lunas">Lunas</option>
-                                        <option value="belum lunas">Belum Lunas</option>
                                         <option value="dp">DP</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
 
-                        {{-- Data Pelanggan --}}
-                        <div class="section-title">Data Pelanggan</div>
-
-                        <div class="form-group">
-                            <label class="form-label">Nama Pelanggan</label>
-                            <select name="pelanggan_id" class="form-control" required id="pelanggan-select">
-                                <option value="">-- Pilih Nama Pelanggan --</option>
-                                @foreach ($pelanggan as $p)
-                                    <option value="{{ $p->id }}" data-phone="{{ $p->telepon }}"
-                                        data-address="{{ $p->alamat }}">
-                                        {{ $p->nama_pelanggan }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="dp-input-container" style="display: none;">
                                 <div class="form-group">
-                                    <label class="form-label">Telepon</label>
-                                    <input type="text" class="form-control" id="pelanggan-phone" readonly
-                                        style="background-color: #f8f9fa;" placeholder="Pilih pelanggan terlebih dahulu">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Alamat</label>
-                                    <textarea class="form-control" id="pelanggan-address" readonly style="background-color: #f8f9fa; height: 80px;"
-                                        placeholder="Pilih pelanggan terlebih dahulu"></textarea>
+                                    <label class="form-label">Jumlah DP</label>
+                                    <input type="number" class="form-control" name="jumlah_dp" id="jumlah_dp"
+                                        placeholder="Masukkan jumlah DP" min="0">
                                 </div>
                             </div>
                         </div>
 
-                        {{-- Detail Pesanan --}}
                         <div class="section-title">Detail Pesanan</div>
 
                         <table class="table">
@@ -246,7 +226,8 @@
                                             @foreach ($pakets as $paket)
                                                 <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
                                                     {{ $paket->nama_paket }} - Rp
-                                                    {{ number_format($paket->harga, 0, ',', '.') }} / Kg
+                                                    {{ number_format($paket->harga, 0, ',', '.') }} /
+                                                    {{ strtoupper($paket->satuan) }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -268,12 +249,16 @@
                             </tbody>
                         </table>
 
-                        <button type="button" class="btn btn-primary btn-sm" id="add-item">
-                            <i class="fas fa-plus"></i> Tambah Item
-                        </button>
+                        <div class="row justify-content-start mb-3">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary btn-sm" id="add-item">
+                                    <i class="fas fa-plus"></i> Tambah Item
+                                </button>
+                            </div>
+                        </div>
 
-                        {{-- Total & Diskon --}}
-                        <div class="section-title">Total & Pembayaran</div>
+
+                        <div class="section-title fw-bold mb-2 fs-5">Total & Pembayaran</div>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -298,18 +283,23 @@
                                 readonly style="background-color: #f8f9fa; font-weight: 600; font-size: 1.1rem;">
                         </div>
 
-                        {{-- Tanggal Transaksi --}}
+
                         <div class="form-group" style="display: none;">
                             <label class="form-label">Tanggal Transaksi</label>
                             <input type="date" name="tanggal_transaksi" class="form-control"
                                 value="{{ date('Y-m-d') }}" required>
                         </div>
 
-                        {{-- Status Order --}}
-                        <div class="form-group" style="display: none;">
-                            <label class="form-label">Status Order</label>
-                            <select name="status_order" class="form-control" required>
-                                <option value="baru">Baru</option>
+                        <div class="form-group">
+                            <label>Status Order</label>
+                            <select name="status_order" class="form-control">
+                                <option value="baru" {{ old('status_order') == 'baru' ? 'selected' : '' }}>Baru</option>
+                                <option value="diproses" {{ old('status_order') == 'diproses' ? 'selected' : '' }}>
+                                    Diproses</option>
+                                <option value="selesai" {{ old('status_order') == 'selesai' ? 'selected' : '' }}>Selesai
+                                </option>
+                                <option value="diambil" {{ old('status_order') == 'diambil' ? 'selected' : '' }}>Diambil
+                                </option>
                             </select>
                         </div>
 
@@ -331,13 +321,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let itemCount = 1;
-
-            // Update info pelanggan
-            document.getElementById('pelanggan-select').addEventListener('change', function() {
-                const selectedOption = this.options[this.selectedIndex];
-                document.getElementById('pelanggan-phone').value = selectedOption.dataset.phone || '';
-                document.getElementById('pelanggan-address').value = selectedOption.dataset.address || '';
-            });
 
             // Tambah item
             document.getElementById('add-item').addEventListener('click', function() {
@@ -406,6 +389,20 @@
                 document.getElementById('subtotal-total').value = 'Rp ' + subtotal.toLocaleString('id-ID');
                 document.getElementById('total-final').value = totalAkhir > 0 ? totalAkhir : 0;
             }
+
+            // Tampilkan / sembunyikan input DP
+            document.querySelector('select[name="pembayaran"]').addEventListener('change', function() {
+                const dpContainer = document.getElementById('dp-input-container');
+                const dpInput = document.getElementById('jumlah_dp');
+                if (this.value === 'dp') {
+                    dpContainer.style.display = 'block';
+                    dpInput.setAttribute('required', 'required');
+                } else {
+                    dpContainer.style.display = 'none';
+                    dpInput.removeAttribute('required');
+                    dpInput.value = '';
+                }
+            });
 
             // Attach event listeners untuk row baru
             function attachEventListeners(row) {

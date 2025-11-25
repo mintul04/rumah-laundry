@@ -162,8 +162,8 @@
 
             <div class="form-group">
                 <label class="form-label">Jenis Paket</label>
-                <input type="text" name="nama_paket" class="form-control"
-                    placeholder="Masukkan nama paket" value="{{ old('nama_paket') }}" required>
+                <input type="text" name="nama_paket" class="form-control" placeholder="Masukkan nama paket"
+                    value="{{ old('nama_paket') }}" required>
 
                 @error('nama_paket')
                     <div class="text-danger">{{ $message }}</div>
@@ -180,18 +180,35 @@
             </div>
 
             <div class="form-group">
+                <label for="satuan">Satuan</label>
+                <select name="satuan" id="satuan" class="form-control" required>
+                    <option value="kg" {{ old('satuan', $paket->satuan ?? '') == 'kg' ? 'selected' : '' }}>Kg - Kilogram
+                    </option>
+                    <option value="pcs" {{ old('satuan', $paket->satuan ?? '') == 'pcs' ? 'selected' : '' }}>Pcs - Piece
+                    </option>
+                    <option value="lusin" {{ old('satuan', $paket->satuan ?? '') == 'lusin' ? 'selected' : '' }}>Lusin
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label class="form-label">Waktu Pengerjaan</label>
                 <select name="waktu_pengerjaan" class="form-control" required>
                     <option value="">Pilih Waktu Pengerjaan</option>
-                    <option value="3 Jam" {{ old('waktu_pengerjaan') == '1 Jam' ? 'selected' : '' }}>1 Jam (Express)</option>
-                    <option value="6 Jam" {{ old('waktu_pengerjaan') == '2 Jam' ? 'selected' : '' }}>2 Jam</option>
-                    <option value="1 Hari" {{ old('waktu_pengerjaan') == '3 Jam' ? 'selected' : '' }}>3 Jam</option>
-                    <option value="2 Hari" {{ old('waktu_pengerjaan') == '4 Jam' ? 'selected' : '' }}>4 Jam</option>
-                    <option value="3 Hari" {{ old('waktu_pengerjaan') == '1 Hari' ? 'selected' : '' }}>1 Hari</option>
-                    <option value="5 Hari" {{ old('waktu_pengerjaan') == '2 Hari' ? 'selected' : '' }}>2 Hari</option>
-                    <option value="7 Hari" {{ old('waktu_pengerjaan') == '3 Hari' ? 'selected' : '' }}>3 Hari</option>
-                    <option value="7 Hari" {{ old('waktu_pengerjaan') == '4 Hari' ? 'selected' : '' }}>4 Hari</option>
+
+                    <option value="express" {{ old('waktu_pengerjaan') == 'express' ? 'selected' : '' }}>
+                        Express
+                    </option>
+
+                    <option value="regular" {{ old('waktu_pengerjaan') == 'regular' ? 'selected' : '' }}>
+                        Regular
+                    </option>
+
+                    <option value="ekonomi" {{ old('waktu_pengerjaan') == 'ekonomi' ? 'selected' : '' }}>
+                        Ekonomi
+                    </option>
                 </select>
+
                 @error('waktu_pengerjaan')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
