@@ -183,6 +183,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group" style>
+                            <label class="form-label">Tanggal Terima</label>
+                            <input type="date" name="tanggal_terima" class="form-control"
+                                value="{{ date('Y-m-d') }}" required>
+                        </div>
+                        
+                        <div class="form-group" style>
+                            <label class="form-label">Tanggal Selesai</label>
+                            <input type="date" name="tanggal_selesai" class="form-control"
+                                value="{{ date('Y-m-d') }}" required>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -283,24 +295,9 @@
                                 readonly style="background-color: #f8f9fa; font-weight: 600; font-size: 1.1rem;">
                         </div>
 
-
                         <div class="form-group" style="display: none;">
-                            <label class="form-label">Tanggal Transaksi</label>
-                            <input type="date" name="tanggal_transaksi" class="form-control"
-                                value="{{ date('Y-m-d') }}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Status Order</label>
-                            <select name="status_order" class="form-control">
-                                <option value="baru" {{ old('status_order') == 'baru' ? 'selected' : '' }}>Baru</option>
-                                <option value="diproses" {{ old('status_order') == 'diproses' ? 'selected' : '' }}>
-                                    Diproses</option>
-                                <option value="selesai" {{ old('status_order') == 'selesai' ? 'selected' : '' }}>Selesai
-                                </option>
-                                <option value="diambil" {{ old('status_order') == 'diambil' ? 'selected' : '' }}>Diambil
-                                </option>
-                            </select>
+                            <label class="form-label">Status Order</label>
+                            <input type="hidden" name="status_order" value="baru">
                         </div>
 
                         <div class="form-actions">

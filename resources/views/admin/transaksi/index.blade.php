@@ -251,8 +251,9 @@
                     <tr>
                         <th>No</th>
                         <th>No Order</th>
-                        <th>Pelanggan</th>
-                        <th>Tanggal</th>
+                        <th>Nama Pelanggan</th>
+                        <th>Tanggal Terima</th>
+                        <th>Tanggal Selesai</th>
                         <th>Pembayaran</th>
                         <th>Status Order</th>
                         <th>Total</th>
@@ -265,7 +266,8 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->no_order }}</td>
                             <td>{{ $item->nama_pelanggan }}</td>
-                            <td>{{ $item->tanggal_transaksi }}</td>
+                            <td>{{ $item->tanggal_terima }}</td>
+                            <td>{{ $item->tanggal_selesai }}</td>
 
                             <td>
                                 @if ($item->pembayaran == 'lunas')
@@ -293,7 +295,7 @@
 
                             <td>
                                 <a href="{{ route('transaksi.show', $item->id) }}" class="btn btn-sm btn-info text-white">
-                                    Detail
+                                    👁️ Detail
                                 </a>
 
                                 <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST" class="d-inline"

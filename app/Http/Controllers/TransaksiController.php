@@ -42,7 +42,8 @@ class TransaksiController extends Controller
         // Validasi data input
         $validator = Validator::make($request->all(), [
             'nama_pelanggan' => 'required|string|max:255',
-            'tanggal_transaksi' => 'required|date',
+            'tanggal_terima' => 'required|date',
+            'tanggal_selesai' => 'required|date',
             'pembayaran' => 'required|in:lunas,dp',
             'status_order' => 'required|in:baru,diproses,selesai,diambil',
             'total' => 'required|numeric|min:0'
@@ -57,7 +58,8 @@ class TransaksiController extends Controller
         Transaksi::create([
             'no_order' => Transaksi::generateNoOrder(),
             'nama_pelanggan' => $request->nama_pelanggan,
-            'tanggal_transaksi' => $request->tanggal_transaksi,
+            'tanggal_terima' => $request->tanggal_terima,
+            'tanggal_selesai' => $request->tanggal_selesai,
             'pembayaran' => $request->pembayaran,
             'status_order' => $request->status_order,
             'total' => $request->total,

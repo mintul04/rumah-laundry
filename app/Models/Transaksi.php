@@ -16,7 +16,8 @@ class Transaksi extends Model
     protected $fillable = [
         'no_order',
         'nama_pelanggan',
-        'tanggal_transaksi',
+        'tanggal_terima',
+        'tanggal_selesai',
         'pembayaran',
         'status_order',
         'total',

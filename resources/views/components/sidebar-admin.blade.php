@@ -24,10 +24,18 @@
                     <span>Transaksi</span>
                 </a>
             </li>
-            <a href="#" class="">
-                <i class="fas fa-file-invoice"></i>
-                <span>Laporan</span>
-            </a>
+            <li>
+                <a href="{{ route('laporan.index') }}" class="@if (request()->routeIs('admin.laporan.*')) active @endif">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Laporan</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fas fa-file-gear"></i>
+                    <span>Pengaturan</span>
+                </a>
             </li>
             <li style="margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 2rem;">
                 <a href="#" class="">
