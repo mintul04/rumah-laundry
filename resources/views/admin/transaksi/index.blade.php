@@ -302,7 +302,7 @@
                                     onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                    <button type="submit" class="btn-delete" onclick="return confirm('Yakin ingin menghapus transaksi ini?')">Hapus</button>
                                 </form>
                             </td>
                         </tr>

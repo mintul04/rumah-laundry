@@ -125,7 +125,7 @@
                 <i class="fas fa-shopping-cart"></i>
             </div>
             <div class="stat-content">
-                <h3>Total Pesanan</h3>
+                <h3>Total Paket Lundry</h3>
                 <div class="stat-number">1,245</div>
             </div>
         </div>

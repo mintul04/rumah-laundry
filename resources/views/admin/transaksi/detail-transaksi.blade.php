@@ -1,329 +1,368 @@
 @extends('layouts.main')
-
 @section('title', 'Detail Transaksi - RumahLaundry')
 @section('page-title', 'Detail Transaksi Laundry')
-
 @push('styles')
     <style>
-        :root {
-            --primary: #4361ee;
-            --primary-light: #4895ef;
-            --primary-dark: #3a56d4;
-            --success: #4cc9f0;
-            --success-bg: #e6f7ff;
-            --warning: #f72585;
-            --warning-bg: #fff0f6;
-            --danger: #e63946;
-            --light-bg: #fafbfd;
-            --border: #e9ecef;
-            --text: #212529;
-            --text-muted: #6c757d;
-            --white: #ffffff;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-            --radius: 12px;
-        }
-
+        /* Base spacing improvements */
         .transaction-detail-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: linear-gradient(to bottom right, #ffffff, #f8faff);
+            border: none !important;
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.10) !important;
+            padding: 2.5rem !important;
+            border-radius: 16px !important;
+            margin-bottom: 2rem !important;
         }
 
-        .transaction-detail-card:hover {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-        }
-
+        /* Header section dengan spacing lebih baik */
         .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.25rem;
-            border-bottom: 1px solid var(--border);
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: flex-start !important;
+            margin-bottom: 3rem !important;
+            padding-bottom: 1.5rem !important;
+            border-bottom: 2px solid #e8eef9 !important;
         }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.2s;
+        .header-section h2 {
+            font-weight: 700;
+            color: #1e3a8a !important;
+            font-size: 1.75rem !important;
+            margin-bottom: 0.5rem !important;
         }
 
-        .back-link:hover {
-            color: var(--primary);
-            background: #f0f4ff;
+        .header-section p {
+            color: #64748b !important;
+            font-size: 0.95rem !important;
         }
 
+        /* Info section dengan background soft blue */
+        .bg-light {
+            background: linear-gradient(135deg, #f0f4ff 0%, #f8faff 100%) !important;
+            border-radius: 14px !important;
+            padding: 2rem !important;
+            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.08) !important;
+            margin-bottom: 3rem !important;
+            border: 1px solid #e0e7ff !important;
+        }
+
+        .bg-light h5 {
+            color: #1e3a8a !important;
+            font-weight: 700 !important;
+            margin-bottom: 1.8rem !important;
+            font-size: 1.1rem !important;
+        }
+
+        /* Grid untuk info items */
         .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 2rem;
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+            gap: 2rem !important;
         }
 
         .info-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.375rem;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.6rem !important;
+            padding: 1.2rem !important;
+            background: #ffffff !important;
+            border-radius: 10px !important;
+            border: 1px solid #e8eef9 !important;
+            transition: all 0.3s ease !important;
         }
 
+        .info-item:hover {
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.12) !important;
+            border-color: #dbeafe !important;
+        }
+
+        /* Label dan Value */
         .info-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            font-weight: 500;
+            color: #64748b !important;
+            font-size: 0.8rem !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
         }
 
         .info-value {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text);
+            font-size: 1.1rem !important;
+            font-weight: 700 !important;
+            color: #1e3a8a !important;
         }
 
-        /* Status badges with soft background & rounded */
+        /* Badge status dengan warna soft blue */
         .status-badge {
-            display: inline-block;
-            padding: 0.375rem 0.875rem;
-            border-radius: 50px;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: inline-block !important;
+            padding: 8px 16px !important;
+            font-size: 0.75rem !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
         }
 
         .badge-lunas {
-            background: #e8f9f0;
-            color: #0d8a4c;
+            background: #dbeafe !important;
+            color: #0c4a6e !important;
+            border: 1px solid #bfdbfe !important;
         }
 
         .badge-dp {
-            background: #fff8e6;
-            color: #d48806;
+            background: #e0e7ff !important;
+            color: #312e81 !important;
+            border: 1px solid #c7d2fe !important;
         }
 
         .badge-belum-lunas {
-            background: #fff0f0;
-            color: #c53030;
+            background: #fef3c7 !important;
+            color: #78350f !important;
+            border: 1px solid #fde68a !important;
         }
 
         .badge-baru {
-            background: #e6f0ff;
-            color: #1a56db;
+            background: #dbeafe !important;
+            color: #0c4a6e !important;
+            border: 1px solid #bfdbfe !important;
         }
 
         .badge-diproses {
-            background: #fff2e8;
-            color: #d46b08;
+            background: #e0e7ff !important;
+            color: #312e81 !important;
+            border: 1px solid #c7d2fe !important;
         }
 
         .badge-selesai {
-            background: #e8f9f0;
-            color: #0d8a4c;
+            background: #d1fae5 !important;
+            color: #065f46 !important;
+            border: 1px solid #a7f3d0 !important;
         }
 
         .badge-diambil {
-            background: #f0f4ff;
-            color: #4361ee;
+            background: #f3e8ff !important;
+            color: #6b21a8 !important;
+            border: 1px solid #e9d5ff !important;
         }
 
-        /* Table styling */
+        /* Table container dengan spacing lebih baik */
         .table-container {
-            background: var(--white);
-            border-radius: var(--radius);
+            border-radius: 14px !important;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            margin-bottom: 1.5rem;
+            border: 1px solid #e8eef9 !important;
+            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.08) !important;
+            margin-bottom: 2rem !important;
         }
 
         .table-header {
-            padding: 1.25rem 1.5rem;
-            background: var(--light-bg);
-            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, #f0f4ff 0%, #f8faff 100%) !important;
+            padding: 1.8rem !important;
+            border-bottom: 2px solid #e0e7ff !important;
         }
 
         .table-header h5 {
-            margin: 0;
-            font-weight: 600;
-            color: var(--text);
+            color: #1e3a8a !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            margin: 0 !important;
         }
 
-        .table th,
+        .table th {
+            background: #f8faff !important;
+            color: #475569 !important;
+            font-size: 0.8rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            padding: 1.2rem !important;
+            border-bottom: 2px solid #e0e7ff !important;
+        }
+
         .table td {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem !important;
+            color: #334155 !important;
+            padding: 1.2rem !important;
         }
 
-        .table thead th {
-            background: var(--light-bg);
-            font-weight: 600;
-            color: var(--text-muted);
-            font-size: 0.875rem;
+        .table tbody tr {
+            border-bottom: 1px solid #f0f4ff !important;
+            transition: background-color 0.3s ease !important;
         }
 
-        /* Total section */
+        /* Hover effect baris */
+        .table tbody tr:hover {
+            background: linear-gradient(90deg, #f0f4ff 0%, #ffffff 100%) !important;
+        }
+
+        /* Total section dengan warna soft blue */
         .total-section {
-            padding: 1.5rem;
-            background: var(--light-bg);
-            border-top: 1px solid var(--border);
+            background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%) !important;
+            border-top: 2px solid #e0e7ff !important;
+            padding: 2rem !important;
         }
 
         .total-row {
-            max-width: 320px;
-            margin-left: auto;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1rem !important;
         }
 
         .total-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            font-size: 0.9375rem;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 1rem 0 !important;
+            color: #475569 !important;
+            font-weight: 500 !important;
+            font-size: 0.95rem !important;
+            border-bottom: 1px solid #e8eef9 !important;
+        }
+
+        .total-item:last-child {
+            border-bottom: none !important;
         }
 
         .total-item.total-final {
-            font-weight: 700;
-            color: var(--text);
-            border-top: 1px solid var(--border);
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            font-size: 1.125rem;
+            font-size: 1.35rem !important;
+            color: #1e3a8a !important;
+            font-weight: 700 !important;
+            padding: 1.5rem 0 !important;
+            margin-top: 0.5rem !important;
+            border-top: 2px solid #dbeafe !important;
+            border-bottom: none !important;
         }
 
-        /* Action buttons */
+        /* Action buttons section */
         .action-buttons {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
+            display: flex !important;
+            gap: 1.2rem !important;
+            flex-wrap: wrap !important;
+            margin-top: 2.5rem !important;
+            padding-top: 2rem !important;
+            border-top: 2px solid #e8eef9 !important;
         }
 
+        /* Tombol dengan styling soft blue */
         .btn-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            font-weight: 600;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.2s;
-            font-size: 0.9375rem;
-            border: none;
-            cursor: pointer;
+            font-weight: 600 !important;
+            padding: 0.8rem 1.6rem !important;
+            border-radius: 10px !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            font-size: 0.95rem !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.6rem !important;
         }
 
-        .btn-edit {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-edit:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+        .btn-action:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.2) !important;
         }
 
         .btn-print {
-            background: #0d9e6a;
-            color: white;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+            color: #0c4a6e !important;
+            border: 1px solid #7dd3fc !important;
         }
 
         .btn-print:hover {
-            background: #0b7f56;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%) !important;
+            color: #0a3a52 !important;
         }
 
         .btn-delete {
-            background: var(--danger);
-            color: white;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%) !important;
+            color: #7f1d1d !important;
+            border: 1px solid #fca5a5 !important;
         }
 
         .btn-delete:hover {
-            background: #c53030;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #fecaca 0%, #fda29b 100%) !important;
+            color: #5a0f0f !important;
         }
 
-        /* Responsive */
+        /* Dropdown status */
+        select.form-select {
+            border-radius: 10px !important;
+            padding: 0.75rem 1.2rem !important;
+            border: 1px solid #dbeafe !important;
+            background: #ffffff !important;
+            color: #1e3a8a !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 4px rgba(67, 97, 238, 0.08) !important;
+        }
+
+        select.form-select:hover {
+            border-color: #7dd3fc !important;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.12) !important;
+        }
+
+        select.form-select:focus {
+            outline: none !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+        }
+
+        /* Link kembali */
+        .back-link {
+            font-weight: 600 !important;
+            color: #64748b !important;
+            text-decoration: none !important;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            font-size: 0.95rem !important;
+        }
+
+        .back-link:hover {
+            color: #0c4a6e !important;
+            background: #dbeafe !important;
+            text-decoration: none !important;
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .info-grid {
-                grid-template-columns: 1fr;
+            .transaction-detail-card {
+                padding: 1.5rem !important;
             }
 
             .header-section {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
             }
 
             .action-buttons {
-                flex-direction: column;
+                flex-direction: column !important;
             }
 
-            .btn-action {
-                width: 100%;
-                justify-content: center;
+            .btn-action, select.form-select {
+                width: 100% !important;
             }
 
-            .total-row {
-                max-width: 100%;
-            }
-
-            .transaction-detail-card {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .table thead {
-                display: none;
-            }
-
-            .table,
-            .table tbody,
-            .table tr,
-            .table td {
-                display: block;
-                width: 100%;
-            }
-
-            .table tr {
-                margin-bottom: 1.25rem;
-                padding-bottom: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .table td {
-                text-align: right;
-                padding-left: 50%;
-                position: relative;
-            }
-
-            .table td::before {
-                content: attr(data-label) ": ";
-                position: absolute;
-                left: 0;
-                width: 45%;
-                font-weight: 600;
-                color: var(--text-muted);
-                text-align: left;
+            .total-item {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.5rem !important;
             }
         }
     </style>
 @endpush
-
 @section('content')
     <div class="transaction-detail-card">
         <div class="header-section">
             <div>
-                <h2 class="h4 mb-1">Detail Transaksi</h2>
-                <p class="text-muted mb-0">No. Order: <strong>{{ $transaksi->no_order }}</strong></p>
+                <h2 class="mb-1">Detail Transaksi</h2>
+                <p class="mb-0">No. Order: <strong>{{ $transaksi->no_order }}</strong></p>
             </div>
             <a href="{{ route('transaksi.index') }}" class="back-link">
                 <i class="fas fa-arrow-left"></i> Kembali ke Daftar
@@ -331,8 +370,8 @@
         </div>
 
         <!-- Informasi Transaksi -->
-        <div class="mb-4 p-4 bg-light rounded-3">
-            <h5 class="mb-3 fw-bold">Informasi Transaksi</h5>
+        <div class="bg-light">
+            <h5>Informasi Transaksi</h5>
             <div class="info-grid">
                 <div class="info-item">
                     <span class="info-label">No. Order</span>
@@ -382,7 +421,7 @@
         <!-- Detail Layanan -->
         <div class="table-container">
             <div class="table-header">
-                <h5 class="mb-0">Detail Layanan</h5>
+                <h5>Detail Layanan</h5>
             </div>
             <div class="table-responsive">
                 <table class="table mb-0">
@@ -406,7 +445,6 @@
                     </tbody>
                 </table>
             </div>
-
             <div class="total-section">
                 <div class="total-row">
                     <div class="total-item">
@@ -455,11 +493,10 @@
         </div>
     </div>
 @endsection
-
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Opsional: tambahkan animasi ringan atau logika lain
         });
     </script>
-@endpush
+@endpush    
