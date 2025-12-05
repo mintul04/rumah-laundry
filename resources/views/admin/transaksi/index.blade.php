@@ -129,7 +129,7 @@
             gap: 0.5rem;
         }
 
-        .btn-edit,
+        .btn-info,
         .btn-delete {
             padding: 0.5rem 1rem;
             border: none;
@@ -140,14 +140,14 @@
             transition: all 0.3s ease;
         }
 
-        .btn-edit {
-            background-color: #fff3e0;
-            color: #f57c00;
-            border: 1px solid #f57c00;
+        .btn-info {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #1976d2;
         }
 
-        .btn-edit:hover {
-            background-color: #f57c00;
+        .btn-info:hover {
+            background-color: #1976d2;
             color: white;
         }
 
@@ -253,10 +253,8 @@
                         <th>No Order</th>
                         <th>Nama Pelanggan</th>
                         <th>Tanggal Terima</th>
-                        <th>Tanggal Selesai</th>
                         <th>Pembayaran</th>
                         <th>Status Order</th>
-                        <th>Total</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -267,8 +265,6 @@
                             <td>{{ $item->no_order }}</td>
                             <td>{{ $item->nama_pelanggan }}</td>
                             <td>{{ $item->tanggal_terima }}</td>
-                            <td>{{ $item->tanggal_selesai }}</td>
-
                             <td>
                                 @if ($item->pembayaran == 'lunas')
                                     <span class="badge bg-success text-white">Lunas</span>
@@ -291,14 +287,12 @@
                                 @endif
                             </td>
 
-                            <td>Rp {{ number_format($item->total, 0, ',', '.') }}</td>
-
                             <td>
-                                <a href="{{ route('transaksi.show', $item->id) }}" class="btn btn-sm btn-info text-white">
-                                    👁️ Detail
+                                <a href="{{ route('transaksi.show', $item->id) }}" class="btn-info text-decoration-none">
+                                    Detail
                                 </a>
 
-                                <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST" class="d-inline"
+                                <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST" class="d-inline ms-2"
                                     onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
                                     @csrf
                                     @method('DELETE')

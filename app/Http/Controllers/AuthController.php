@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function dashboardAdmin()
-    {
-        return view('admin.dashboard');
-    }
-
     public function login(){
         return view('auth.login');
     }

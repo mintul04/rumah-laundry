@@ -23,23 +23,19 @@ class Transaksi extends Model
         'total',
     ];
 
+    public function details()
+    {
+        return $this->hasMany(TransaksiDetail::class, 'transaksi_id');
+    }
+
     // Generate nomor order otomatis (misal: ORD-0001)
     public static function generateNoOrder()
     {
-        // Ambil no_order terakhir
-        $last = self::orderBy('id', 'DESC')->first();
-
-        if (!$last) {
-            return 'ORD-0001';
-        }
-
-        // Ambil angka dari no_order sebelumnya
-        $number = (int) substr($last->no_order, 4);
-
-        // Naikkan +1
-        $number++;
-
-        // Format ulang
-        return 'ORD-' . str_pad($number, 4, '0', STR_PAD_LEFT);
+        // Implementasikan logika generate no_order Anda di sini
+        // Contoh sederhana:
+        $prefix = 'ORD-';
+        $latest = self::latest('id')->first();
+        $nextNumber = $latest ? (int) substr($latest->no_order, strlen($prefix)) + 1 : 1;
+        return $prefix . sprintf('%06d', $nextNumber);
     }
 }

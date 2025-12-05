@@ -22,23 +22,22 @@ Route::resource('paket-laundry', PaketLaundryController::class);
 
 // Route Resource untuk Transaksi
 Route::resource('transaksi', TransaksiController::class);
-Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
 Route::put('/transaksi/{id}/update-status', [TransaksiController::class, 'updateStatus'])->name('transaksi.update-status');
+// Route untuk export invoice PDF Transaksi
+Route::get('/invoice/export-pdf/{id}', [TransaksiController::class, 'exportInvoicePdf'])->name('export.invoice.pdf');
+
 
 // Route untuk Laporan
 Route::prefix('admin')->name('admin.')->group(function () {
-Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-    
-    // // Route untuk export PDF
-    // Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPDF'])->name('laporan.export.pdf');
-    
-    // // Route untuk export Excel
-    // Route::get('/laporan/export-excel', [LaporanController::class, 'exportExcel'])->name('laporan.export.excel');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    // Route untuk export PDF
+    Route::get('/laporan/export-pdf', [LaporanController::class, 'exportLaporanPdf'])->name('laporan.export.pdf');
+    // Route untuk export Excel
+    Route::get('/laporan/export-excel', [LaporanController::class, 'exportLaporanExcel'])->name('laporan.export.excel');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard-admin');
 
-Route::get('dashboard-admin', [AuthController::class, 'dashboardAdmin'])->name('dashboard-admin');
 // Pastikan route ada
 // Route::get('/pesanan/create', [PesananController::class, 'create'])->name('pesanan.create');
 // Route::post('/pesanan/store', [PesananController::class, 'store'])->name('pesanan.store');

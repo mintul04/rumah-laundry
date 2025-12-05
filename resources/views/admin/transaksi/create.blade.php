@@ -165,34 +165,28 @@
 
                         <div class="row">
                             <div class="col-md-6">
-
                                 <div class="form-group">
                                     <label class="form-label">No. Order</label>
-                                    <input type="text" class="form-control" name="no_order"
-                                        value="{{ $lastOrderNumber }}" readonly
-                                        style="background-color: #f8f9fa; font-weight: 600;">
+                                    <input type="text" class="form-control" name="no_order" value="{{ $lastOrderNumber }}" readonly style="background-color: #f8f9fa; font-weight: 600;">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Nama Pelanggan</label>
-                                    <input type="text" class="form-control" name="nama_pelanggan" required
-                                        placeholder="Masukkan nama pelanggan">
+                                    <input type="text" class="form-control" name="nama_pelanggan" required placeholder="Masukkan nama pelanggan">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group" style>
+                        <div class="form-group">
                             <label class="form-label">Tanggal Terima</label>
-                            <input type="date" name="tanggal_terima" class="form-control"
-                                value="{{ date('Y-m-d') }}" required>
+                            <input type="date" name="tanggal_terima" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
-                        
-                        <div class="form-group" style>
+
+                        <div class="form-group">
                             <label class="form-label">Tanggal Selesai</label>
-                            <input type="date" name="tanggal_selesai" class="form-control"
-                                value="{{ date('Y-m-d') }}" required>
+                            <input type="date" name="tanggal_selesai" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
 
                         <div class="row">
@@ -210,8 +204,7 @@
                             <div class="col-md-6" id="dp-input-container" style="display: none;">
                                 <div class="form-group">
                                     <label class="form-label">Jumlah DP</label>
-                                    <input type="number" class="form-control" name="jumlah_dp" id="jumlah_dp"
-                                        placeholder="Masukkan jumlah DP" min="0">
+                                    <input type="number" class="form-control" name="jumlah_dp" id="jumlah_dp" placeholder="Masukkan jumlah DP" min="0">
                                 </div>
                             </div>
                         </div>
@@ -229,7 +222,6 @@
                                 </tr>
                             </thead>
                             <tbody id="items-container">
-                                {{-- Item akan ditambahkan secara dinamis --}}
                                 <tr class="item-row">
                                     <td>1</td>
                                     <td>
@@ -237,20 +229,16 @@
                                             <option value="">-- Pilih Paket --</option>
                                             @foreach ($pakets as $paket)
                                                 <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
-                                                    {{ $paket->nama_paket }} - Rp
-                                                    {{ number_format($paket->harga, 0, ',', '.') }} /
-                                                    {{ strtoupper($paket->satuan) }}
+                                                    {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }} / {{ $paket->satuan }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="number" name="items[0][berat]" class="form-control berat-input"
-                                            step="0.1" min="0.1" value="1" required>
+                                        <input type="number" name="items[0][berat]" class="form-control berat-input" step="0.1" min="0.1" value="1" required>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control subtotal-input" value="Rp 0" readonly
-                                            style="background-color: #f8f9fa; font-weight: 600;">
+                                        <input type="text" class="form-control subtotal-input" value="Rp 0" readonly style="background-color: #f8f9fa; font-weight: 600;">
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm remove-item" disabled>
@@ -269,30 +257,24 @@
                             </div>
                         </div>
 
-
                         <div class="section-title fw-bold mb-2 fs-5">Total & Pembayaran</div>
+
+                        <!-- Input Subtotal Dihapus dari sini -->
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Subtotal</label>
-                                    <input type="text" class="form-control" id="subtotal-total" value="Rp 0" readonly
-                                        style="background-color: #f8f9fa; font-weight: 600;">
+                                    <label class="form-label">Diskon (Rp)</label>
+                                    <input type="number" name="diskon" class="form-control" id="diskon-input" value="0" min="0">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Diskon (Rp)</label>
-                                    <input type="number" name="diskon" class="form-control" id="diskon-input"
-                                        value="0" min="0">
+                                    <label class="form-label">Total Akhir</label>
+                                    <input type="number" name="total" class="form-control" id="total-final-display" value="0" readonly
+                                        style="background-color: #f8f9fa; font-weight: 600; font-size: 1.1rem;">
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Total Akhir</label>
-                            <input type="number" name="total" class="form-control" id="total-final" value="0"
-                                readonly style="background-color: #f8f9fa; font-weight: 600; font-size: 1.1rem;">
                         </div>
 
                         <div class="form-group" style="display: none;">
@@ -314,7 +296,6 @@
         </div>
     </div>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let itemCount = 1;
@@ -324,35 +305,34 @@
                 const newRow = document.createElement('tr');
                 newRow.className = 'item-row';
                 newRow.innerHTML = `
-            <td>${itemCount + 1}</td>
-            <td>
-                <select name="items[${itemCount}][paket_id]" class="form-control paket-select" required>
-                    <option value="">-- Pilih Paket --</option>
-                    @foreach ($pakets as $paket)
-                        <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
-                            {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }} / Kg
-                        </option>
-                    @endforeach
-                </select>
-            </td>
-            <td>
-                <input type="number" name="items[${itemCount}][berat]" class="form-control berat-input" 
-                    step="0.1" min="0.1" value="1" required>
-            </td>
-            <td>
-                <input type="text" class="form-control subtotal-input" value="Rp 0" readonly
-                    style="background-color: #f8f9fa; font-weight: 600;">
-            </td>
-            <td>
-                <button type="button" class="btn btn-danger btn-sm remove-item">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        `;
+                <td>${itemCount + 1}</td>
+                <td>
+                    <select name="items[${itemCount}][paket_id]" class="form-control paket-select" required>
+                        <option value="">-- Pilih Paket --</option>
+                        @foreach ($pakets as $paket)
+                            <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
+                                {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }} / {{ $paket->satuan }}
+                            </option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="items[${itemCount}][berat]" class="form-control berat-input" 
+                        step="0.1" min="0.1" value="1" required>
+                </td>
+                <td>
+                    <input type="text" class="form-control subtotal-input" value="Rp 0" readonly
+                        style="background-color: #f8f9fa; font-weight: 600;">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
                 document.getElementById('items-container').appendChild(newRow);
                 itemCount++;
 
-                // Enable remove button untuk semua item kecuali pertama
                 document.querySelectorAll('.remove-item').forEach((btn, index) => {
                     btn.disabled = index === 0;
                 });
@@ -363,7 +343,7 @@
 
             // Hitung total
             function calculateTotal() {
-                let subtotal = 0;
+                let subtotalItems = 0;
 
                 document.querySelectorAll('.item-row').forEach(row => {
                     const paketSelect = row.querySelector('.paket-select');
@@ -375,16 +355,21 @@
                         const berat = parseFloat(beratInput.value);
                         const itemSubtotal = harga * berat;
 
-                        subtotal += itemSubtotal;
+                        subtotalItems += itemSubtotal;
                         subtotalInput.value = 'Rp ' + itemSubtotal.toLocaleString('id-ID');
+                    } else {
+                        subtotalInput.value = 'Rp 0';
                     }
                 });
 
                 const diskon = parseFloat(document.getElementById('diskon-input').value) || 0;
-                const totalAkhir = subtotal - diskon;
+                const totalAkhir = subtotalItems - diskon;
 
-                document.getElementById('subtotal-total').value = 'Rp ' + subtotal.toLocaleString('id-ID');
-                document.getElementById('total-final').value = totalAkhir > 0 ? totalAkhir : 0;
+                // Update field input tersembunyi (name="total") untuk dikirim ke server
+                document.querySelector('input[name="total"]').value = totalAkhir;
+
+                // Update field tampilan (id="total-final-display") untuk user
+                document.getElementById('total-final-display').value = totalAkhir;
             }
 
             // Tampilkan / sembunyikan input DP

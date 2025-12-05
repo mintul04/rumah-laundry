@@ -126,7 +126,7 @@
             </div>
             <div class="stat-content">
                 <h3>Total Paket Lundry</h3>
-                <div class="stat-number">1,245</div>
+                <div class="stat-number">{{ $totalPaket ?? 0 }}</div>
             </div>
         </div>
 
@@ -136,7 +136,7 @@
             </div>
             <div class="stat-content">
                 <h3>Total Pelanggan</h3>
-                <div class="stat-number">320</div>
+                <div class="stat-number">{{ $totalPelanggan ?? 0 }}</div>
             </div>
         </div>
 
@@ -146,7 +146,7 @@
             </div>
             <div class="stat-content">
                 <h3>Total Layanan</h3>
-                <div class="stat-number">18</div>
+                <div class="stat-number">{{ $totalPesanan ?? 0 }}</div>
             </div>
         </div>
 
@@ -156,95 +156,8 @@
             </div>
             <div class="stat-content">
                 <h3>Pendapatan Bulan Ini</h3>
-                <div class="stat-number">Rp 45M</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="chart-card">
-                <h5 class="chart-card-title">Grafik Pesanan (Bulan Ini)</h5>
-                <canvas id="ordersChart" style="height: 300px;"></canvas>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="chart-card">
-                <h5 class="chart-card-title">Status Pesanan</h5>
-                <canvas id="statusChart" style="height: 300px;"></canvas>
+                <div class="stat-number">{{ $pendapatanFormatted ?? '0' }}</div>
             </div>
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    {{-- <script>
-        // Orders Chart
-        const ordersCtx = document.getElementById('ordersChart').getContext('2d');
-        new Chart(ordersCtx, {
-            type: 'line',
-            data: {
-                labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
-                datasets: [{
-                    label: 'Pesanan',
-                    data: [65, 85, 72, 90],
-                    borderColor: '#0066cc',
-                    backgroundColor: 'rgba(0, 102, 204, 0.1)',
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#0066cc'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f0f0f0'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Status Chart
-        const statusCtx = document.getElementById('statusChart').getContext('2d');
-        new Chart(statusCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Selesai', 'Proses', 'Menunggu'],
-                datasets: [{
-                    data: [300, 150, 100],
-                    backgroundColor: ['#28a745', '#0066cc', '#ffc107'],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    </script> --}}
-@endpush

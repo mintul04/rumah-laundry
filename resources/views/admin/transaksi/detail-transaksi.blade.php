@@ -345,7 +345,8 @@
                 flex-direction: column !important;
             }
 
-            .btn-action, select.form-select {
+            .btn-action,
+            select.form-select {
                 width: 100% !important;
             }
 
@@ -382,8 +383,12 @@
                     <span class="info-value">{{ $transaksi->nama_pelanggan }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Tanggal</span>
-                    <span class="info-value">{{ \Carbon\Carbon::parse($transaksi->tanggal_transaksi)->locale('id')->isoFormat('D MMMM Y') }}</span>
+                    <span class="info-label">Tanggal Terima</span>
+                    <span class="info-value">{{ \Carbon\Carbon::parse($transaksi->tanggal_terima)->locale('id')->isoFormat('D MMMM Y') }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tanggal Selesai</span>
+                    <span class="info-value">{{ \Carbon\Carbon::parse($transaksi->tanggal_selesai)->locale('id')->isoFormat('D MMMM Y') }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Pembayaran</span>
@@ -428,32 +433,36 @@
                     <thead>
                         <tr>
                             <th>Layanan</th>
-                            <th>Harga</th>
-                            <th>Jumlah</th>
+                            <th>Harga Satuan</th>
+                            <th>Berat</th>
                             <th>Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($detailProduk as $item)
+                        @forelse($transaksi->details as $item)
                             <tr>
-                                <td data-label="Layanan">{{ $item->nama_produk }}</td>
-                                <td data-label="Harga">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
-                                <td data-label="Jumlah">{{ $item->jumlah }}</td>
+                                <td data-label="Layanan">{{ $item->paket->nama_paket }}</td>
+                                <td data-label="Harga Satuan">Rp {{ number_format($item->paket->harga, 0, ',', '.') }}</td>
+                                <td data-label="Jumlah">{{ $item->berat }} {{ $item->paket->satuan }}</td>
                                 <td data-label="Subtotal">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center">Tidak ada detail layanan.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="total-section">
                 <div class="total-row">
                     <div class="total-item">
-                        <span>Subtotal</span>
-                        <span>Rp {{ number_format($transaksi->total, 0, ',', '.') }}</span>
+                        <span>Subtotal (Jumlah dari Detail)</span>
+                        <span>Rp {{ number_format($transaksi->details->sum('subtotal'), 0, ',', '.') }}</span>
                     </div>
                     <div class="total-item">
                         <span>Diskon</span>
-                        <span>Rp 0</span>
+                        <span>Rp 0</span> <!-- Jika diskon disimpan di transaksi, gunakan $transaksi->diskon -->
                     </div>
                     <div class="total-item">
                         <span>Pajak</span>
@@ -479,9 +488,9 @@
                     <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>Diambil</option>
                 </select>
             </form>
-            <button class="btn-action btn-print" onclick="window.print()">
+            <a href="{{ route('export.invoice.pdf', $transaksi->id) }}" class="btn-action btn-print text-decoration-none">
                 <i class="fas fa-print"></i> Cetak Invoice
-            </button>
+            </a>
             <form action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" class="d-inline"
                 onsubmit="return confirm('Yakin ingin menghapus transaksi ini? Data tidak bisa dikembalikan.')">
                 @csrf
@@ -499,4 +508,4 @@
             // Opsional: tambahkan animasi ringan atau logika lain
         });
     </script>
-@endpush    
+@endpush

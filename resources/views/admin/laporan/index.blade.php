@@ -5,545 +5,449 @@
 
 @push('styles')
     <style>
-         /* Complete redesign with premium modern styling and wider layout */
-        
-        /* Color Variables - Soft Blue Premium Theme */
         :root {
-            --primary-blue: #3b82f6;
-            --primary-dark: #1e40af;
-            --primary-light: #eff6ff;
-            --secondary-cyan: #06b6d4;
-            --secondary-light: #ecfdf5;
-            --accent-amber: #f59e0b;
-            --accent-light: #fffbeb;
-            --neutral-dark: #0f172a;
-            --neutral-gray: #475569;
-            --neutral-light: #f8fafc;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 10px 25px rgba(59, 130, 246, 0.1);
-            --shadow-xl: 0 20px 40px rgba(59, 130, 246, 0.12);
+            --primary-gradient: linear-gradient(135deg, #3b82f6, #6366f1);
+            --secondary-gradient: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --success-gradient: linear-gradient(135deg, #10b981, #06b6d4);
+            --warning-gradient: linear-gradient(135deg, #f59e0b, #f97316);
+            --info-gradient: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
-        /* Container - Wider Layout */
-        .container {
-            max-width: 1400px !important;
-            padding: 2.5rem 3rem !important;
+        .container-xl {
+            max-width: 1400px;
+            padding: 2rem 1.5rem;
         }
 
-        /* Header Section */
-        .container > .d-flex {
-            margin-bottom: 3.5rem !important;
-            padding: 0 0 2.5rem 0;
-            border-bottom: 2px solid var(--border-color);
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
+        .page-header {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            padding: 1.75rem 2rem;
+            margin-bottom: 2.5rem;
+            border-left: 4px solid #3b82f6;
         }
 
-        .container > .d-flex h1 {
-            font-size: 2.25rem !important;
-            font-weight: 800 !important;
-            color: var(--neutral-dark) !important;
-            margin: 0 !important;
-            letter-spacing: -0.5px;
-        }
-
-        .container > .d-flex .text-end {
-            color: var(--neutral-gray) !important;
-            font-weight: 600;
-            font-size: 1.05rem;
-        }
-
-        /* Stat Cards Container */
-        .row.mb-4:first-of-type {
-            gap: 1.5rem !important;
-            margin-bottom: 3rem !important;
-        }
-
-        .row.mb-4:first-of-type .col-md-3 {
-            display: flex;
-        }
-
-        /* Stat Cards */
-        .row.mb-4:first-of-type .card {
-            width: 100%;
-            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%) !important;
-            border: 1px solid var(--border-color) !important;
-            border-radius: 16px !important;
-            box-shadow: var(--shadow-md) !important;
-            padding: 0 !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer;
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
             overflow: hidden;
             position: relative;
+            height: 100%;
         }
 
-        .row.mb-4:first-of-type .card::before {
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-cyan) 100%);
         }
 
-        .row.mb-4:first-of-type .card:hover {
-            transform: translateY(-8px) !important;
-            box-shadow: var(--shadow-xl) !important;
-            border-color: var(--primary-blue) !important;
+        .stat-card.bg-primary::before {
+            background: var(--primary-gradient);
         }
 
-        .row.mb-4:first-of-type .card.bg-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-            border: none !important;
-            color: white !important;
+        .stat-card.bg-success::before {
+            background: var(--success-gradient);
         }
 
-        .row.mb-4:first-of-type .card.bg-primary::before {
-            display: none;
+        .stat-card.bg-info::before {
+            background: var(--info-gradient);
         }
 
-        .row.mb-4:first-of-type .card.bg-success {
-            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
-            border: none !important;
-            color: white !important;
+        .stat-card.bg-warning::before {
+            background: var(--warning-gradient);
         }
 
-        .row.mb-4:first-of-type .card.bg-success::before {
-            display: none;
+        .stat-card .card-body {
+            padding: 1.5rem;
         }
 
-        .row.mb-4:first-of-type .card.bg-info {
-            background: linear-gradient(135deg, #1976d2 0%, #1d4ed8 100%) !important;
-            border: none !important;
-            color: white !important;
-        }
-
-        .row.mb-4:first-of-type .card.bg-info::before {
-            display: none;
-        }
-
-        .row.mb-4:first-of-type .card.bg-warning {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-            border: none !important;
-            color: white !important;
-        }
-
-        .row.mb-4:first-of-type .card.bg-warning::before {
-            display: none;
-        }
-
-        .row.mb-4:first-of-type .card-body {
-            padding: 2rem !important;
-        }
-
-        .row.mb-4:first-of-type .card-body h5 {
-            font-size: 0.95rem !important;
-            font-weight: 700 !important;
-            opacity: 0.95 !important;
-            margin-bottom: 1rem !important;
-            letter-spacing: 0.3px;
+        .stat-card h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
         }
 
-        .row.mb-4:first-of-type .card-body h2 {
-            font-size: 2rem !important;
-            font-weight: 800 !important;
-            margin: 0 !important;
-            letter-spacing: -0.5px;
+        .stat-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0;
+            color: var(--text-primary);
         }
 
-        /* Analysis Cards */
-        .row.mb-4:last-of-type {
-            gap: 1.5rem !important;
-            margin-bottom: 3rem !important;
-        }
-
-        .row.mb-4:last-of-type .col-md-6 {
-            display: flex;
-        }
-
-        .row.mb-4:last-of-type .card {
-            width: 100%;
-            background: linear-gradient(to bottom right, #ffffff, #f8fbff) !important;
-            border: 1px solid var(--border-color) !important;
-            border-radius: 16px !important;
-            box-shadow: var(--shadow-md) !important;
+        .analysis-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
             overflow: hidden;
-            transition: all 0.3s ease !important;
+            transition: all 0.3s ease;
+            height: 100%;
         }
 
-        .row.mb-4:last-of-type .card:hover {
-            box-shadow: var(--shadow-lg) !important;
-            border-color: var(--primary-blue) !important;
+        .analysis-card:hover {
+            box-shadow: var(--shadow-lg);
         }
 
-        .row.mb-4:last-of-type .card-header {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%) !important;
-            border: none !important;
-            padding: 1.75rem 2rem !important;
-            position: relative;
-        }
-
-        .row.mb-4:last-of-type .card-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        }
-
-        .row.mb-4:last-of-type .card-header h5 {
-            font-size: 1.1rem !important;
-            font-weight: 800 !important;
-            margin: 0 !important;
-            letter-spacing: 0.3px;
-        }
-
-        .row.mb-4:last-of-type .card-body {
-            padding: 1.75rem 2rem !important;
-        }
-
-        .row.mb-4:last-of-type .list-group-item {
-            background: transparent !important;
-            border: 1px solid var(--border-color) !important;
-            padding: 1.25rem 1.5rem !important;
-            border-radius: 10px !important;
-            margin-bottom: 0.75rem !important;
-            transition: all 0.2s ease !important;
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-        }
-
-        .row.mb-4:last-of-type .list-group-item:last-child {
-            margin-bottom: 0 !important;
-        }
-
-        .row.mb-4:last-of-type .list-group-item:hover {
-            background: var(--primary-light) !important;
-            border-color: var(--primary-blue) !important;
-            transform: translateX(4px);
-        }
-
-        .row.mb-4:last-of-type .list-group-item span:first-child {
+        .analysis-card .card-header {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1.25rem 1.5rem;
             font-weight: 700;
-            color: var(--neutral-dark);
-            font-size: 1rem;
         }
 
-        .row.mb-4:last-of-type .badge {
-            font-size: 0.85rem !important;
-            padding: 0.5rem 1rem !important;
-            border-radius: 24px !important;
-            font-weight: 700 !important;
-            white-space: nowrap;
-        }
-
-        /* Detail Transaction Card */
-        .card.mb-4 {
-            background: linear-gradient(to bottom right, #ffffff, #f8fbff) !important;
-            border: 1px solid var(--border-color) !important;
-            border-radius: 16px !important;
-            box-shadow: var(--shadow-md) !important;
-            overflow: hidden;
-            margin-bottom: 3rem !important;
-        }
-
-        .card.mb-4 > .card-header {
-            background: linear-gradient(135deg, var(--neutral-dark) 0%, var(--primary-dark) 50%, var(--secondary-cyan) 100%) !important;
-            border: none !important;
-            padding: 2rem !important;
-            position: relative;
-        }
-
-        .card.mb-4 > .card-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-        }
-
-        .card.mb-4 > .card-header h5 {
-            font-size: 1.25rem !important;
-            font-weight: 800 !important;
-            margin: 0 !important;
-            letter-spacing: 0.3px;
-        }
-
-        .card.mb-4 > .card-body {
-            padding: 2rem !important;
-        }
-
-        /* Table Responsive */
-        .table-responsive {
-            border-radius: 10px !important;
-            overflow: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border-color) transparent;
-        }
-
-        .table-responsive::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .table-responsive::-webkit-scrollbar-track {
+        .analysis-card .list-group-item {
             background: transparent;
+            border: 1px solid var(--border-light);
+            padding: 1rem 1.25rem;
+            transition: all 0.2s ease;
         }
 
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
+        .analysis-card .list-group-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .detail-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .detail-card .card-header {
+            background: linear-gradient(135deg, var(--text-primary), #334155);
+            color: white;
+            border: none;
+            padding: 1.25rem 1.5rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .table-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
         .table {
-            margin-bottom: 0 !important;
-            border-collapse: collapse;
+            margin-bottom: 0;
         }
 
-        .table thead.table-dark th {
-            background: #f1f5f9 !important;
-            color: var(--neutral-dark) !important;
-            font-weight: 800 !important;
-            font-size: 0.9rem !important;
+        .table thead th {
+            background-color: #f8fafc;
+            color: var(--text-primary);
+            font-weight: 700;
             text-transform: uppercase;
+            font-size: 0.8rem;
             letter-spacing: 0.5px;
-            padding: 1.25rem 1.5rem !important;
-            border: none !important;
-            border-bottom: 2px solid var(--border-color) !important;
+            border: none;
+            padding: 1rem 1.25rem;
         }
 
         .table tbody td {
-            padding: 1.25rem 1.5rem !important;
-            color: var(--neutral-dark) !important;
-            font-size: 0.98rem !important;
-            border-bottom: 1px solid var(--border-color) !important;
+            padding: 1rem 1.25rem;
             vertical-align: middle;
-        }
-
-        .table tbody tr {
-            transition: background-color 0.2s ease !important;
+            border-top: 1px solid var(--border-light);
+            color: var(--text-secondary);
         }
 
         .table tbody tr:hover {
-            background: var(--primary-light) !important;
+            background-color: #f1f5f9;
         }
 
-        .table tbody tr strong {
-            color: var(--primary-blue);
-            font-weight: 800;
+        .table .total-row {
+            background-color: #f0f9ff !important;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
-        /* Total Row */
-        .table-success {
-            background: linear-gradient(90deg, var(--primary-light), transparent) !important;
-            border-top: 2px solid var(--primary-blue) !important;
-            border-bottom: 2px solid var(--primary-blue) !important;
-        }
-
-        .table-success td {
-            padding: 1.5rem 1.5rem !important;
-            font-weight: 800 !important;
-            color: var(--neutral-dark) !important;
-            border: none !important;
-            font-size: 1.05rem;
-        }
-
-        /* Badge Enhanced */
         .badge {
-            font-size: 0.85rem !important;
-            padding: 0.5rem 1rem !important;
-            border-radius: 24px !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.2px;
+            font-size: 0.8rem;
+            padding: 0.5rem 0.75rem;
+            font-weight: 600;
+            border-radius: 8px;
         }
 
         .badge.bg-success {
-            background: #d1fae5 !important;
-            color: #065f46 !important;
+            background-color: #dcfce7;
+            color: #166534;
         }
 
         .badge.bg-danger {
-            background: #fee2e2 !important;
-            color: #991b1b !important;
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
 
         .badge.bg-warning {
-            background: #fef3c7 !important;
-            color: #92400e !important;
+            background-color: #fef3c7;
+            color: #92400e;
         }
 
-        /* Alert */
         .alert {
-            border: none !important;
-            border-radius: 12px !important;
-            background: var(--accent-light) !important;
-            color: #92400e !important;
-            padding: 1.5rem 2rem !important;
-            font-weight: 600;
-            border-left: 4px solid var(--accent-amber);
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.25rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .container {
-                padding: 2rem 2.5rem !important;
-            }
+        .export-buttons {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            padding: 1.25rem 1.5rem;
+            margin-top: 2rem;
+        }
 
-            .row.mb-4:first-of-type .col-md-3 {
-                flex: 0 0 calc(50% - 0.75rem);
-            }
+        .export-btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-            .row.mb-4:first-of-type {
-                gap: 1.5rem !important;
-            }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-pdf {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-excel {
+            background-color: #22c55e;
+            color: white;
+        }
+
+        .btn-excel:hover {
+            background-color: #16a34a;
+        }
+
+        .btn-print {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background-color: #2563eb;
+        }
+
+        .btn i {
+            font-size: 1.1rem;
+        }
+
+        .table-responsive {
+            border-radius: 12px;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem 1.25rem !important;
+            .container-xl {
+                padding: 1rem;
             }
 
-            .container > .d-flex {
-                flex-direction: column;
-                gap: 1.5rem;
-                margin-bottom: 2.5rem !important;
+            .page-header {
+                padding: 1.25rem 1.5rem;
             }
 
-            .container > .d-flex h1 {
-                font-size: 1.75rem !important;
+            .stat-card h2 {
+                font-size: 1.5rem;
             }
 
-            .row.mb-4:first-of-type,
-            .row.mb-4:last-of-type {
-                gap: 1rem !important;
+            .analysis-card .card-header,
+            .detail-card .card-header {
+                font-size: 1rem;
             }
 
-            .row.mb-4:first-of-type .col-md-3,
-            .row.mb-4:last-of-type .col-md-6 {
-                flex: 0 0 100% !important;
+            .table th,
+            .table td {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
             }
 
-            .row.mb-4:first-of-type .card-body,
-            .row.mb-4:last-of-type .card-body {
-                padding: 1.5rem !important;
+            .export-buttons {
+                padding: 1rem;
             }
 
-            .table thead.table-dark th,
-            .table tbody td {
-                padding: 0.9rem 0.75rem !important;
-                font-size: 0.85rem !important;
-            }
-
-            .table-success td {
-                font-size: 0.9rem !important;
-            }
-
-            .badge {
-                font-size: 0.75rem !important;
-                padding: 0.35rem 0.75rem !important;
+            .export-btn {
+                padding: 0.65rem 1rem;
+                font-size: 0.9rem;
+                width: 100%;
+                margin-bottom: 0.5rem;
+                justify-content: center;
             }
         }
     </style>
 @endpush
 
-
 @section('content')
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>📊 Laporan Transaksi Laundry</h1>
-            <div class="text-end">
-                <small class="text-muted">Periode: {{ $periode }}</small>
+    <div class="container-xl">
+        <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+            <div>
+                <h1 class="h2 mb-1"><i class="fas fa-chart-line me-2 text-primary"></i>Laporan Transaksi Laundry</h1>
+                <p class="text-muted mb-0">Ringkasan kinerja dan analisis data transaksi</p>
+            </div>
+            <div class="mt-2 mt-md-0">
+                <small class="text-muted"><i class="far fa-calendar me-1"></i>Periode: {{ $periode }}</small>
             </div>
         </div>
 
         <!-- Statistik Cards -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card text-white bg-primary">
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card bg-primary text-white">
                     <div class="card-body">
-                        <h5>Total Transaksi</h5>
-                        <h2>{{ $totalTransactions }}</h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="text-white"><i class="fas fa-exchange-alt me-1"></i>Total Transaksi</h5>
+                                <h2 class="text-white">{{ number_format($totalTransactions, 0, ',', '.') }}</h2>
+                            </div>
+                            <div class="bg-opacity-20 p-3 rounded-circle">
+                                <i class="fas fa-shopping-cart fa-2x"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-success">
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card bg-success text-white">
                     <div class="card-body">
-                        <h5>Total Pendapatan</h5>
-                        <h2>Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="text-white"><i class="fas fa-money-bill-wave me-1"></i>Total Pendapatan</h5>
+                                <h2 class="text-white">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h2>
+                            </div>
+                            <div class="bg-opacity-20 p-3 rounded-circle">
+                                <i class="fas fa-coins fa-2x"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-info">
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card bg-info text-white">
                     <div class="card-body">
-                        <h5>Rata-rata/Transaksi</h5>
-                        <h2>Rp {{ number_format($rataRata, 0, ',', '.') }}</h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="text-white"><i class="fas fa-calculator me-1"></i>Rata-rata/Transaksi</h5>
+                                <h2 class="text-white">Rp {{ number_format($rataRata, 0, ',', '.') }}</h2>
+                            </div>
+                            <div class="bg-opacity-20 p-3 rounded-circle">
+                                <i class="fas fa-percentage fa-2x"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-warning">
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card bg-warning text-white">
                     <div class="card-body">
-                        <h5>Pelanggan Aktif</h5>
-                        <h2>{{ $topCustomers->count() }}</h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="text-white"><i class="fas fa-users me-1"></i>Pelanggan Aktif</h5>
+                                <h2 class="text-white">{{ $topCustomers->count() }}</h2>
+                            </div>
+                            <div class="bg-opacity-20 p-3 rounded-circle">
+                                <i class="fas fa-user-friends fa-2x"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Analisis Tambahan -->
-        <div class="row mb-4">
+        <div class="row g-4 mb-4">
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">📅 Transaksi per Tanggal</h5>
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <i class="fas fa-calendar-day me-2"></i>Transaksi per Tanggal
                     </div>
-                    <div class="card-body">
-                        <ul class="list-group">
-                            @foreach ($transaksiPerTanggal as $tanggal => $data)
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>{{ $tanggal }}</span>
-                                    <span class="badge bg-primary rounded-pill">
-                                        {{ $data['jumlah'] }} transaksi (Rp
-                                        {{ number_format($data['total'], 0, ',', '.') }})
-                                    </span>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            @forelse ($transaksiPerTanggal as $tanggal => $data)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-semibold">{{ \Carbon\Carbon::parse($tanggal)->isoFormat('dddd, D MMMM YYYY') }}</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-primary rounded-pill">
+                                            <i class="fas fa-receipt me-1"></i>{{ $data['jumlah'] }} transaksi
+                                        </span>
+                                        <div class="small mt-1">Rp {{ number_format($data['total'], 0, ',', '.') }}</div>
+                                    </div>
                                 </li>
-                            @endforeach
+                            @empty
+                                <li class="list-group-item text-center text-muted py-4">
+                                    <i class="fas fa-inbox fa-2x mb-2"></i>
+                                    <p class="mb-0">Tidak ada data transaksi</p>
+                                </li>
+                            @endforelse
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">💰 Status Pembayaran</h5>
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <i class="fas fa-credit-card me-2"></i>Status Pembayaran
                     </div>
-                    <div class="card-body">
-                        <ul class="list-group">
-                            @foreach ($statusPembayaran as $status => $jumlah)
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>{{ $status }}</span>
-
-                                    <span class="badge {{ $status == 'Lunas' ? 'bg-success' : 'bg-danger' }} rounded-pill">
-                                        {{ $jumlah }} transaksi
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            @forelse ($statusPembayaran as $status => $jumlah)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-semibold">{{ ucfirst(str_replace('_', ' ', $status)) }}</span>
+                                    </div>
+                                    <span class="text-white badge {{ $status == 'lunas' ? 'bg-success' : ($status == 'belum_lunas' ? 'bg-danger' : 'bg-warning') }} rounded-pill">
+                                        <i class="fas fa-{{ $status == 'lunas' ? 'check-circle' : ($status == 'belum_lunas' ? 'times-circle' : 'money-bill-wave') }} me-1"></i>{{ $jumlah }}
+                                        transaksi
                                     </span>
                                 </li>
-                            @endforeach
+                            @empty
+                                <li class="list-group-item text-center text-muted py-4">
+                                    <i class="fas fa-inbox fa-2x mb-2"></i>
+                                    <p class="mb-0">Tidak ada data status</p>
+                                </li>
+                            @endforelse
                         </ul>
                     </div>
                 </div>
@@ -551,17 +455,20 @@
         </div>
 
         <!-- Tabel Detail Transaksi -->
-        <div class="card mb-4">
-            <div class="card-header bg-dark text-white">
-                <h5 class="mb-0">📋 Detail Transaksi</h5>
+        <div class="detail-card mb-4">
+            <div class="card-header">
+                <div>
+                    <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Detail Transaksi</h5>
+                    <small class="opacity-75">Daftar semua transaksi laundry</small>
+                </div>
             </div>
-            <div class="card-body">
-                @if (count($transactions) > 0)
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
-                            <thead class="table-dark">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    @if (count($transactions) > 0)
+                        <table class="table table-hover mb-0">
+                            <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th width="50">#</th>
                                     <th>No Order</th>
                                     <th>Nama Pelanggan</th>
                                     <th>Tanggal Terima</th>
@@ -577,59 +484,66 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td><strong>{{ $transaction->no_order }}</strong></td>
                                         <td>{{ $transaction->nama_pelanggan }}</td>
-                                        <td>{{ $transaction->tanggal_terima }}</td>
-                                        <td>{{ $transaction->tanggal_selesai }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($transaction->tanggal_terima)->isoFormat('D MMM YYYY') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($transaction->tanggal_selesai)->isoFormat('D MMM YYYY') }}</td>
                                         <td>
-                                            <span
-                                                class="badge {{ $transaction->pembayaran == 'Lunas' ? 'bg-success' : 'bg-danger' }}">
-                                                {{ $transaction->pembayaran }}
+                                            <span class="text-white badge {{ $transaction->pembayaran == 'lunas' ? 'bg-success' : ($transaction->pembayaran == 'belum_lunas' ? 'bg-danger' : 'bg-warning') }}">
+                                                <i
+                                                    class="fas fa-{{ $transaction->pembayaran == 'lunas' ? 'check-circle' : ($transaction->pembayaran == 'belum_lunas' ? 'times-circle' : 'money-bill-wave') }} me-1"></i>{{ ucfirst(str_replace('_', ' ', $transaction->pembayaran)) }}
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-warning">{{ $transaction->status_order }}</span>
+                                            <span class="badge bg-info">{{ ucfirst(str_replace('_', ' ', $transaction->status_order)) }}</span>
                                         </td>
                                         <td><strong>Rp {{ number_format($transaction->total, 0, ',', '.') }}</strong></td>
                                     </tr>
                                 @endforeach
                                 <!-- Total Row -->
-                                <tr class="table-success">
+                                <tr class="total-row">
                                     <td colspan="6" class="text-end"><strong>TOTAL PENDAPATAN:</strong></td>
-                                    <td><strong>Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</strong></td>
+                                    <td colspan="2"><strong>Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</strong></td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                @else
-                    <div class="alert alert-warning">
-                        Tidak ada data transaksi untuk ditampilkan.
-                    </div>
-                @endif
+                    @else
+                        <div class="alert alert-light text-center mb-0" role="alert">
+                            <i class="fas fa-info-circle fa-2x text-info mb-3"></i>
+                            <h6 class="alert-heading">Tidak Ada Data</h6>
+                            <p class="mb-0">Belum ada transaksi yang dicatat untuk periode ini.</p>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
 
-        {{-- <!-- Export Options -->
-    <div class="text-end mb-4">
-        <a href="{{ route('laporan.export.pdf') }}" class="btn btn-danger">
-            <i class="fas fa-file-pdf"></i> Export PDF
-        </a>
-        <a href="{{ route('laporan.export.excel') }}" class="btn btn-success">
-            <i class="fas fa-file-excel"></i> Export Excel
-        </a>
-        <a href="javascript:window.print()" class="btn btn-primary">
-            <i class="fas fa-print"></i> Print
-        </a>
-    </div> --}}
-    </div>
+        <!-- Tombol Export -->
+        <div class="export-buttons text-center">
+            <h6 class="mb-3 text-muted"><i class="fas fa-download me-2"></i>Ekspor Laporan</h6>
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                <a href="{{ route('admin.laporan.export.pdf') }}" class="btn btn-pdf export-btn">
+                    <i class="fas fa-file-pdf"></i> PDF
+                </a>
+                <a href="{{ route('admin.laporan.export.excel') }}" class="btn btn-excel export-btn">
+                    <i class="fas fa-file-excel"></i> Excel
+                </a>
+                <a href="javascript:window.print()" class="btn btn-print export-btn">
+                    <i class="fas fa-print"></i> Cetak
+                </a>
+            </div>
+        </div>
 
-    <!-- Tambahkan Font Awesome untuk icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </div>
 
     @if (session('success'))
         <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: '{{ session('success') }}'
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    timer: 2500,
+                    showConfirmButton: false
+                });
             });
         </script>
     @endif
@@ -637,8 +551,11 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Smooth interactions and animations
+        // Efek halus saat card di-hover
+        document.querySelectorAll('.stat-card, .analysis-card, .detail-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            });
         });
     </script>
 @endpush

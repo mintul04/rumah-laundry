@@ -22,7 +22,7 @@ class DashboardController extends Controller
             ->count('nama_pelanggan');
 
         // Total Layanan (Jumlah paket laundry)
-        $totalLayanan = PaketLaundry::count();
+        $totalPaket = PaketLaundry::count();
 
         // Pendapatan Bulan Ini (hanya yang sudah lunas)
         $pendapatanBulanIni = Transaksi::whereMonth('created_at', Carbon::now()->month)
@@ -39,14 +39,14 @@ class DashboardController extends Controller
         // Data untuk Status Pesanan
         $statusData = $this->getStatusOrdersData();
 
-        return view('dashboard', compact(
-            'totalPesanan',
-            'totalPelanggan',
-            'totalLayanan',
-            'pendapatanFormatted',
-            'ordersData',
-            'statusData'
-        ));
+        return view('admin.dashboard', [
+            'totalPesanan'        => $totalPesanan,
+            'totalPelanggan'      => $totalPelanggan,
+            'totalPaket'          => $totalPaket,
+            'pendapatanFormatted' => $pendapatanFormatted,
+            'ordersData'          => $ordersData,
+            'statusData'          => $statusData
+        ]);
     }
 
     private function formatRupiah($amount)
