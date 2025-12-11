@@ -37,7 +37,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/laporan/export-excel', [LaporanController::class, 'exportLaporanExcel'])->name('laporan.export.excel');
 });
 
-Route::post('/cek-status', [TransaksiController::class, 'cekStatusPesanan'])->name('cek.status');
+Route::post('/cek-status', [LandingPageController::class, 'cekStatus'])->name('cek.status');
 
 
 

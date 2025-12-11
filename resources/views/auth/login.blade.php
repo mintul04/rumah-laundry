@@ -313,7 +313,7 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="{{ asset('assets/vendor/bootstrap/css/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/fontawesome/all.min.js') }}"></script>
 
     <!-- JavaScript for interactivity -->

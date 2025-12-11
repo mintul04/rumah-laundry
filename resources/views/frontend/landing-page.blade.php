@@ -3,16 +3,17 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LaundryHub - Layanan Laundry Online Modern</title>
 
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="{{ asset('assets/vendor/fontawesome/all.min.css') }}" rel="stylesheet">
 
     <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <!-- Navbar CSS -->
     <link rel="stylesheet" href="assets/css/navbar.css" />
@@ -840,11 +841,9 @@
     <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="navbar">
         <div class="container-fluid">
             <a class="navbar-brand" href="#home">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="16" cy="16" r="14" stroke="#0d6efd" stroke-width="2" />
-                    <path d="M12 16c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="#0d6efd" stroke-width="2"
-                        stroke-linecap="round" />
+                    <path d="M12 16c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" />
                 </svg>
                 <span class="ms-2">RumahLaundry</span>
             </a>
@@ -855,7 +854,7 @@
                 <ul class="navbar-nav ms-auto gap-1">
                 </ul>
                 <div class="navbar-cta ms-3">
-                    <a class="nav-link" href="#">Lihat Pesanan</a>
+                    <a class="nav-link" href="#process">Lihat Pesanan</a>
                     <a href="{{ Route('login') }}"><button class="btn btn-primary">Login</button></a>
                 </div>
             </div>
@@ -891,17 +890,13 @@
                     <div class="hero-image">
                         <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Laundry Basket Illustration -->
-                            <circle cx="200" cy="200" r="180" fill="#f0f7ff" stroke="#66b2ff"
-                                stroke-width="2" />
-                            <rect x="100" y="120" width="200" height="180" rx="10" fill="#0d6efd"
-                                opacity="0.1" />
-                            <path d="M120 140 L280 140 L260 280 L140 280 Z" fill="#66b2ff" stroke="#0d6efd"
-                                stroke-width="2" />
+                            <circle cx="200" cy="200" r="180" fill="#f0f7ff" stroke="#66b2ff" stroke-width="2" />
+                            <rect x="100" y="120" width="200" height="180" rx="10" fill="#0d6efd" opacity="0.1" />
+                            <path d="M120 140 L280 140 L260 280 L140 280 Z" fill="#66b2ff" stroke="#0d6efd" stroke-width="2" />
                             <circle cx="160" cy="180" r="15" fill="#10b981" />
                             <circle cx="200" cy="160" r="15" fill="#fbbf24" />
                             <circle cx="240" cy="190" r="15" fill="#ef4444" />
-                            <path d="M100 140 Q100 80 200 60 Q300 80 300 140" stroke="#0d6efd" stroke-width="2"
-                                fill="none" />
+                            <path d="M100 140 Q100 80 200 60 Q300 80 300 140" stroke="#0d6efd" stroke-width="2" fill="none" />
                         </svg>
                     </div>
                 </div>
@@ -923,8 +918,7 @@
                         <div class="feature-icon">
                             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                                 <circle cx="24" cy="24" r="22" stroke="#0d6efd" stroke-width="2" />
-                                <path d="M16 24h16M24 16v16" stroke="#0d6efd" stroke-width="2"
-                                    stroke-linecap="round" />
+                                <path d="M16 24h16M24 16v16" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </div>
                         <h3>Jemput & Antar</h3>
@@ -936,8 +930,7 @@
                         <div class="feature-icon">
                             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                                 <circle cx="24" cy="24" r="22" stroke="#10b981" stroke-width="2" />
-                                <path d="M18 24l4 4 10-10" stroke="#10b981" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
+                                <path d="M18 24l4 4 10-10" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
                         <h3>Harga Transparan</h3>
@@ -949,8 +942,7 @@
                         <div class="feature-icon">
                             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                                 <circle cx="24" cy="24" r="22" stroke="#fbbf24" stroke-width="2" />
-                                <path d="M24 14v20M16 22h16" stroke="#fbbf24" stroke-width="2"
-                                    stroke-linecap="round" />
+                                <path d="M24 14v20M16 22h16" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </div>
                         <h3>Express 24 Jam</h3>
@@ -962,8 +954,7 @@
                         <div class="feature-icon">
                             <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                                 <circle cx="24" cy="24" r="22" stroke="#ef4444" stroke-width="2" />
-                                <path d="M24 18v12M18 24h12" stroke="#ef4444" stroke-width="2"
-                                    stroke-linecap="round" />
+                                <path d="M24 18v12M18 24h12" stroke="#ef4444" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </div>
                         <h3>Laundry Aman</h3>
@@ -988,8 +979,7 @@
                         <div class="service-icon">
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                                 <circle cx="20" cy="20" r="18" stroke="#0d6efd" stroke-width="2" />
-                                <path d="M14 20h12M20 14v12" stroke="#0d6efd" stroke-width="2"
-                                    stroke-linecap="round" />
+                                <path d="M14 20h12M20 14v12" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </div>
                         <h3>Cuci Biasa</h3>
@@ -1005,8 +995,7 @@
                         <div class="service-icon">
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                                 <circle cx="20" cy="20" r="18" stroke="#fbbf24" stroke-width="2" />
-                                <path d="M14 20h12M20 14v12" stroke="#fbbf24" stroke-width="2"
-                                    stroke-linecap="round" />
+                                <path d="M14 20h12M20 14v12" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </div>
                         <h3>Cuci + Setrika</h3>
@@ -1021,8 +1010,7 @@
                         <div class="service-icon">
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                                 <circle cx="20" cy="20" r="18" stroke="#10b981" stroke-width="2" />
-                                <path d="M14 20h12M20 14v12" stroke="#10b981" stroke-width="2"
-                                    stroke-linecap="round" />
+                                <path d="M14 20h12M20 14v12" stroke="#10b981" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </div>
                         <h3>Express Service</h3>
@@ -1046,8 +1034,9 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <form id="statusForm" class="hero-search mb-4">
+                        @csrf <!-- Pastikan ini ada -->
                         <div class="input-group">
-                            <input type="text" id="orderCode" class="form-control" placeholder="Contoh: LH-123456" required>
+                            <input type="text" id="orderCode" class="form-control" placeholder="Contoh: ORD-000001" required>
                             <button class="btn btn-primary" type="submit">Cek Status</button>
                         </div>
                     </form>
@@ -1059,70 +1048,229 @@
                 </div>
             </div>
 
-            <script>
-                // Dummy data untuk demo
-
-                const dummyOrders = {
-                    @foreach(\App\Models\Transaksi::limit(10)->get() as $trx)
-                        '{{ $trx->kode_transaksi }}': { 
-                            status: '{{ $trx->status }}', 
-                            detail: '{{ $trx->keterangan ?? "Detail pesanan tidak tersedia." }}' 
-                        }{{ !$loop->last ? ',' : '' }}
-                    @endforeach
-                 // <-- penutup objek yang hilang
-                
-                document.getElementById('statusForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const code = document.getElementById('orderCode').value.trim().toUpperCase();
-                    const resultDiv = document.getElementById('statusResult');
-                    const statusText = document.getElementById('statusText');
-                    const statusDetail = document.getElementById('statusDetail');
-
-                    if (!code) {
-                        resultDiv.className = 'alert alert-warning';
-                        statusText.textContent = 'Kode kosong';
-                        statusDetail.textContent = 'Silakan masukkan kode pesanan Anda.';
-                        resultDiv.classList.remove('d-none');
-                        return;
-                    }
-
-                    const order = dummyOrders[code];
-                    if (order) {
-                        let alertClass = 'alert-success';
-                        if (order.status === 'Diproses') alertClass = 'alert-info';
-                        if (order.status === 'Diambil') alertClass = 'alert-primary';
-
-                        resultDiv.className = `alert ${alertClass}`;
-                        statusText.textContent = order.status;
-                        statusDetail.textContent = order.detail;
-                    } else {
-                        resultDiv.className = 'alert alert-danger';
-                        statusText.textContent = 'Tidak ditemukan';
-                        statusDetail.textContent = 'Kode pesanan tidak ditemukan. Periksa kembali kode Anda.';
-                    }
-
-                    resultDiv.classList.remove('d-none');
-                });
-            </script>
-
             <div class="process-stepper mt-5">
-                <div class="process-step">
-                </div>
-                <div class="step-connector"></div>
-                <div class="process-step">
-                </div>
-                <div class="step-connector"></div>
-                <div class="process-step">
-                </div>
-                <div class="step-connector"></div>
-                <div class="process-step">
+                <!-- ... Bagian HTML stepper kamu ... -->
+                <div class="row g-0 justify-content-center">
+                    <div class="col-auto">
+                        <div class="process-step position-relative text-center">
+                            <div class="step-icon bg-secondary text-white rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div class="step-label">Baru</div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="step-connector position-relative" style="width: 80px;">
+                            <hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #dee2e6 !important;">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="process-step position-relative text-center">
+                            <div class="step-icon bg-secondary text-white rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="step-label">Diproses</div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="step-connector position-relative" style="width: 80px;">
+                            <hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #dee2e6 !important;">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="process-step position-relative text-center">
+                            <div class="step-icon bg-secondary text-white rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="step-label">Selesai</div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="step-connector position-relative" style="width: 80px;">
+                            <hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #dee2e6 !important;">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="process-step position-relative text-center">
+                            <div class="step-icon bg-secondary text-white rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-hand-holding"></i>
+                            </div>
+                            <div class="step-label">Diambil</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('statusForm');
+                const orderCodeInput = document.getElementById('orderCode');
+                const statusResult = document.getElementById('statusResult');
+                const statusText = document.getElementById('statusText');
+                const statusDetail = document.getElementById('statusDetail');
+
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const noOrder = orderCodeInput.value.trim();
+                    if (!noOrder) {
+                        // Opsional: Validasi sederhana di client
+                        statusResult.className = 'alert alert-warning d-block';
+                        statusText.textContent = 'Peringatan';
+                        statusDetail.textContent = 'Silakan masukkan nomor order.';
+                        return;
+                    }
+
+                    // Tambahkan efek loading
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Memproses...';
+                    submitBtn.disabled = true;
+
+                    try {
+                        // Ambil token CSRF dari elemen meta atau dari input hidden di formulir
+                        // Karena kamu menggunakan @csrf di formulir, kita ambil dari input hidden
+                        const csrfToken = document.querySelector('input[name="_token"]').value;
+
+                        const response = await fetch('{{ route('cek.status') }}', { // Ganti dengan route kamu
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json', // Penting: Harap server kembalikan JSON
+                                'X-CSRF-TOKEN': csrfToken // Gunakan token dari input hidden
+                                // Jika kamu ingin mengirim sebagai header, kamu bisa gunakan meta tag
+                                // 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                no_order: noOrder
+                            })
+                        });
+
+                        // Periksa apakah responsenya OK (status 2xx)
+                        if (!response.ok) {
+                            // Jika status bukan 2xx, contoh 404, 422, 500
+                            let errorMessage = `Server Error (${response.status})`;
+                            try {
+                                // Coba parse body error sebagai JSON untuk pesan yang lebih spesifik
+                                const errorData = await response.json();
+                                errorMessage = errorData.message || errorMessage;
+                            } catch (e) {
+                                // Jika body bukan JSON, gunakan teks biasa
+                                errorMessage = await response.text() || errorMessage;
+                            }
+                            throw new Error(errorMessage);
+                        }
+
+                        const result = await response.json(); // Parse JSON hanya jika response OK
+
+                        if (result.success) {
+                            // Update tampilan status
+                            statusText.textContent = result.data.status_order.charAt(0).toUpperCase() + result.data.status_order.slice(1);
+
+                            let detailHTML = `
+                        <strong>Nama:</strong> ${result.data.nama_pelanggan}<br>
+                        <strong>Tanggal Terima:</strong> ${result.data.tanggal_terima}<br>
+                        <strong>Tanggal Selesai:</strong> ${result.data.tanggal_selesai}<br>
+                        <strong>Total Bayar:</strong> ${result.data.total}<br>
+                        <strong>Status Pembayaran:</strong> ${result.data.pembayaran}
+                    `;
+
+                            statusDetail.innerHTML = detailHTML;
+
+                            // Set alert class based on status
+                            let alertClass = 'alert-info';
+                            switch (result.data.status_order) {
+                                case 'baru':
+                                    alertClass = 'alert-warning';
+                                    break;
+                                case 'diproses':
+                                    alertClass = 'alert-secondary';
+                                    break;
+                                case 'selesai':
+                                    alertClass = 'alert-success';
+                                    break;
+                                case 'diambil':
+                                    alertClass = 'alert-info';
+                                    break;
+                            }
+
+                            statusResult.className = `alert ${alertClass} d-block`;
+
+                            // Update stepper
+                            updateStepper(result.data.status_order);
+
+                        } else {
+                            // Server merespons dengan JSON, tapi success: false
+                            statusResult.className = 'alert alert-danger d-block';
+                            statusText.textContent = 'Gagal';
+                            statusDetail.textContent = result.message || 'Status tidak ditemukan.';
+                        }
+
+                    } catch (error) {
+                        console.error('JavaScript Fetch Error:', error); // Log error di console browser
+                        // Tangani error dari fetch (jaringan, parsing JSON, etc)
+                        statusResult.className = 'alert alert-danger d-block';
+                        statusText.textContent = 'Error';
+                        statusDetail.textContent = `Terjadi kesalahan: ${error.message}`;
+                    } finally {
+                        // Kembalikan button ke kondisi semula
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+
+                        // Prevent scroll to top by keeping focus on input
+                        orderCodeInput.focus();
+                    }
+                });
+
+                function updateStepper(status) {
+                    const steps = document.querySelectorAll('.process-step');
+                    const connectors = document.querySelectorAll('.step-connector');
+
+                    // Reset semua step ke secondary
+                    steps.forEach(step => {
+                        const iconDiv = step.querySelector('.step-icon');
+                        iconDiv.className = iconDiv.className.replace(/bg-\w+/g, 'bg-secondary');
+                    });
+                    connectors.forEach(connector => {
+                        connector.innerHTML = '<hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #dee2e6 !important;">';
+                    });
+
+                    // Update berdasarkan status
+                    // Urutan status: baru -> diproses -> selesai -> diambil
+                    switch (status) {
+                        case 'baru':
+                            steps[0].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-primary');
+                            break;
+                        case 'diproses':
+                            steps[0].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-primary');
+                            steps[1].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-secondary'); // atau bg-warning jika ingin beda
+                            connectors[0].innerHTML = '<hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #0d6efd !important;">';
+                            break;
+                        case 'selesai':
+                            steps[0].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-primary');
+                            steps[1].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-secondary');
+                            steps[2].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-success');
+                            connectors[0].innerHTML = '<hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #0d6efd !important;">';
+                            connectors[1].innerHTML = '<hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #198754 !important;">';
+                            break;
+                        case 'diambil':
+                            steps[0].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-primary');
+                            steps[1].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-secondary');
+                            steps[2].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-success');
+                            steps[3].querySelector('.step-icon').classList.replace('bg-secondary', 'bg-info');
+                            connectors[0].innerHTML = '<hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #0d6efd !important;">';
+                            connectors[1].innerHTML = '<hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #198754 !important;">';
+                            connectors[2].innerHTML = '<hr class="position-absolute top-50 start-0 end-0 border-2" style="border-color: #10b981 !important;">'; // Gunakan warna hijau muda atau info
+                            break;
+                    }
+                }
+            });
+        </script>
     </section>
 
     <!-- Testimonials Section -->
-    
+
 
     <!-- CTA Section -->
 
@@ -1155,14 +1303,14 @@
                 </div>
             </div>
             <div class="footer-bottom text-center border-top pt-4">
-                <p>&copy; 2025 RumahLaundry. Semua hak dilindungi. | <a href="#">Privasi</a> | <a
-                        href="#">Syarat Layanan</a></p>
+                <p>&copy; 2025 RumahLaundry. Semua hak dilindungi. | <a href="#">Privasi</a> | <a href="#">Syarat Layanan</a></p>
             </div>
         </div>
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/fontawesome/all.min.js') }}"></script>
 
     <!-- Page JS -->
     <script src="assets/js/index.js"></script>
