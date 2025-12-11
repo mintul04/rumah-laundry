@@ -195,8 +195,8 @@
                                     <label class="form-label">Status Pembayaran</label>
                                     <select name="pembayaran" class="form-control" required>
                                         <option value="">-- Pilih Status Pembayaran --</option>
-                                        <option value="lunas">Lunas</option>
                                         <option value="dp">DP</option>
+                                        <option value="lunas">Lunas</option>
                                     </select>
                                 </div>
                             </div>

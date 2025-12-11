@@ -112,7 +112,7 @@
 <body>
     <div class="header">
         <h1>RumahLaundry</h1>
-        <p>Alamat: Jl. Contoh No. 123, Kota, Provinsi</p>
+        <p>Alamat: Jl. Mawar No. 123, Kota, Provinsi</p>
         <p>Telepon: (021) 12345678 | Email: info@rumahlaundry.com</p>
     </div>
 

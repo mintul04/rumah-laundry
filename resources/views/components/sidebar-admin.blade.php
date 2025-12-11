@@ -1,31 +1,37 @@
 <aside class="admin-sidebar">
-    <div class="sidebar-brand">
-        <i class="fas fa-soap" style="font-size: 1.5rem;"></i>
-        <span class="sidebar-brand-text">RumahLaundry</span>
+    <div class="sidebar-brand" style="display: flex; align-items: center; gap: 10px;">
+        <img src="{{ asset('img/rumah.png') }}" alt="Logo rumah" style="width: 35px; height: auto;">
+        <div>
+            <span class="sidebar-brand-text">RumahLaundry</span>
+            <div style="font-size: 0.9rem; opacity: 0.8;">{{ auth()->user()->role == 'admin' ? 'Admin' : 'Karyawan' }}</div>
+        </div>
     </div>
 
     <nav>
         <ul class="sidebar-menu">
             <li>
                 <a href="{{ route('dashboard-admin') }}" class="@if (request()->routeIs('dashboard-admin')) active @endif">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fa-solid fa-house"></i>
                     <span>Beranda</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('paket-laundry.index') }}" class="@if (request()->routeIs('paket-laundry.*')) active @endif">
-                    <i class="fas fa-list-check"></i>
-                    <span>Paket Laundry</span>
-                </a>
-            </li>
+
+            @if (auth()->user()->role == 'admin')
+                <li>
+                    <a href="{{ route('paket-laundry.index') }}"
+                        class="@if (request()->routeIs('paket-laundry.*')) active @endif">
+                        <i class="fas fa-list-check"></i>
+                        <span>Paket Laundry</span>
+                    </a>
+                </li>
+            @endif
 
             <li>
                 <a href="{{ route('transaksi.index') }}" class="@if (request()->routeIs('transaksi.*')) active @endif">
-                    <i class="fas fa-cog"></i>
+                    <i class="fas fa-shopping-cart"></i>
                     <span>Transaksi</span>
                 </a>
             </li>
-
 
             <li>
                 <a href="{{ route('admin.laporan.index') }}" class="@if (request()->routeIs('admin.laporan.*')) active @endif">

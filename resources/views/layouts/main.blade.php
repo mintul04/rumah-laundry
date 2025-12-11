@@ -13,6 +13,8 @@
     
     <link href="{{ asset('assets/vendor/sweetalert/sweetalert.min.css') }}" rel="stylesheet">
 
+    
+
     <style>
         /* === Color Palette === */
         :root {
@@ -70,7 +72,7 @@
         }
 
         .admin-header {
-            background-color: var(--neutral-white);
+            background-color: #ffffff;
             border-bottom: 1px solid var(--border-color);
             padding: 1.5rem;
             box-shadow: var(--shadow-sm);

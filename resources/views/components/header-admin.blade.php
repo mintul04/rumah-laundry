@@ -6,7 +6,6 @@
 
         <div class="header-user">
             <div class="user-info">
-                <span class="user-name">Admin</span>
                 <span class="user-role">Administrator</span>
             </div>
             <div class="user-avatar">

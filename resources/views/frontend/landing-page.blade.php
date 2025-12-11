@@ -1039,79 +1039,90 @@
     <section id="process" class="process-section py-5">
         <div class="container">
             <div class="section-header text-center mb-5">
-                <h2>Bagaimana Cara Kerjanya</h2>
-                <p class="section-subtitle">Proses sederhana dalam 4 langkah mudah</p>
+                <h2>Cek Status Pesanan Anda</h2>
+                <p class="section-subtitle">Masukkan kode pesanan untuk melihat status: Selesai, Diproses, atau Diambil</p>
             </div>
 
-            <div class="process-stepper">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form id="statusForm" class="hero-search mb-4">
+                        <div class="input-group">
+                            <input type="text" id="orderCode" class="form-control" placeholder="Contoh: LH-123456" required>
+                            <button class="btn btn-primary" type="submit">Cek Status</button>
+                        </div>
+                    </form>
+
+                    <div id="statusResult" class="alert d-none" role="alert">
+                        <h5 class="alert-heading">Status Pesanan: <span id="statusText"></span></h5>
+                        <p id="statusDetail" class="mb-0"></p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Dummy data untuk demo
+
+                const dummyOrders = {
+                    @foreach(\App\Models\Transaksi::limit(10)->get() as $trx)
+                        '{{ $trx->kode_transaksi }}': { 
+                            status: '{{ $trx->status }}', 
+                            detail: '{{ $trx->keterangan ?? "Detail pesanan tidak tersedia." }}' 
+                        }{{ !$loop->last ? ',' : '' }}
+                    @endforeach
+                 // <-- penutup objek yang hilang
+                
+                document.getElementById('statusForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const code = document.getElementById('orderCode').value.trim().toUpperCase();
+                    const resultDiv = document.getElementById('statusResult');
+                    const statusText = document.getElementById('statusText');
+                    const statusDetail = document.getElementById('statusDetail');
+
+                    if (!code) {
+                        resultDiv.className = 'alert alert-warning';
+                        statusText.textContent = 'Kode kosong';
+                        statusDetail.textContent = 'Silakan masukkan kode pesanan Anda.';
+                        resultDiv.classList.remove('d-none');
+                        return;
+                    }
+
+                    const order = dummyOrders[code];
+                    if (order) {
+                        let alertClass = 'alert-success';
+                        if (order.status === 'Diproses') alertClass = 'alert-info';
+                        if (order.status === 'Diambil') alertClass = 'alert-primary';
+
+                        resultDiv.className = `alert ${alertClass}`;
+                        statusText.textContent = order.status;
+                        statusDetail.textContent = order.detail;
+                    } else {
+                        resultDiv.className = 'alert alert-danger';
+                        statusText.textContent = 'Tidak ditemukan';
+                        statusDetail.textContent = 'Kode pesanan tidak ditemukan. Periksa kembali kode Anda.';
+                    }
+
+                    resultDiv.classList.remove('d-none');
+                });
+            </script>
+
+            <div class="process-stepper mt-5">
                 <div class="process-step">
-                    <div class="step-number">1</div>
-                    <h3>Pesan</h3>
-                    <p>Buka aplikasi, pilih layanan, dan atur jadwal penjemputan</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="process-step">
-                    <div class="step-number">2</div>
-                    <h3>Dijemput</h3>
-                    <p>Kurir kami datang sesuai jadwal yang Anda tentukan</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="process-step">
-                    <div class="step-number">3</div>
-                    <h3>Diproses</h3>
-                    <p>Baju Anda diproses dengan standar kebersihan tinggi</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="process-step">
-                    <div class="step-number">4</div>
-                    <h3>Diantar</h3>
-                    <p>Pakaian Anda diantar kembali dalam kondisi sempurna</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials-section py-5">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2>Apa Kata Pelanggan Kami</h2>
-                <p class="section-subtitle">Ribuan pelanggan puas telah mempercayai kami</p>
-            </div>
-
-            <div class="testimonial-slider">
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"LaundryHub benar-benar menghemat waktu saya! Kurirnya ramah dan
-                        pakaian saya selalu bersih sempurna."</p>
-                    <div class="testimonial-author">
-                        <strong>Siti Nurhaliza</strong>
-                        <span>Jakarta</span>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Harga transparan dan tidak ada biaya tersembunyi. Layanan express-nya
-                        sangat membantu untuk kebutuhan mendesak."</p>
-                    <div class="testimonial-author">
-                        <strong>Ahmad Gunawan</strong>
-                        <span>Bandung</span>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Pertama kali pakai dan langsung ketagihan. Kurirnya tepat waktu,
-                        komunikasi bagus, dan hasil mencuci yang sempurna."</p>
-                    <div class="testimonial-author">
-                        <strong>Dewi Lestari</strong>
-                        <span>Surabaya</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- CTA Section -->
 

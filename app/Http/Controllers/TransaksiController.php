@@ -161,6 +161,29 @@ class TransaksiController extends Controller
         return back()->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
+    public function updatePembayaran(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'pembayaran' => [
+                'required',
+                'string',
+                Rule::in(['belum_lunas', 'dp', 'lunas']),
+            ],
+        ]);
+
+        // Temukan transaksi
+        $transaksi = Transaksi::findOrFail($id);
+
+        // Update status
+        $transaksi->update([
+            'pembayaran' => $request->pembayaran,
+        ]);
+
+        // Redirect kembali dengan pesan sukses
+        return back()->with('success', 'Status transaksi berhasil diperbarui.');
+    }
+
     public function exportInvoicePdf($id)
     {
         // Ambil data transaksi beserta details dan paketnya

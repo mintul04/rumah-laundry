@@ -23,6 +23,7 @@ Route::resource('paket-laundry', PaketLaundryController::class);
 // Route Resource untuk Transaksi
 Route::resource('transaksi', TransaksiController::class);
 Route::put('/transaksi/{id}/update-status', [TransaksiController::class, 'updateStatus'])->name('transaksi.update-status');
+Route::put('/transaksi/{id}/update-pembayaran', [TransaksiController::class, 'updatePembayaran'])->name('transaksi.update-pembayaran');
 // Route untuk export invoice PDF Transaksi
 Route::get('/invoice/export-pdf/{id}', [TransaksiController::class, 'exportInvoicePdf'])->name('export.invoice.pdf');
 
@@ -35,6 +36,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Route untuk export Excel
     Route::get('/laporan/export-excel', [LaporanController::class, 'exportLaporanExcel'])->name('laporan.export.excel');
 });
+
+Route::post('/cek-status', [TransaksiController::class, 'cekStatusPesanan'])->name('cek.status');
+
+
 
 Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard-admin');
 

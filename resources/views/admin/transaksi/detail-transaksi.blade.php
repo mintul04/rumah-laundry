@@ -488,6 +488,16 @@
                     <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>Diambil</option>
                 </select>
             </form>
+
+            <form action="{{ route('transaksi.update-pembayaran', $transaksi->id) }}" method="POST" class="d-inline">
+                @csrf
+                @method('PUT')
+                <select name="pembayaran" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
+                    <option value="dp" {{ $transaksi->pembayaran == 'dp' ? 'selected' : '' }}>DP</option>
+                    <option value="lunas" {{ $transaksi->pembayaran == 'lunas' ? 'selected' : '' }}>Lunas</option>
+                </select>
+            </form>
+
             <a href="{{ route('export.invoice.pdf', $transaksi->id) }}" class="btn-action btn-print text-decoration-none">
                 <i class="fas fa-print"></i> Cetak Invoice
             </a>

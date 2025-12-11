@@ -19,7 +19,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #52a0ee;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -57,7 +57,6 @@
             background-color: #ffffff;
             padding: 40px 20px 20px;
             text-align: center;
-            border-bottom: 1px solid #f0f0f0;
         }
 
         .login-title {
@@ -265,6 +264,7 @@
         <div class="login-card">
             <!-- Clean header with title -->
             <div class="card-header">
+                <img src="{{ asset('img/rumah.png') }}" alt="Logo rumah" style="width: 200px; height: auto;">
                 <h1 class="login-title">Welcome Back</h1>
                 <p class="login-subtitle">Sign in to your account</p>
             </div>
@@ -308,12 +308,6 @@
                 </form>
 
                 <!-- Footer with signup link -->
-                <div class="form-footer">
-                    <p class="form-footer-text">
-                        Don't have an account?
-                        <a href="#" class="form-footer-link">Sign up</a>
-                    </p>
-                </div>
             </div>
         </div>
     </div>
