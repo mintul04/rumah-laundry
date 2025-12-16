@@ -295,7 +295,7 @@
                             <input type="password" name="password" id="passwordInput" class="form-control"
                                 placeholder="••••••••" required autocomplete="current-password">
                             <button type="button" class="password-toggle" onclick="togglePasswordVisibility()"
-                                aria-label="Toggle password visibility">
+                                aria-label="Toggle password visibility" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: #f8f9fa; border: 1px solid #ced4da; border-radius: 4px; padding: 4px 8px;">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>

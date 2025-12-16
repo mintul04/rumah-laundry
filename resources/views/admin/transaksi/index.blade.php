@@ -241,7 +241,7 @@
     <div class="table-container">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3>Daftar Transaksi</h3>
+            <h3><i class="fas fa-shopping-cart"></i> Daftar Transaksi</h3>
             <a href="{{ route('transaksi.create') }}" class="btn-add">+ Tambah Transaksi</a>
         </div>
 
@@ -292,11 +292,12 @@
                                     Detail
                                 </a>
 
-                                <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST" class="d-inline ms-2"
-                                    onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+                                <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST"
+                                    class="d-inline ms-2" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-delete" onclick="return confirm('Yakin ingin menghapus transaksi ini?')">Hapus</button>
+                                    <button type="submit" class="btn-delete"
+                                        onclick="return confirm('Yakin ingin menghapus transaksi ini?')">Hapus</button>
                                 </form>
                             </td>
                         </tr>

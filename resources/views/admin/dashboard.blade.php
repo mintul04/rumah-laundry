@@ -288,20 +288,6 @@
 @endpush
 
 @section('content')
-    <div class="beranda-header">
-        <div class="beranda-left">
-            <div class="beranda-icon">
-                <i class="fas fa-home"></i>
-            </div>
-            <h1 class="beranda-title">Beranda</h1>
-        </div>
-        <div class="beranda-breadcrumb">
-            <a href="#"><i class="fas fa-home"></i></a>
-            <span>/</span>
-            <span>Beranda</span>
-        </div>
-    </div>
-
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-icon blue">

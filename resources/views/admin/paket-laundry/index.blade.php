@@ -206,7 +206,7 @@
     @section('content')
     <div class="table-container">
         <div class="table-header">
-            <h5><i class="fas fa-shopping-cart"></i> Data Paket Laundry</h5>
+            <h5><i class="fas fa-list-check"></i>Paket Laundry</h5>
             <a href="{{ route('paket-laundry.create') }}" class="btn-add">
                 <i class="fas fa-plus"></i> Tambah Paket Laundry
             </a>

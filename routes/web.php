@@ -6,6 +6,7 @@ use App\Http\Controllers\PaketLaundryController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ManajemenUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 
@@ -38,6 +39,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 Route::post('/cek-status', [LandingPageController::class, 'cekStatus'])->name('cek.status');
+
+//manajemen_user
+Route::resource('manajemen-user', ManajemenUserController::class);
 
 
 

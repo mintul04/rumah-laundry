@@ -35,16 +35,20 @@
 
             <li>
                 <a href="{{ route('admin.laporan.index') }}" class="@if (request()->routeIs('admin.laporan.*')) active @endif">
-                    <i class="fas fa-file-invoice"></i>
+                    <i class="fas fa-chart-line"></i>
                     <span>Laporan</span>
                 </a>
             </li>
 
+            @if (auth()->user()->role == 'admin')
             <li style="margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 2rem;">
-                <a href="#">
+                <a href="{{ route('manajemen-user.index') }}" class="@if (request()->routeIs('manajemen-user.*')) active @endif">
                     <i class="fas fa-gear"></i>
-                    <span>Pengaturan</span>
+                    <span>Manajemen User</span>
                 </a>
+            </li>
+             @endif
+             
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     style="display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none;">
 
