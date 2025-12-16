@@ -276,7 +276,6 @@
         @endif
     </div>
 
-    <!-- Delete Modal (tetap digunakan untuk keamanan & UX konsisten) -->
     <div class="modal-backdrop" id="deleteModal"
         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050; justify-content: center; align-items: center;">
         <div class="modal-content-custom" style="background: var(--neutral-white); border-radius: 0.75rem; padding: 2rem; max-width: 500px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
