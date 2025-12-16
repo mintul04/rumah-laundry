@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ManajemenUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -12,8 +12,8 @@ class ManajemenUserController extends Controller
     // Tampilkan semua user
     public function index()
     {
-        $manajemenUsers = ManajemenUser::all();
-        return view('admin.manajemen-user.index', compact('manajemenUsers'));
+        $user = User::latest()->get();
+        return view('admin.manajemen-user.index', compact('user'));
     }
 
     // Form tambah user
@@ -27,29 +27,29 @@ class ManajemenUserController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:100',
-            'username' => 'required|string|unique:manajemen_users|max:50',
-            'email' => 'nullable|email|unique:manajemen_users',
+            'nama_lengkap' => 'required|string|max:100',
+            'email' => 'required|email|unique:users|max:50',
             'password' => 'required|string|min:6',
-            'level' => 'required|in:admin,karyawan',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'role' => 'required|in:admin,karyawan',
+            'jenis_kelamin' => 'required|in:Laki - Laki,Perempuan',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $manajemenUser = new ManajemenUser();
-        $manajemenUser->nama = $request->nama;
-        $manajemenUser->username = $request->username;
-        $manajemenUser->email = $request->email;
-        $manajemenUser->password = Hash::make($request->password);
-        $manajemenUser->level = $request->level;
-        $manajemenUser->jenis_kelamin = $request->jenis_kelamin;
+        $user = new User();
+        $user->nama = $request->nama;
+        $user->nama_lengkap = $request->nama_lengkap;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = $request->role;
+        $user->jenis_kelamin = $request->jenis_kelamin;
 
         // Upload foto jika ada
         if ($request->hasFile('foto')) {
             $fotoPath = $request->file('foto')->store('manajemen-users', 'public');
-            $manajemenUser->foto = $fotoPath;
+            $user->foto = $fotoPath;
         }
 
-        $manajemenUser->save();
+        $user->save();
 
         return redirect()->route('manajemen-user.index')
             ->with('success', 'User berhasil ditambahkan!');
@@ -58,46 +58,46 @@ class ManajemenUserController extends Controller
     // Form edit user
     public function edit($id)
     {
-        $manajemenUser = ManajemenUser::findOrFail($id);
-        return view('admin.manajemen-user.edit', compact('manajemenUser'));
+        $user = User::findOrFail($id);
+        return view('admin.manajemen-user.edit', compact('user'));
     }
 
     // Update user
     public function update(Request $request, $id)
     {
-        $manajemenUser = ManajemenUser::findOrFail($id);                
+        $user = User::findOrFail($id);                
 
         $request->validate([
             'nama' => 'required|string|max:100',
-            'username' => 'required|string|max:50|unique:manajemen_users,username,' . $id,
-            'email' => 'nullable|email|unique:manajemen_users,email,' . $id,
-            'level' => 'required|in:admin,karyawan',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'nama_lengkap' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'role' => 'required|in:admin,karyawan',
+            'jenis_kelamin' => 'required|in:Laki - Laki,Perempuan',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $manajemenUser->nama = $request->nama;                                                                      
-        $manajemenUser->username = $request->username;
-        $manajemenUser->email = $request->email;
-        $manajemenUser->level = $request->level;
-        $manajemenUser->jenis_kelamin = $request->jenis_kelamin;
+        $user->nama = $request->nama;
+        $user->nama_lengkap = $request->nama_lengkap;                                                                      
+        $user->email = $request->email;     
+        $user->role = $request->role;
+        $user->jenis_kelamin = $request->jenis_kelamin;
 
         // Update password jika diisi
         if ($request->filled('password')) {
-            $manajemenUser->password = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
         }
 
         // Update foto jika ada
         if ($request->hasFile('foto')) {
             // Hapus foto lama jika ada
-            if ($manajemenUser->foto && Storage::disk('public')->exists($manajemenUser->foto)) {
-                Storage::disk('public')->delete($manajemenUser->foto);
+            if ($user->foto && Storage::disk('public')->exists($user->foto)) {
+                Storage::disk('public')->delete($user->foto);
             }
             $fotoPath = $request->file('foto')->store('manajemen-users', 'public');
-            $manajemenUser->foto = $fotoPath;
+            $user->foto = $fotoPath;
         }
 
-        $manajemenUser->save();
+        $user->save();
 
         return redirect()->route('manajemen-user.index')
             ->with('success', 'User berhasil diperbarui!'); 
@@ -106,14 +106,14 @@ class ManajemenUserController extends Controller
     // Hapus user
     public function destroy($id)
     {
-        $manajemenUser = ManajemenUser::findOrFail($id);
+        $user = User::findOrFail($id);
         
         // Hapus foto jika ada
-        if ($manajemenUser->foto && Storage::disk('public')->exists($manajemenUser->foto)) {
-            Storage::disk('public')->delete($manajemenUser->foto);
+        if ($user->foto && Storage::disk('public')->exists($user->foto)) {
+            Storage::disk('public')->delete($user->foto);
         }
         
-        $manajemenUser->delete();
+        $user->delete();
 
         return redirect()->route('manajemen-user.index')
             ->with('success', 'User berhasil dihapus!');  

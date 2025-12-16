@@ -1079,7 +1079,6 @@
                 <div class="navbar-cta ms-3">
 
                 <div class="navbar-cta-group ms-lg-3 d-flex gap-2">
-                    <a class="nav-link-custom d-lg-none" href="#process">Lihat Pesanan</a>
                     <a href="{{ Route('login') }}"><button class="btn btn-nav-primary">Login Admin</button></a>
 
                 </div>
