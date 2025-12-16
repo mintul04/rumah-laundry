@@ -1306,7 +1306,7 @@
                     </li>
                 </ul>
                 <div class="navbar-cta ms-3">
-                    <a class="nav-link" href="#process">Lihat Pesanan</a>
+                    
                     <a href="{{ Route('login') }}"><button class="btn btn-primary">Login Admin</button></a>
                 </div>
             </div>
