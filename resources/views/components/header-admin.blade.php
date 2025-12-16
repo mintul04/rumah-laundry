@@ -6,10 +6,10 @@
 
         <div class="header-user">
             <div class="user-info">
-                <span class="user-role">Administrator</span>
+                <span class="user-role">{{ auth()->user()->nama ?? 'Manda' }}</span>
             </div>
             <div class="user-avatar">
-                A
+                {{ auth()->user() ? strtoupper(substr(auth()->user()->nama, 0, 2)) : 'M' }}
             </div>
         </div>
     </div>
