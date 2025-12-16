@@ -13,219 +13,55 @@
     <link href="{{ asset('assets/vendor/fontawesome/all.min.css') }}" rel="stylesheet">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <style>
         /* ===========================
-        NAVBAR STYLES - MODIFIED
+        DESIGN SYSTEM & VARIABLES
         ========================== */
 
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-        }
+        :root {
+            /* Brand Colors */
+            --clr-primary: #0066FF;
+            --clr-primary-light: #3385FF;
+            --clr-primary-dark: #0052CC;
 
-        .navbar.navbar-scrolled {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-        }
+            /* Accent Colors */
+            --clr-accent-teal: #06B6D4;
+            --clr-accent-emerald: #10B981;
+            --clr-accent-amber: #F59E0B;
 
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #2d8cff !important;
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        }
+            /* Neutral Palette */
+            --clr-neutral-50: #F9FAFB;
+            --clr-neutral-100: #F3F4F6;
+            --clr-neutral-200: #E5E7EB;
+            --clr-neutral-700: #374151;
+            --clr-neutral-900: #111827;
 
-        .navbar-brand:hover {
-            transform: scale(1.05);
-            color: #1a73e8 !important;
-        }
+            /* Semantic Colors */
+            --clr-white: #FFFFFF;
+            --clr-text-primary: #111827;
+            --clr-text-secondary: #6B7280;
 
-        .navbar-brand svg {
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 2px 4px rgba(45, 140, 255, 0.3));
-        }
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
-        @keyframes float {
+            /* Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
 
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-4px);
-            }
-        }
-
-        .navbar-nav .nav-link {
-            font-weight: 600;
-            color: #444 !important;
-            position: relative;
-            transition: all 0.3s ease;
-            margin: 0 0.75rem;
-            padding: 0.5rem 0;
-            font-size: 1rem;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #2d8cff !important;
-            transform: translateY(-2px);
-        }
-
-        .navbar-nav .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #2d8cff, #6ab0ff);
-            border-radius: 2px;
-            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .navbar-nav .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* CTA Buttons in Navbar */
-        .navbar-cta {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .navbar-cta .btn {
-            border-radius: 10px;
-            font-weight: 700;
-            padding: 0.6rem 1.5rem;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-cta .btn-outline-primary {
-            border: 2px solid #2d8cff;
-            color: #2d8cff;
-            background: transparent;
-        }
-
-        .navbar-cta .btn-outline-primary:hover {
-            background: linear-gradient(135deg, #2d8cff, #6ab0ff);
-            border-color: transparent;
-            color: #fff;
-            box-shadow: 0 6px 20px rgba(45, 140, 255, 0.4);
-            transform: translateY(-3px);
-        }
-
-        .navbar-cta .btn-primary {
-            background: linear-gradient(135deg, #2d8cff, #1a73e8);
-            border: none;
-            color: white;
-            box-shadow: 0 4px 15px rgba(45, 140, 255, 0.35);
-        }
-
-        .navbar-cta .btn-primary:hover {
-            background: linear-gradient(135deg, #1a73e8, #2d8cff);
-            box-shadow: 0 6px 25px rgba(45, 140, 255, 0.5);
-            transform: translateY(-3px);
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 991.98px) {
-            .navbar-collapse {
-                margin-top: 1.5rem;
-                background: white;
-                padding: 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            }
-
-            .navbar-nav {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .navbar-nav .nav-link {
-                padding: 0.75rem 1rem;
-                margin: 0 !important;
-                border-radius: 8px;
-                transition: all 0.3s ease;
-            }
-
-            .navbar-nav .nav-link:hover {
-                background: rgba(45, 140, 255, 0.1);
-                transform: translateX(5px);
-            }
-
-            .navbar-cta {
-                flex-direction: column;
-                width: 100%;
-                margin-top: 1.5rem;
-                gap: 1rem;
-            }
-
-            .navbar-cta .btn {
-                width: 100%;
-            }
-
-            .navbar-toggler {
-                border: 2px solid #2d8cff;
-                padding: 0.5rem 0.75rem;
-                border-radius: 8px;
-                transition: all 0.3s ease;
-            }
-
-            .navbar-toggler:hover {
-                background: rgba(45, 140, 255, 0.1);
-                transform: rotate(90deg);
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: 0 0 0 0.35rem rgba(45, 140, 255, 0.25);
-            }
-        }
-
-        /* Sticky navbar scroll effect */
-        .navbar-light.navbar-scrolled {
-            background-color: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            /* Transitions */
+            --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* ===========================
-   PAGE STYLES - LAUNDRY OFFLINE LANDING
-   ========================== */
-
-        /* *** COLOR PALETTE ***
-   Primary Blue: #2d8cff
-   Secondary Blue: #6ab0ff
-   Accent Teal: #20c997
-   Accent Orange: #fd7e14
-   Neutral: #f8f9fa
-   Dark: #212529
-*/
-
-        :root {
-            --color-primary: #2d8cff;
-            --color-primary-light: #6ab0ff;
-            --color-primary-dark: #1a73e8;
-            --color-accent-teal: #20c997;
-            --color-accent-orange: #fd7e14;
-            --color-neutral: #f8f9fa;
-            --color-neutral-dark: #e9ecef;
-            --color-text-dark: #212529;
-            --color-text-light: #6c757d;
-            --color-white: #ffffff;
-            --color-shadow: rgba(0, 0, 0, 0.08);
-            --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        BASE STYLES
+        ========================== */
 
         * {
             margin: 0;
@@ -238,11 +74,13 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--color-text-dark);
-            background-color: var(--color-white);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--clr-text-primary);
+            background-color: var(--clr-white);
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         h1,
@@ -251,18 +89,149 @@
         h4,
         h5,
         h6 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 700;
             line-height: 1.2;
+            color: var(--clr-text-primary);
         }
 
         /* ===========================
-   HERO SECTION - MODIFIED FOR OFFLINE LAUNDRY
-   ========================== */
+        NAVBAR STYLES
+        ========================== */
+
+        .navbar-landing {
+            background-color: var(--clr-white);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            transition: var(--transition-base);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--clr-neutral-100);
+        }
+
+        .navbar-landing.navbar-scrolled {
+            box-shadow: var(--shadow-md);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+        }
+
+        .navbar-brand-custom {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--clr-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-base);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .navbar-brand-custom:hover {
+            color: var(--clr-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent-teal));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .brand-icon i {
+            color: var(--clr-white);
+            font-size: 1rem;
+        }
+
+        .nav-link-custom {
+            font-weight: 500;
+            color: var(--clr-text-secondary);
+            position: relative;
+            transition: var(--transition-base);
+            margin: 0 0.5rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.95rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-link-custom:hover {
+            color: var(--clr-primary);
+            background-color: var(--clr-neutral-50);
+        }
+
+        .btn-nav-outline {
+            border: 1.5px solid var(--clr-neutral-200);
+            color: var(--clr-text-primary);
+            background: var(--clr-white);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+            transition: var(--transition-base);
+        }
+
+        .btn-nav-outline:hover {
+            background: var(--clr-neutral-50);
+            border-color: var(--clr-neutral-300);
+            color: var(--clr-text-primary);
+        }
+
+        .btn-nav-primary {
+            background: var(--clr-primary);
+            color: var(--clr-white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+            transition: var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-nav-primary:hover {
+            background: var(--clr-primary-dark);
+            color: var(--clr-white);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                margin-top: 1rem;
+                background: var(--clr-white);
+                padding: 1rem;
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-lg);
+                border: 1px solid var(--clr-neutral-100);
+            }
+
+            .nav-link-custom {
+                margin: 0.25rem 0;
+            }
+
+            .navbar-cta-group {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .navbar-cta-group .btn {
+                width: 100%;
+            }
+        }
+
+        /* ===========================
+        HERO SECTION
+        ========================== */
 
         .hero-section {
-            padding: 6rem 0 5rem;
-            background: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
+            padding: 5rem 0 4rem;
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 50%, #F9FAFB 100%);
             position: relative;
             overflow: hidden;
         }
@@ -270,532 +239,433 @@
         .hero-section::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 60%;
-            height: 200%;
-            background: linear-gradient(45deg, rgba(45, 140, 255, 0.05) 0%, rgba(106, 176, 255, 0.1) 100%);
-            transform: rotate(30deg);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: -10%;
+            right: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
         }
 
         .hero-title {
             font-size: 3.5rem;
-            color: var(--color-text-dark);
             font-weight: 800;
+            color: var(--clr-text-primary);
             margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
             line-height: 1.1;
+        }
+
+        .hero-title-highlight {
+            color: var(--clr-primary);
             position: relative;
             display: inline-block;
         }
 
-        .hero-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 120px;
-            height: 5px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-teal));
-            border-radius: 3px;
-        }
-
         .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--color-text-light);
-            margin-bottom: 2.5rem;
+            font-size: 1.25rem;
+            color: var(--clr-text-secondary);
+            margin-bottom: 2rem;
             line-height: 1.7;
             max-width: 90%;
         }
 
-        .highlight-text {
-            color: var(--color-primary);
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-
-        .highlight-text::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: rgba(45, 140, 255, 0.2);
-            z-index: -1;
-            border-radius: 4px;
-        }
-
-        /* Hero Stats */
-        .hero-stats {
+        .hero-stats-wrapper {
             display: flex;
-            gap: 3rem;
+            gap: 2rem;
             margin-top: 3rem;
             flex-wrap: wrap;
         }
 
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .stat-card {
+            background: var(--clr-white);
+            border: 1px solid var(--clr-neutral-100);
+            border-radius: var(--radius-lg);
             padding: 1.5rem;
-            background: var(--color-white);
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            min-width: 140px;
+            box-shadow: var(--shadow-sm);
             transition: var(--transition-base);
-            min-width: 150px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
         }
 
-        .stat-item::before {
+        .stat-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: var(--clr-primary);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--clr-primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--clr-text-secondary);
+            font-weight: 500;
+        }
+
+        .hero-visual {
+            text-align: center;
+            position: relative;
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+
+        .hero-visual-inner {
+            background: var(--clr-white);
+            border: 1px solid var(--clr-neutral-100);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-xl);
+            display: inline-block;
+        }
+
+        @keyframes float-gentle {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* ===========================
+        LOCATION SECTION
+        ========================== */
+
+        .location-section {
+            background: var(--clr-white);
+            padding: 5rem 0;
+        }
+
+        .location-card-wrapper {
+            background: linear-gradient(135deg, var(--clr-white) 0%, var(--clr-neutral-50) 100%);
+            border: 1px solid var(--clr-neutral-200);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-card-wrapper::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-teal));
+            background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent-teal));
         }
 
-        .stat-item:hover {
+        .location-card-wrapper:hover {
+            box-shadow: var(--shadow-xl);
             transform: translateY(-8px);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
         }
 
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--color-primary);
-            line-height: 1;
-            margin-bottom: 0.5rem;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .stat-label {
-            font-size: 0.95rem;
-            color: var(--color-text-light);
-            text-align: center;
-            font-weight: 500;
-        }
-
-        /* Hero Image */
-        .hero-image {
-            text-align: center;
-            position: relative;
-            animation: float3D 6s ease-in-out infinite;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .hero-image svg {
-            max-width: 100%;
-            height: auto;
-            filter: drop-shadow(0 20px 40px rgba(45, 140, 255, 0.2));
-            transform: translateZ(20px);
-        }
-
-        @keyframes float3D {
-
-            0%,
-            100% {
-                transform: translateY(0) rotateX(0) rotateY(0);
-            }
-
-            25% {
-                transform: translateY(-15px) rotateX(5deg) rotateY(2deg);
-            }
-
-            75% {
-                transform: translateY(-10px) rotateX(-3deg) rotateY(-1deg);
-            }
-        }
-
-        /* ===========================
-   LOCATION SECTION - NEW FOR OFFLINE LAUNDRY
-   ========================== */
-
-        .location-section {
-            background: var(--color-white);
-            padding: 5rem 0;
-        }
-
-        .location-card {
-            background: linear-gradient(135deg, var(--color-white) 0%, var(--color-neutral) 100%);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(45, 140, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition-base);
-        }
-
-        .location-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(45, 140, 255, 0.15);
-            border-color: rgba(45, 140, 255, 0.3);
-        }
-
-        .location-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-teal));
-        }
-
-        .location-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-            border-radius: 50%;
+        .location-icon-box {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent-teal));
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
-            box-shadow: 0 8px 20px rgba(45, 140, 255, 0.3);
+            box-shadow: var(--shadow-md);
         }
 
-        .location-icon i {
-            font-size: 2rem;
-            color: white;
+        .location-icon-box i {
+            font-size: 1.75rem;
+            color: var(--clr-white);
         }
 
-        .location-card h3 {
-            font-size: 1.5rem;
+        .location-card-title {
+            font-size: 1.75rem;
             margin-bottom: 1rem;
-            color: var(--color-text-dark);
+            font-weight: 700;
         }
 
-        .location-info {
+        .location-info-list {
             list-style: none;
             padding: 0;
             margin: 1.5rem 0;
         }
 
-        .location-info li {
-            padding: 0.5rem 0;
-            color: var(--color-text-light);
+        .location-info-list li {
+            padding: 0.75rem 0;
+            color: var(--clr-text-secondary);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.75rem;
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--clr-neutral-100);
         }
 
-        .location-info li i {
-            color: var(--color-primary);
+        .location-info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .location-info-list li i {
+            color: var(--clr-primary);
             width: 20px;
+            margin-top: 2px;
+            flex-shrink: 0;
         }
 
-        .location-btn {
-            background: linear-gradient(135deg, var(--color-accent-teal), #17a589);
-            color: white;
+        .btn-location {
+            background: var(--clr-accent-emerald);
+            color: var(--clr-white);
             border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 10px;
+            border-radius: var(--radius-md);
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             transition: var(--transition-base);
             text-decoration: none;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-sm);
         }
 
-        .location-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(32, 201, 151, 0.3);
-            color: white;
+        .btn-location:hover {
+            background: #059669;
+            color: var(--clr-white);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
 
         /* ===========================
-   FEATURES SECTION - MODIFIED
-   ========================== */
+        SECTION HEADER
+        ========================== */
 
-        .features-section {
-            background: var(--color-neutral);
-            padding: 5rem 0;
-            position: relative;
-        }
-
-        .section-header {
-            margin-bottom: 4rem;
+        .section-header-wrapper {
+            margin-bottom: 3.5rem;
             text-align: center;
-            position: relative;
         }
 
-        .section-header h2 {
-            font-size: 2.8rem;
-            color: var(--color-text-dark);
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--clr-text-primary);
             margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .section-header h2::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-teal));
-            margin: 0.5rem auto;
-            border-radius: 2px;
+            font-weight: 800;
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--color-text-light);
+            font-size: 1.15rem;
+            color: var(--clr-text-secondary);
             max-width: 700px;
             margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* Feature Card - Enhanced */
-        .feature-card {
-            background: var(--color-white);
-            padding: 2.5rem 2rem;
-            border-radius: 20px;
-            text-align: center;
-            transition: var(--transition-base);
-            border: 2px solid transparent;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-teal));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-12px);
-            border-color: var(--color-primary-light);
-            box-shadow: 0 20px 40px rgba(45, 140, 255, 0.15);
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
-        }
-
-        .feature-icon {
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .feature-icon svg {
-            filter: drop-shadow(0 4px 8px rgba(45, 140, 255, 0.2));
-            transition: transform 0.5s ease;
-        }
-
-        .feature-card:hover .feature-icon svg {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .feature-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: var(--color-text-dark);
-            position: relative;
-            display: inline-block;
-        }
-
-        .feature-card h3::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 3px;
-            background: var(--color-primary);
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-
-        .feature-card:hover h3::after {
-            width: 80px;
-        }
-
-        .feature-card p {
-            color: var(--color-text-light);
-            font-size: 1rem;
             line-height: 1.7;
         }
 
         /* ===========================
-   SERVICES SECTION - MODIFIED
-   ========================== */
+        FEATURES SECTION
+        ========================== */
 
-        .services-section {
-            background: var(--color-white);
+        .features-section {
+            background: var(--clr-neutral-50);
             padding: 5rem 0;
         }
 
-        /* Service Card - Enhanced */
-        .service-card {
-            background: var(--color-white);
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 2px solid var(--color-neutral-dark);
+        .feature-card-item {
+            background: var(--clr-white);
+            padding: 2rem 1.5rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: var(--transition-base);
+            border: 1px solid var(--clr-neutral-200);
+            height: 100%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-card-item:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px);
+            border-color: var(--clr-primary);
+        }
+
+        .feature-icon-wrapper {
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .feature-icon-circle {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent-teal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-base);
+        }
+
+        .feature-card-item:hover .feature-icon-circle {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-icon-circle i {
+            font-size: 1.5rem;
+            color: var(--clr-white);
+        }
+
+        .feature-card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .feature-card-desc {
+            color: var(--clr-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===========================
+        SERVICES SECTION
+        ========================== */
+
+        .services-section {
+            background: var(--clr-white);
+            padding: 5rem 0;
+        }
+
+        .service-card-item {
+            background: var(--clr-white);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--clr-neutral-200);
             transition: var(--transition-base);
             position: relative;
             height: 100%;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            box-shadow: var(--shadow-sm);
         }
 
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(45, 140, 255, 0.05) 0%, rgba(106, 176, 255, 0.02) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .service-card:hover {
-            border-color: var(--color-primary);
-            box-shadow: 0 20px 40px rgba(45, 140, 255, 0.15);
+        .service-card-item:hover {
+            border-color: var(--clr-primary);
+            box-shadow: var(--shadow-lg);
             transform: translateY(-8px);
         }
 
-        .service-card:hover::before {
-            opacity: 1;
+        .service-card-item.featured {
+            border-color: var(--clr-accent-amber);
+            border-width: 2px;
+            box-shadow: var(--shadow-md);
         }
 
-        .service-card.featured {
-            border-color: var(--color-accent-orange);
-            box-shadow: 0 12px 32px rgba(253, 126, 20, 0.15);
-            transform: scale(1.02);
+        .service-card-item.featured:hover {
+            box-shadow: var(--shadow-xl);
         }
 
-        .service-card.featured:hover {
-            transform: scale(1.02) translateY(-8px);
-            box-shadow: 0 20px 50px rgba(253, 126, 20, 0.2);
-        }
-
-        .badge-featured {
+        .badge-featured-tag {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, var(--color-accent-orange), #fd9843);
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 25px;
-            font-size: 0.85rem;
+            top: 1rem;
+            right: 1rem;
+            background: var(--clr-accent-amber);
+            color: var(--clr-white);
+            padding: 0.375rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 12px rgba(253, 126, 20, 0.3);
-            z-index: 2;
+            box-shadow: var(--shadow-sm);
         }
 
-        .service-icon {
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
+        .service-icon-wrapper {
+            margin-bottom: 1.5rem;
         }
 
-        .service-icon svg {
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-            transition: transform 0.5s ease;
+        .service-icon-circle {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent-teal));
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
         }
 
-        .service-card:hover .service-icon svg {
+        .service-card-item.featured .service-icon-circle {
+            background: linear-gradient(135deg, var(--clr-accent-amber), #EF4444);
+        }
+
+        .service-card-item:hover .service-icon-circle {
             transform: scale(1.1);
         }
 
-        .service-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: var(--color-text-dark);
-            position: relative;
-            display: inline-block;
+        .service-icon-circle i {
+            font-size: 1.25rem;
+            color: var(--clr-white);
         }
 
-        .service-card h3::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--color-primary);
-            border-radius: 2px;
-            transition: width 0.3s ease;
+        .service-card-title {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
         }
 
-        .service-card:hover h3::after {
-            width: 80px;
-        }
-
-        .service-card.featured h3::after {
-            background: var(--color-accent-orange);
-        }
-
-        .service-desc {
-            color: var(--color-text-light);
-            font-size: 1rem;
+        .service-card-desc {
+            color: var(--clr-text-secondary);
+            font-size: 0.95rem;
             margin-bottom: 1.5rem;
-            line-height: 1.7;
+            line-height: 1.6;
             flex-grow: 1;
         }
 
-        .service-price {
-            color: var(--color-primary);
+        .service-price-text {
+            color: var(--clr-primary);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             margin-bottom: 0.5rem;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .service-card.featured .service-price {
-            color: var(--color-accent-orange);
+        .service-card-item.featured .service-price-text {
+            color: var(--clr-accent-amber);
         }
 
-        .service-time {
-            color: var(--color-text-light);
-            font-size: 0.9rem;
-            font-style: italic;
-            margin-top: auto;
+        .service-time-text {
+            color: var(--clr-text-secondary);
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .service-time i {
-            color: var(--color-primary);
+        .service-time-text i {
+            color: var(--clr-primary);
+            font-size: 0.9rem;
         }
 
-        .service-card.featured .service-time i {
-            color: var(--color-accent-orange);
+        .service-card-item.featured .service-time-text i {
+            color: var(--clr-accent-amber);
         }
 
         /* ===========================
-   PROCESS SECTION - MODIFIED
-   ========================== */
+        PROCESS SECTION (CEK PESANAN)
+        ========================== */
 
         .process-section {
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-            color: var(--color-white);
-            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--clr-primary) 0%, var(--clr-primary-dark) 100%);
+            color: var(--clr-white);
+            padding: 5rem 0;
             position: relative;
             overflow: hidden;
         }
@@ -803,179 +673,172 @@
         .process-section::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -20%;
-            width: 60%;
-            height: 200%;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
-            transform: rotate(-30deg);
-            border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+            top: -20%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
         }
 
-        .process-section .section-header h2,
+        .process-section .section-title,
         .process-section .section-subtitle {
-            color: var(--color-white);
-            position: relative;
-            z-index: 2;
+            color: var(--clr-white);
         }
 
-        .process-section .section-header h2::after {
-            background: var(--color-white);
-        }
-
-        .hero-search {
-            border-radius: 16px;
+        .search-form-wrapper {
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            background: white;
-            position: relative;
-            z-index: 2;
+            box-shadow: var(--shadow-xl);
+            background: var(--clr-white);
         }
 
-        .hero-search .form-control {
+        .search-form-input {
             border: none;
             padding: 1rem 1.5rem;
-            font-size: 1.1rem;
-            background-color: var(--color-white);
-            color: var(--color-text-dark);
+            font-size: 1.05rem;
+            background-color: var(--clr-white);
+            color: var(--clr-text-primary);
         }
 
-        .hero-search .form-control:focus {
+        .search-form-input:focus {
             box-shadow: none;
             border-color: transparent;
-            background-color: var(--color-white);
+            background-color: var(--clr-white);
+            outline: none;
         }
 
-        .hero-search .form-control::placeholder {
-            color: var(--color-text-light);
-            opacity: 0.8;
+        .search-form-input::placeholder {
+            color: var(--clr-text-secondary);
+            opacity: 0.7;
         }
 
-        .hero-search .btn {
+        .search-form-btn {
             border: none;
-            padding: 1rem 2.5rem;
+            padding: 1rem 2rem;
             font-weight: 700;
             white-space: nowrap;
             transition: var(--transition-base);
-            background: linear-gradient(135deg, var(--color-accent-teal), #17a589);
-            font-size: 1.1rem;
+            background: var(--clr-accent-emerald);
+            font-size: 1.05rem;
+            color: var(--clr-white);
         }
 
-        .hero-search .btn:hover {
+        .search-form-btn:hover {
+            background: #059669;
+            color: var(--clr-white);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
-            background: linear-gradient(135deg, #17a589, var(--color-accent-teal));
+            box-shadow: var(--shadow-md);
         }
 
         #statusResult {
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             border: none;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 2;
+            box-shadow: var(--shadow-xl);
             margin-top: 2rem;
         }
 
         #statusResult .alert-heading {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        #statusResult .alert-heading::before {
-            content: '📦';
-            font-size: 1.5rem;
+            font-weight: 700;
         }
 
         #statusDetail {
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.8;
         }
 
         #statusDetail strong {
-            color: var(--color-primary);
+            color: var(--clr-primary);
             font-weight: 600;
         }
 
-        /* Process Stepper - Enhanced */
-        .process-stepper {
-            position: relative;
-            z-index: 2;
+        /* Process Stepper */
+        .stepper-wrapper {
+            margin-top: 3rem;
         }
 
-        .process-step {
-            position: relative;
+        .stepper-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .step-item {
             text-align: center;
+            position: relative;
         }
 
-        .step-icon {
-            width: 70px;
-            height: 70px;
+        .step-icon-box {
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 1.8rem;
-            color: white;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--clr-white);
+            box-shadow: var(--shadow-md);
             transition: var(--transition-base);
-            position: relative;
-            z-index: 2;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
-        .step-label {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            margin-top: 0.5rem;
-            transition: var(--transition-base);
-        }
-
-        .process-step.active .step-icon {
+        .step-item.active .step-icon-box {
+            background: var(--clr-accent-emerald);
+            border-color: var(--clr-accent-emerald);
             transform: scale(1.15);
-            box-shadow: 0 12px 30px rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-lg);
         }
 
-        .process-step.active .step-label {
-            color: var(--color-accent-teal);
+        .step-label-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition-base);
+        }
+
+        .step-item.active .step-label-text {
+            color: var(--clr-white);
             font-weight: 700;
         }
 
-        .step-connector {
-            position: relative;
-            height: 4px;
+        .step-connector-line {
+            height: 3px;
             background: rgba(255, 255, 255, 0.2);
-            margin: 35px 0;
+            margin: 32px 0;
             border-radius: 2px;
             overflow: hidden;
+            position: relative;
+            flex: 1;
         }
 
-        .step-connector::after {
+        .step-connector-line::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 0;
             height: 100%;
-            background: linear-gradient(90deg, var(--color-accent-teal), #6effc9);
+            background: var(--clr-accent-emerald);
             border-radius: 2px;
-            transition: width 1.5s ease;
+            transition: width 1s ease;
         }
 
-        .process-step.active~.step-connector::after {
+        .step-connector-line.active::after {
             width: 100%;
         }
 
         /* ===========================
-   FOOTER - MODIFIED
-   ========================== */
+        FOOTER
+        ========================== */
 
         .footer-section {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: #ccc;
+            background: var(--clr-neutral-900);
+            color: var(--clr-neutral-200);
             padding: 4rem 0 1.5rem;
             position: relative;
         }
@@ -986,131 +849,100 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-accent-teal));
-        }
-
-        .footer-section h5 {
-            color: white;
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-
-        .footer-section h5::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 40px;
             height: 3px;
-            background: var(--color-primary);
-            border-radius: 2px;
+            background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent-teal));
         }
 
-        .footer-section p {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #aaa;
+        .footer-title {
+            color: var(--clr-white);
+            margin-bottom: 1.5rem;
+            font-size: 1.15rem;
+            font-weight: 700;
         }
 
-        .footer-links {
+        .footer-desc {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--clr-neutral-200);
+        }
+
+        .footer-links-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .footer-links li {
-            margin-bottom: 0.8rem;
+        .footer-links-list li {
+            margin-bottom: 0.75rem;
         }
 
-        .footer-links a {
-            color: #bbb;
+        .footer-link {
+            color: var(--clr-neutral-200);
             text-decoration: none;
             transition: var(--transition-base);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .footer-links a::before {
-            content: '→';
-            opacity: 0;
-            transform: translateX(-5px);
-            transition: var(--transition-base);
-        }
-
-        .footer-links a:hover {
-            color: var(--color-primary);
+        .footer-link:hover {
+            color: var(--clr-primary);
             padding-left: 5px;
         }
 
-        .footer-links a:hover::before {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .social-links {
+        .social-links-group {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-top: 1.5rem;
         }
 
-        .social-links a {
-            width: 42px;
-            height: 42px;
+        .social-link-item {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-            color: white;
+            background: var(--clr-neutral-700);
+            color: var(--clr-white);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: var(--transition-base);
             text-decoration: none;
-            box-shadow: 0 4px 12px rgba(45, 140, 255, 0.3);
         }
 
-        .social-links a:hover {
-            background: linear-gradient(135deg, var(--color-accent-teal), #17a589);
-            transform: translateY(-5px) rotate(10deg);
-            box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
-            color: white;
+        .social-link-item:hover {
+            background: var(--clr-primary);
+            color: var(--clr-white);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
         }
 
         .footer-bottom {
-            color: #888;
-            font-size: 0.9rem;
+            color: var(--clr-neutral-200);
+            font-size: 0.85rem;
             padding-top: 2rem;
             margin-top: 3rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-bottom a {
-            color: #aaa;
+            color: var(--clr-neutral-200);
             text-decoration: none;
             transition: var(--transition-base);
         }
 
         .footer-bottom a:hover {
-            color: var(--color-primary);
-            text-decoration: underline;
+            color: var(--clr-primary);
         }
 
         /* ===========================
-   RESPONSIVE DESIGN
-   ========================== */
+        RESPONSIVE DESIGN
+        ========================== */
 
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
-            }
-
-            .hero-title::after {
-                width: 80px;
             }
 
             .hero-subtitle {
@@ -1118,51 +950,38 @@
                 max-width: 100%;
             }
 
-            .hero-stats {
-                gap: 1.5rem;
+            .hero-stats-wrapper {
+                gap: 1rem;
                 justify-content: center;
             }
 
-            .stat-item {
+            .stat-card {
                 min-width: 120px;
-                padding: 1rem;
+                padding: 1.25rem;
             }
 
             .stat-number {
                 font-size: 2rem;
             }
 
-            .section-header h2 {
-                font-size: 2.2rem;
+            .section-title {
+                font-size: 2rem;
             }
 
             .section-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .feature-card,
-            .service-card,
-            .location-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .location-info li {
-                font-size: 0.95rem;
-            }
-
-            .hero-search .btn {
-                padding: 1rem 1.5rem;
                 font-size: 1rem;
             }
 
-            .step-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
+            .feature-card-item,
+            .service-card-item,
+            .location-card-wrapper {
+                padding: 1.5rem;
             }
 
-            .step-label {
-                font-size: 1rem;
+            .step-icon-box {
+                width: 56px;
+                height: 56px;
+                font-size: 1.25rem;
             }
 
             .hero-section,
@@ -1183,23 +1002,33 @@
                 font-size: 1rem;
             }
 
-            .section-header h2 {
-                font-size: 1.8rem;
+            .section-title {
+                font-size: 1.75rem;
             }
 
-            .navbar-brand {
-                font-size: 1.5rem;
+            .search-form-btn {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
             }
 
-            .navbar-cta .btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
+            .stepper-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .step-connector-line {
+                display: none;
             }
         }
 
         /* ===========================
-   ANIMATIONS
-   ========================== */
+        UTILITIES
+        ========================== */
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
 
         @keyframes fadeInUp {
             from {
@@ -1212,102 +1041,43 @@
                 transform: translateY(0);
             }
         }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .feature-card,
-        .service-card,
-        .location-card,
-        .stat-item {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-            animation-delay: calc(var(--animation-order, 0) * 0.1s);
-        }
-
-        .pulse-animation {
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        /* Utility: Text Balance for Better Typography */
-        h1,
-        h2,
-        h3 {
-            text-wrap: balance;
-        }
-
-        p {
-            text-wrap: pretty;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
-        }
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="navbar">
+    <nav class="navbar-landing navbar navbar-expand-lg navbar-light" id="mainNavbar">
         <div class="container">
-            <a class="navbar-brand" href="#home">
-                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="18" cy="18" r="16" stroke="#2d8cff" stroke-width="2.5" />
-                    <path d="M13.5 18c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#2d8cff" stroke-width="2.5" stroke-linecap="round" />
-                    <circle cx="18" cy="18" r="3" fill="#2d8cff" opacity="0.3" />
-                </svg>
-                <span class="ms-2">RumahLaundry</span>
+            <a class="navbar-brand-custom text-decoration-none" href="#home">
+                <div class="brand-icon">
+                    <i class="fas fa-water text-white"></i>
+                </div>
+                <span>RumahLaundry</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-2">
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-center gap-1">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Beranda</a>
+                        <a class="nav-link-custom text-decoration-none" href="#home">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#location">Lokasi</a>
+                        <a class="nav-link-custom text-decoration-none" href="#location">Lokasi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#features">Keunggulan</a>
+                        <a class="nav-link-custom text-decoration-none" href="#features">Keunggulan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#services">Layanan</a>
+                        <a class="nav-link-custom text-decoration-none" href="#services">Layanan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#process">Cek Pesanan</a>
+                        <a class="nav-link-custom text-decoration-none" href="#process">Cek Pesanan</a>
                     </li>
                 </ul>
-                <div class="navbar-cta ms-3">
-                    <a class="nav-link" href="#process">Lihat Pesanan</a>
-                    <a href="{{ Route('login') }}"><button class="btn btn-primary">Login Admin</button></a>
+                <div class="navbar-cta-group ms-lg-3 d-flex gap-2">
+                    <a class="nav-link-custom d-lg-none" href="#process">Lihat Pesanan</a>
+                    <a href="{{ Route('login') }}"><button class="btn btn-nav-primary">Login Admin</button></a>
                 </div>
             </div>
         </div>
@@ -1318,54 +1088,59 @@
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    <h1 class="hero-title mb-4">Cuci & Setrika Semudah Pesan Makanan</h1>
-                    <p class="hero-subtitle mb-4">Laundry offline terpercaya dengan <span class="highlight-text">layanan cuci & setrika Yang Wangi Dan Berkualitas</span>.</p>
+                    <h1 class="hero-title">
+                        Cuci & Setrika <span class="hero-title-highlight">Semudah</span> Pesan Makanan
+                    </h1>
+                    <p class="hero-subtitle">
+                        Laundry offline terpercaya dengan layanan cuci & setrika yang wangi dan berkualitas tinggi untuk keluarga
+                        Anda.
+                    </p>
 
                     <!-- Hero Stats -->
-                    <div class="hero-stats">
-                        <div class="stat-item" style="--animation-order: 1;">
+                    <div class="hero-stats-wrapper">
+                        <div class="stat-card">
                             <div class="stat-number">10K+</div>
                             <div class="stat-label">Pelanggan Setia</div>
                         </div>
-                        <div class="stat-item" style="--animation-order: 2;">
+                        <div class="stat-card">
                             <div class="stat-number">24/7</div>
                             <div class="stat-label">Layanan</div>
                         </div>
-                        <div class="stat-item" style="--animation-order: 3;">
+                        <div class="stat-card">
                             <div class="stat-number">99%</div>
                             <div class="stat-label">Kepuasan</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hero-image">
-                        <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Modern Laundry Illustration -->
-                            <circle cx="250" cy="250" r="220" fill="#f0f8ff" stroke="#6ab0ff" stroke-width="3" stroke-dasharray="10 5" />
-                            <rect x="150" y="150" width="200" height="200" rx="20" fill="white" stroke="#2d8cff" stroke-width="3" />
-                            <path d="M170 170h160v160H170z" fill="#e6f2ff" stroke="#6ab0ff" stroke-width="2" />
-                            
-                            <!-- Washing Machine -->
-                            <circle cx="250" cy="220" r="40" fill="#2d8cff" opacity="0.1" stroke="#2d8cff" stroke-width="2" />
-                            <circle cx="250" cy="220" r="25" fill="#6ab0ff" stroke="#2d8cff" stroke-width="2" />
-                            <circle cx="250" cy="220" r="15" fill="white" stroke="#2d8cff" stroke-width="1" />
-                            
-                            <!-- Clothes -->
-                            <rect x="200" y="280" width="30" height="40" rx="5" fill="#20c997" opacity="0.8" />
-                            <rect x="240" y="280" width="30" height="40" rx="5" fill="#fd7e14" opacity="0.8" />
-                            <rect x="280" y="280" width="30" height="40" rx="5" fill="#2d8cff" opacity="0.8" />
-                            
-                            <!-- Bubbles -->
-                            <circle cx="180" cy="190" r="8" fill="#6ab0ff" opacity="0.6" />
-                            <circle cx="320" cy="200" r="6" fill="#6ab0ff" opacity="0.6" />
-                            <circle cx="290" cy="170" r="10" fill="#6ab0ff" opacity="0.4" />
-                            <circle cx="210" cy="160" r="7" fill="#6ab0ff" opacity="0.5" />
-                            
-                            <!-- Sparkles -->
-                            <path d="M250 150l5 10 10-5-5-10z" fill="#fd7e14" opacity="0.7" />
-                            <path d="M320 250l7-7 5 5-7 7z" fill="#20c997" opacity="0.7" />
-                            <path d="M180 300l-5-8 8 5-3 3z" fill="#2d8cff" opacity="0.7" />
-                        </svg>
+                    <div class="hero-visual">
+                        <div class="hero-visual-inner">
+                            <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Washing Machine Illustration -->
+                                <rect x="75" y="50" width="150" height="200" rx="12" fill="#F0F9FF" stroke="#0066FF" stroke-width="2" />
+                                <rect x="90" y="70" width="120" height="30" rx="6" fill="#E0F2FE" />
+                                <!-- Circles for buttons -->
+                                <circle cx="110" cy="85" r="5" fill="#0066FF" />
+                                <circle cx="130" cy="85" r="5" fill="#06B6D4" />
+                                <circle cx="150" cy="85" r="5" fill="#10B981" />
+                                <!-- Main drum -->
+                                <circle cx="150" cy="150" r="50" fill="white" stroke="#0066FF" stroke-width="3" />
+                                <circle cx="150" cy="150" r="35" fill="#E0F2FE" stroke="#0066FF" stroke-width="2" />
+                                <!-- Inner details -->
+                                <circle cx="150" cy="150" r="20" fill="white" stroke="#0066FF" stroke-width="1.5" />
+                                <!-- Clothes -->
+                                <rect x="100" y="210" width="25" height="30" rx="4" fill="#10B981" opacity="0.8" />
+                                <rect x="135" y="210" width="25" height="30" rx="4" fill="#F59E0B" opacity="0.8" />
+                                <rect x="170" y="210" width="25" height="30" rx="4" fill="#0066FF" opacity="0.8" />
+                                <!-- Bubbles -->
+                                <circle cx="120" cy="120" r="6" fill="#06B6D4" opacity="0.5" />
+                                <circle cx="180" cy="130" r="5" fill="#06B6D4" opacity="0.4" />
+                                <circle cx="160" cy="110" r="7" fill="#06B6D4" opacity="0.6" />
+                                <!-- Sparkles -->
+                                <path d="M150 40 L152 47 L159 49 L152 51 L150 58 L148 51 L141 49 L148 47 Z" fill="#F59E0B" opacity="0.7" />
+                                <path d="M220 140 L222 145 L227 147 L222 149 L220 154 L218 149 L213 147 L218 145 Z" fill="#10B981" opacity="0.7" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1375,34 +1150,52 @@
     <!-- Location Section -->
     <section id="location" class="location-section">
         <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2>Lokasi Laundry Kami</h2>
-                <p class="section-subtitle">Datang langsung ke outlet kami Karena Kita Menggunakan Laundry Terpercaya</p>
+            <div class="section-header-wrapper">
+                <h2 class="section-title">Lokasi Laundry Kami</h2>
+                <p class="section-subtitle">Datang langsung ke outlet kami karena kami menggunakan layanan laundry terpercaya
+                </p>
             </div>
 
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="location-card">
-                        <div class="location-icon">
-                            <i class="fas fa-store"></i>
+                    <div class="location-card-wrapper">
+                        <div class="location-icon-box">
+                            <i class="fas fa-store text-white"></i>
                         </div>
-                        <h3>RumahLaundry Central</h3>
-                        <p class="mb-4">Outlet utama kami dengan fasilitas lengkap dan staf profesional siap melayani Anda.</p>
-                        
-                        <ul class="location-info">
-                            <li><i class="fas fa-map-marker-alt"></i> Jl. Laundry No. 123, Kota Anda</li>
-                            <li><i class="fas fa-clock"></i> Buka 24/7 jam</li>
-                            <li><i class="fas fa-phone"></i> +62 812-3456-7890</li>
-                            <li><i class="fas fa-wifi"></i> Free WiFi untuk pelanggan</li>
-                            <li><i class="fas fa-parking"></i> Area parkir luas & aman</li>
+                        <h3 class="location-card-title">RumahLaundry Central</h3>
+                        <p class="mb-4" style="color: var(--clr-text-secondary);">Outlet utama kami dengan fasilitas lengkap dan
+                            staf profesional siap melayani Anda.</p>
+
+                        <ul class="location-info-list">
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Jl. Laundry No. 123, Kota Anda</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-clock"></i>
+                                <span>Buka 24/7 jam</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <span>+62 812-3456-7890</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-wifi"></i>
+                                <span>Free WiFi untuk pelanggan</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-parking"></i>
+                                <span>Area parkir luas & aman</span>
+                            </li>
                         </ul>
-                        
-                        <div class="d-flex gap-3 flex-wrap">
-                            <a href="https://maps.google.com" target="_blank" class="location-btn">
-                                <i class="fas fa-directions me-2"></i> Petunjuk Arah
+
+                        <div class="d-flex gap-3 flex-wrap mt-4">
+                            <a href="https://maps.google.com" target="_blank" class="btn-location">
+                                <i class="fas fa-directions"></i> Petunjuk Arah
                             </a>
-                            <a href="tel:+6281234567890" class="btn btn-outline-primary">
-                                <i class="fas fa-phone me-2"></i> Telepon Sekarang
+                            <a href="tel:+6281234567890" class="btn"
+                                style="background: var(--clr-white); color: var(--clr-text-primary); border: 1.5px solid var(--clr-neutral-200); padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition-base);">
+                                <i class="fas fa-phone"></i> Telepon Sekarang
                             </a>
                         </div>
                     </div>
@@ -1414,62 +1207,55 @@
     <!-- Features Section -->
     <section id="features" class="features-section">
         <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2>Keunggulan RumahLaundry</h2>
+            <div class="section-header-wrapper">
+                <h2 class="section-title">Keunggulan RumahLaundry</h2>
                 <p class="section-subtitle">Mengapa ribuan pelanggan mempercayai laundry kami</p>
             </div>
 
             <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
-                    <div class="feature-card" style="--animation-order: 1;">
-                        <div class="feature-icon">
-                            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                                <circle cx="28" cy="28" r="26" stroke="#2d8cff" stroke-width="2.5" />
-                                <path d="M20 28h16M28 20v16" stroke="#2d8cff" stroke-width="2.5" stroke-linecap="round" />
-                                <path d="M24 32l8-8 8 8" stroke="#2d8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="feature-icon-wrapper">
+                            <div class="feature-icon-circle">
+                                <i class="fas fa-user-shield text-white"></i>
+                            </div>
                         </div>
-                        <h3>Laundry Terpercaya</h3>
-                        <p>Tim kami terdiri dari profesional yang berpengalaman dan memiliki standar kualitas terbaik</p>
+                        <h3 class="feature-card-title">Laundry Terpercaya</h3>
+                        <p class="feature-card-desc">Tim kami terdiri dari profesional yang berpengalaman dan memiliki standar
+                            kualitas terbaik</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <div class="feature-card" style="--animation-order: 2;">
-                        <div class="feature-icon">
-                            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                                <circle cx="28" cy="28" r="26" stroke="#20c997" stroke-width="2.5" />
-                                <path d="M22 28l4 4 10-10" stroke="#20c997" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M34 22l-12 12" stroke="#20c997" stroke-width="2" stroke-linecap="round" />
-                            </svg>
+                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="feature-icon-wrapper">
+                            <div class="feature-icon-circle">
+                                <i class="fas fa-tag text-white"></i>
+                            </div>
                         </div>
-                        <h3>Harga Jelas</h3>
-                        <p>Tidak ada biaya tersembunyi, bayar sesuai berat dengan timbangan digital</p>
+                        <h3 class="feature-card-title">Harga Jelas</h3>
+                        <p class="feature-card-desc">Tidak ada biaya tersembunyi, bayar sesuai berat dengan timbangan digital</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <div class="feature-card" style="--animation-order: 3;">
-                        <div class="feature-icon">
-                            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                                <circle cx="28" cy="28" r="26" stroke="#fd7e14" stroke-width="2.5" />
-                                <path d="M28 20v24M20 28h16" stroke="#fd7e14" stroke-width="2.5" stroke-linecap="round" />
-                                <circle cx="28" cy="28" r="8" stroke="#fd7e14" stroke-width="2" fill="none" />
-                            </svg>
+                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="feature-icon-wrapper">
+                            <div class="feature-icon-circle">
+                                <i class="fas fa-bolt text-white"></i>
+                            </div>
                         </div>
-                        <h3>Express 24 Jam</h3>
-                        <p>Layanan kilat untuk kebutuhan mendesak dengan proses maksimal 24 jam</p>
+                        <h3 class="feature-card-title">Express 24 Jam</h3>
+                        <p class="feature-card-desc">Layanan kilat untuk kebutuhan mendesak dengan proses maksimal 24 jam</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <div class="feature-card" style="--animation-order: 4;">
-                        <div class="feature-icon">
-                            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                                <circle cx="28" cy="28" r="26" stroke="#6f42c1" stroke-width="2.5" />
-                                <path d="M28 24v8M24 28h8" stroke="#6f42c1" stroke-width="2.5" stroke-linecap="round" />
-                                <path d="M22 34h12" stroke="#6f42c1" stroke-width="2" stroke-linecap="round" />
-                            </svg>
+                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="feature-icon-wrapper">
+                            <div class="feature-icon-circle">
+                                <i class="fas fa-shield-alt text-white"></i>
+                            </div>
                         </div>
-                        <h3>Laundry Aman</h3>
-                        <p>Perlakuan khusus untuk bahan-bahan sensitif dengan deterjen hipoalergenik</p>
+                        <h3 class="feature-card-title">Laundry Aman</h3>
+                        <p class="feature-card-desc">Perlakuan khusus untuk bahan-bahan sensitif dengan deterjen hipoalergenik</p>
                     </div>
                 </div>
             </div>
@@ -1479,79 +1265,80 @@
     <!-- Services Section -->
     <section id="services" class="services-section">
         <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2>Layanan Kami</h2>
+            <div class="section-header-wrapper">
+                <h2 class="section-title">Layanan Kami</h2>
                 <p class="section-subtitle">Berbagai paket laundry sesuai kebutuhan Anda</p>
             </div>
 
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
-                    <div class="service-card" style="--animation-order: 1;">
-                        <div class="service-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="22" stroke="#2d8cff" stroke-width="2.5" />
-                                <path d="M18 24h12M24 18v12" stroke="#2d8cff" stroke-width="2.5" stroke-linecap="round" />
-                                <path d="M20 28l4-4 4 4" stroke="#2d8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                    <div class="service-card-item fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="service-icon-wrapper">
+                            <div class="service-icon-circle">
+                                <i class="fas fa-tshirt text-white"></i>
+                            </div>
                         </div>
-                        <h3>Cuci Biasa</h3>
-                        <p class="service-desc">Cucian standar dengan deterjen berkualitas tinggi dan pewangi pilihan</p>
-                        <p class="service-price">Mulai dari <strong>Rp 8.000/kg</strong></p>
-                        <p class="service-time"><i class="far fa-clock"></i> 3-4 hari kerja</p>
+                        <h3 class="service-card-title">Cuci Biasa</h3>
+                        <p class="service-card-desc">Cucian standar dengan deterjen berkualitas tinggi dan pewangi pilihan</p>
+                        <p class="service-price-text">Mulai dari <strong>Rp 8.000/kg</strong></p>
+                        <p class="service-time-text">
+                            <i class="far fa-clock"></i> 3-4 hari kerja
+                        </p>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <div class="service-card featured" style="--animation-order: 2;">
-                        <span class="badge-featured">Paling Populer</span>
-                        <div class="service-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="22" stroke="#fd7e14" stroke-width="2.5" />
-                                <path d="M18 24h12M24 18v12" stroke="#fd7e14" stroke-width="2.5" stroke-linecap="round" />
-                                <path d="M20 30l8-8 8 8" stroke="#fd7e14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                    <div class="service-card-item featured fade-in-up" style="animation-delay: 0.2s;">
+                        <span class="badge-featured-tag">Paling Populer</span>
+                        <div class="service-icon-wrapper">
+                            <div class="service-icon-circle">
+                                <i class="fas fa-star text-white"></i>
+                            </div>
                         </div>
-                        <h3>Cuci + Setrika</h3>
-                        <p class="service-desc">Cucian lengkap dengan setrika profesional dan lipatan rapi</p>
-                        <p class="service-price">Mulai dari <strong>Rp 12.000/kg</strong></p>
-                        <p class="service-time"><i class="far fa-clock"></i> 2-3 hari kerja</p>
+                        <h3 class="service-card-title">Cuci + Setrika</h3>
+                        <p class="service-card-desc">Cucian lengkap dengan setrika profesional dan lipatan rapi</p>
+                        <p class="service-price-text">Mulai dari <strong>Rp 12.000/kg</strong></p>
+                        <p class="service-time-text">
+                            <i class="far fa-clock"></i> 2-3 hari kerja
+                        </p>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <div class="service-card" style="--animation-order: 3;">
-                        <div class="service-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="22" stroke="#20c997" stroke-width="2.5" />
-                                <path d="M18 24h12M24 18v12" stroke="#20c997" stroke-width="2.5" stroke-linecap="round" />
-                                <circle cx="24" cy="24" r="6" stroke="#20c997" stroke-width="2" fill="none" />
-                            </svg>
+                    <div class="service-card-item fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="service-icon-wrapper">
+                            <div class="service-icon-circle">
+                                <i class="fas fa-shipping-fast text-white"></i>
+                            </div>
                         </div>
-                        <h3>Express Service</h3>
-                        <p class="service-desc">Layanan kilat dalam 24 jam untuk kebutuhan mendesak</p>
-                        <p class="service-price">Mulai dari <strong>Rp 15.000/kg</strong></p>
-                        <p class="service-time"><i class="far fa-clock"></i> 1 hari kerja</p>
+                        <h3 class="service-card-title">Express Service</h3>
+                        <p class="service-card-desc">Layanan kilat dalam 24 jam untuk kebutuhan mendesak</p>
+                        <p class="service-price-text">Mulai dari <strong>Rp 15.000/kg</strong></p>
+                        <p class="service-time-text">
+                            <i class="far fa-clock"></i> 1 hari kerja
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Process Section -->
+    <!-- Process Section (Cek Status) -->
     <section id="process" class="process-section">
         <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2>Cek Status Pesanan Anda</h2>
-                <p class="section-subtitle">Masukkan kode pesanan untuk melihat status: Baru, Diproses, Selesai, atau Diambil</p>
+            <div class="section-header-wrapper">
+                <h2 class="section-title">Cek Status Pesanan Anda</h2>
+                <p class="section-subtitle">Masukkan kode pesanan untuk melihat status: Baru, Diproses, Selesai, atau Diambil
+                </p>
             </div>
 
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
-                    <form id="statusForm" class="hero-search mb-4">
+                    <form id="statusForm" class="search-form-wrapper mb-4">
                         @csrf
                         <div class="input-group">
-                            <input type="text" id="orderCode" class="form-control" placeholder="Contoh: ORD-000001" required>
-                            <button class="btn btn-primary" type="submit">
+                            <input type="text" id="orderCode" class="form-control search-form-input" placeholder="Contoh: ORD-000001" required>
+                            <button class="btn search-form-btn" type="submit">
                                 <i class="fas fa-search me-2"></i>Cek Status
                             </button>
                         </div>
@@ -1564,204 +1351,38 @@
                 </div>
             </div>
 
-            <div class="process-stepper mt-5">
-                <div class="row g-0 justify-content-center">
-                    <div class="col-auto">
-                        <div class="process-step">
-                            <div class="step-icon bg-secondary">
-                                <i class="fas fa-shopping-bag"></i>
-                            </div>
-                            <div class="step-label">Baru</div>
+            <div class="stepper-wrapper">
+                <div class="stepper-row">
+                    <div class="step-item">
+                        <div class="step-icon-box">
+                            <i class="fas fa-shopping-bag"></i>
                         </div>
+                        <div class="step-label-text">Baru</div>
                     </div>
-                    <div class="col-auto">
-                        <div class="step-connector"></div>
-                    </div>
-                    <div class="col-auto">
-                        <div class="process-step">
-                            <div class="step-icon bg-secondary">
-                                <i class="fas fa-cogs"></i>
-                            </div>
-                            <div class="step-label">Diproses</div>
+                    <div class="step-connector-line"></div>
+                    <div class="step-item">
+                        <div class="step-icon-box">
+                            <i class="fas fa-cogs"></i>
                         </div>
+                        <div class="step-label-text">Diproses</div>
                     </div>
-                    <div class="col-auto">
-                        <div class="step-connector"></div>
-                    </div>
-                    <div class="col-auto">
-                        <div class="process-step">
-                            <div class="step-icon bg-secondary">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="step-label">Selesai</div>
+                    <div class="step-connector-line"></div>
+                    <div class="step-item">
+                        <div class="step-icon-box">
+                            <i class="fas fa-check-circle"></i>
                         </div>
+                        <div class="step-label-text">Selesai</div>
                     </div>
-                    <div class="col-auto">
-                        <div class="step-connector"></div>
-                    </div>
-                    <div class="col-auto">
-                        <div class="process-step">
-                            <div class="step-icon bg-secondary">
-                                <i class="fas fa-hand-holding"></i>
-                            </div>
-                            <div class="step-label">Diambil</div>
+                    <div class="step-connector-line"></div>
+                    <div class="step-item">
+                        <div class="step-icon-box">
+                            <i class="fas fa-hand-holding"></i>
                         </div>
+                        <div class="step-label-text">Diambil</div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const form = document.getElementById('statusForm');
-                const orderCodeInput = document.getElementById('orderCode');
-                const statusResult = document.getElementById('statusResult');
-                const statusText = document.getElementById('statusText');
-                const statusDetail = document.getElementById('statusDetail');
-                const steps = document.querySelectorAll('.process-step');
-                const connectors = document.querySelectorAll('.step-connector');
-
-                form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-
-                    const noOrder = orderCodeInput.value.trim();
-                    if (!noOrder) {
-                        statusResult.className = 'alert alert-warning d-block';
-                        statusText.textContent = 'Peringatan';
-                        statusDetail.textContent = 'Silakan masukkan nomor order yang valid.';
-                        return;
-                    }
-
-                    const submitBtn = form.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Memproses...';
-                    submitBtn.disabled = true;
-
-                    try {
-                        const csrfToken = document.querySelector('input[name="_token"]').value;
-
-                        const response = await fetch('{{ route('cek.status') }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'X-CSRF-TOKEN': csrfToken
-                            },
-                            body: JSON.stringify({
-                                no_order: noOrder
-                            })
-                        });
-
-                        if (!response.ok) {
-                            let errorMessage = `Server Error (${response.status})`;
-                            try {
-                                const errorData = await response.json();
-                                errorMessage = errorData.message || errorMessage;
-                            } catch (e) {
-                                errorMessage = await response.text() || errorMessage;
-                            }
-                            throw new Error(errorMessage);
-                        }
-
-                        const result = await response.json();
-
-                        if (result.success) {
-                            statusText.textContent = result.data.status_order.charAt(0).toUpperCase() + result.data.status_order.slice(1);
-
-                            let detailHTML = `
-                        <strong>Nama:</strong> ${result.data.nama_pelanggan}<br>
-                        <strong>Tanggal Terima:</strong> ${result.data.tanggal_terima}<br>
-                        <strong>Tanggal Selesai:</strong> ${result.data.tanggal_selesai}<br>
-                        <strong>Total Bayar:</strong> ${result.data.total}<br>
-                        <strong>Status Pembayaran:</strong> ${result.data.pembayaran}
-                    `;
-
-                            statusDetail.innerHTML = detailHTML;
-
-                            let alertClass = 'alert-info';
-                            switch (result.data.status_order) {
-                                case 'baru':
-                                    alertClass = 'alert-warning';
-                                    break;
-                                case 'diproses':
-                                    alertClass = 'alert-secondary';
-                                    break;
-                                case 'selesai':
-                                    alertClass = 'alert-success';
-                                    break;
-                                case 'diambil':
-                                    alertClass = 'alert-info';
-                                    break;
-                            }
-
-                            statusResult.className = `alert ${alertClass} d-block`;
-
-                            updateStepper(result.data.status_order);
-
-                        } else {
-                            statusResult.className = 'alert alert-danger d-block';
-                            statusText.textContent = 'Gagal';
-                            statusDetail.textContent = result.message || 'Status tidak ditemukan.';
-                        }
-
-                    } catch (error) {
-                        console.error('JavaScript Fetch Error:', error);
-                        statusResult.className = 'alert alert-danger d-block';
-                        statusText.textContent = 'Error';
-                        statusDetail.textContent = `Terjadi kesalahan: ${error.message}`;
-                    } finally {
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                        orderCodeInput.focus();
-                    }
-                });
-
-                function updateStepper(status) {
-                    steps.forEach(step => step.classList.remove('active'));
-                    connectors.forEach(connector => connector.classList.remove('active'));
-
-                    steps.forEach((step, index) => {
-                        const icon = step.querySelector('.step-icon');
-                        icon.className = icon.className.replace(/bg-\w+/g, '');
-                        icon.classList.add('bg-secondary');
-                    });
-
-                    let activeIndex = 0;
-                    switch (status) {
-                        case 'baru':
-                            activeIndex = 0;
-                            break;
-                        case 'diproses':
-                            activeIndex = 1;
-                            break;
-                        case 'selesai':
-                            activeIndex = 2;
-                            break;
-                        case 'diambil':
-                            activeIndex = 3;
-                            break;
-                    }
-
-                    for (let i = 0; i <= activeIndex; i++) {
-                        if (i < steps.length) {
-                            steps[i].classList.add('active');
-                            const icon = steps[i].querySelector('.step-icon');
-                            icon.classList.remove('bg-secondary');
-                            
-                            let bgClass = 'bg-primary';
-                            if (i === 1) bgClass = 'bg-warning';
-                            if (i === 2) bgClass = 'bg-success';
-                            if (i === 3) bgClass = 'bg-info';
-                            
-                            icon.classList.add(bgClass);
-                        }
-                        if (i < connectors.length) {
-                            connectors[i].classList.add('active');
-                        }
-                    }
-                }
-            });
-        </script>
     </section>
 
     <!-- Footer -->
@@ -1769,34 +1390,37 @@
         <div class="container">
             <div class="row g-4 mb-5">
                 <div class="col-md-4">
-                    <h5>RumahLaundry</h5>
-                    <p>Layanan laundry offline terpercaya dengan standar kebersihan tinggi dan pelayanan maksimal untuk seluruh keluarga Anda.</p>
-                    <div class="social-links">
-                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" title="Maps"><i class="fas fa-map-marker-alt"></i></a>
+                    <h5 class="footer-title">RumahLaundry</h5>
+                    <p class="footer-desc">Layanan laundry offline terpercaya dengan standar kebersihan tinggi dan pelayanan
+                        maksimal untuk seluruh keluarga Anda.</p>
+                    <div class="social-links-group">
+                        <a href="#" class="social-link-item" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link-item" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link-item" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link-item" title="Maps"><i class="fas fa-map-marker-alt"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <h5>Layanan</h5>
-                    <ul class="footer-links">
-                        <li><a href="#services"><i class="fas fa-tshirt me-2"></i>Cuci Biasa</a></li>
-                        <li><a href="#services"><i class="fas fa-iron me-2"></i>Cuci + Setrika</a></li>
-                        <li><a href="#services"><i class="fas fa-bolt me-2"></i>Express 24 Jam</a></li>
-                        <li><a href="#services"><i class="fas fa-star me-2"></i>Layanan Khusus</a></li>
+                    <h5 class="footer-title">Layanan</h5>
+                    <ul class="footer-links-list">
+                        <li><a href="#services" class="footer-link">Cuci Biasa</a></li>
+                        <li><a href="#services" class="footer-link">Cuci + Setrika</a></li>
+                        <li><a href="#services" class="footer-link">Express 24 Jam</a></li>
+                        <li><a href="#services" class="footer-link">Layanan Khusus</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <h5>Kontak & Lokasi</h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i> Jl. Laundry No. 123, Kota Anda</p>
-                    <p><i class="fas fa-phone me-2"></i> +62 812-3456-7890</p>
-                    <p><i class="fas fa-envelope me-2"></i> info@rumahlaundry.id</p>
-                    <p><i class="fas fa-clock me-2"></i> Buka 24/7</p>
+                    <h5 class="footer-title">Kontak & Lokasi</h5>
+                    <p class="footer-desc"><i class="fas fa-map-marker-alt me-2"></i> Jl. Laundry No. 123, Kota Anda</p>
+                    <p class="footer-desc"><i class="fas fa-phone me-2"></i> +62 812-3456-7890</p>
+                    <p class="footer-desc"><i class="fas fa-envelope me-2"></i> info@rumahlaundry.id</p>
+                    <p class="footer-desc"><i class="fas fa-clock me-2"></i> Buka 24/7</p>
                 </div>
             </div>
             <div class="footer-bottom text-center">
-                <p>&copy; 2025 RumahLaundry. Semua hak dilindungi. | <a href="#">Kebijakan Privasi</a> | <a href="#">Syarat Layanan</a> | <a href="{{ Route('login') }}">Admin Area</a></p>
+                <p>&copy; 2025 RumahLaundry. Semua hak dilindungi. | <a href="#">Kebijakan Privasi</a> | <a href="#">Syarat
+                        Layanan</a> | <a href="{{ Route('login') }}">Admin Area</a>
+                </p>
             </div>
         </div>
     </footer>
@@ -1808,122 +1432,240 @@
     <script>
         /**
          * RumahLaundry Landing Page - JavaScript
+         * Professional, production-ready code
          */
 
-        // ===========================
-        // NAVBAR SCROLL EFFECT
-        // ===========================
+        (function() {
+            'use strict';
 
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('navbar-scrolled');
-            } else {
-                navbar.classList.remove('navbar-scrolled');
+            // ===========================
+            // NAVBAR SCROLL EFFECT
+            // ===========================
+
+            const navbar = document.getElementById('mainNavbar');
+            let lastScrollTop = 0;
+
+            function handleNavbarScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > 50) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
             }
-        });
 
-        // ===========================
-        // SMOOTH SCROLL NAVIGATION
-        // ===========================
+            window.addEventListener('scroll', handleNavbarScroll, {
+                passive: true
+            });
 
-        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#' || href === '#') return;
+            // ===========================
+            // SMOOTH SCROLL NAVIGATION
+            // ===========================
 
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+
+                    if (href === '#' || href === '#') {
+                        return;
+                    }
+
+                    const target = document.querySelector(href);
+
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+
+                        // Close mobile menu if open
+                        const navbarCollapse = document.getElementById('navbarContent');
+                        if (navbarCollapse.classList.contains('show')) {
+                            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                                toggle: true
+                            });
+                        }
+                    }
+                });
+            });
+
+            // ===========================
+            // ORDER STATUS CHECK FORM
+            // ===========================
+
+            const statusForm = document.getElementById('statusForm');
+            const orderCodeInput = document.getElementById('orderCode');
+            const statusResult = document.getElementById('statusResult');
+            const statusText = document.getElementById('statusText');
+            const statusDetail = document.getElementById('statusDetail');
+            const stepItems = document.querySelectorAll('.step-item');
+            const stepConnectors = document.querySelectorAll('.step-connector-line');
+
+            statusForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const target = document.querySelector(href);
 
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
+                const noOrder = orderCodeInput.value.trim();
+
+                if (!noOrder) {
+                    showStatusResult('warning', 'Peringatan', 'Silakan masukkan nomor order yang valid.');
+                    return;
+                }
+
+                const submitBtn = statusForm.querySelector('button[type="submit"]');
+                const originalHTML = submitBtn.innerHTML;
+
+                // Show loading state
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
+                submitBtn.disabled = true;
+
+                try {
+                    const csrfToken = document.querySelector('input[name="_token"]').value;
+
+                    const response = await fetch('{{ route('cek.status') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            no_order: noOrder
+                        })
                     });
+
+                    if (!response.ok) {
+                        let errorMessage = `Server Error (${response.status})`;
+                        try {
+                            const errorData = await response.json();
+                            errorMessage = errorData.message || errorMessage;
+                        } catch (e) {
+                            errorMessage = await response.text() || errorMessage;
+                        }
+                        throw new Error(errorMessage);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        const data = result.data;
+                        const statusOrderText = data.status_order.charAt(0).toUpperCase() + data.status_order.slice(1);
+
+                        // Build detail HTML with required data
+                        const detailHTML = `
+                            <strong>Nama:</strong> ${data.nama_pelanggan}<br>
+                            <strong>Tanggal Terima:</strong> ${data.tanggal_terima}<br>
+                            <strong>Tanggal Selesai:</strong> ${data.tanggal_selesai}<br>
+                            <strong>Total Bayar:</strong> ${data.total}<br>
+                            <strong>Status Pembayaran:</strong> ${data.pembayaran}
+                        `;
+
+                        // Determine alert class based on status
+                        let alertClass = 'alert-info';
+                        switch (data.status_order) {
+                            case 'baru':
+                                alertClass = 'alert-warning';
+                                break;
+                            case 'diproses':
+                                alertClass = 'alert-info';
+                                break;
+                            case 'selesai':
+                                alertClass = 'alert-success';
+                                break;
+                            case 'diambil':
+                                alertClass = 'alert-primary';
+                                break;
+                        }
+
+                        showStatusResult(alertClass.replace('alert-', ''), statusOrderText, detailHTML);
+                        updateStepperProgress(data.status_order);
+
+                    } else {
+                        showStatusResult('danger', 'Gagal', result.message || 'Status tidak ditemukan.');
+                        resetStepper();
+                    }
+
+                } catch (error) {
+                    console.error('Fetch Error:', error);
+                    showStatusResult('danger', 'Error', `Terjadi kesalahan: ${error.message}`);
+                    resetStepper();
+                } finally {
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
                 }
             });
-        });
 
-        // ===========================
-        // ANIMATION ON SCROLL
-        // ===========================
+            // Helper: Show status result
+            function showStatusResult(type, title, detail) {
+                statusResult.className = `alert alert-${type} d-block`;
+                statusText.textContent = title;
+                statusDetail.innerHTML = detail;
+            }
 
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px',
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.feature-card, .service-card, .location-card, .stat-item').forEach((el, index) => {
-            el.style.setProperty('--animation-order', index);
-            observer.observe(el);
-        });
-
-        // ===========================
-        // INITIALIZE ON LOAD
-        // ===========================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('RumahLaundry - Layanan Laundry Offline loaded');
-            
-            // Add animation delay to elements
-            const animatedElements = document.querySelectorAll('.feature-card, .service-card');
-            animatedElements.forEach((el, index) => {
-                el.style.animationDelay = `${index * 0.1}s`;
-            });
-        });
-
-        // ===========================
-        // FORM SUBMISSION FEEDBACK
-        // ===========================
-
-        function showAlert(message, type = 'info') {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
-            alertDiv.style.zIndex = '1050';
-            alertDiv.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                alertDiv.classList.remove('show');
-                setTimeout(() => alertDiv.remove(), 150);
-            }, 3000);
-        }
-
-        // ===========================
-        // DEBOUNCE FUNCTION FOR PERFORMANCE
-        // ===========================
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
+            // Helper: Update stepper progress
+            function updateStepperProgress(status) {
+                const statusMap = {
+                    'baru': 0,
+                    'diproses': 1,
+                    'selesai': 2,
+                    'diambil': 3
                 };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
+
+                const activeIndex = statusMap[status] !== undefined ? statusMap[status] : -1;
+
+                // Reset all steps
+                stepItems.forEach(item => item.classList.remove('active'));
+                stepConnectors.forEach(connector => connector.classList.remove('active'));
+
+                // Activate steps up to current status
+                for (let i = 0; i <= activeIndex && i < stepItems.length; i++) {
+                    stepItems[i].classList.add('active');
+                    if (i < stepConnectors.length) {
+                        stepConnectors[i].classList.add('active');
+                    }
+                }
+            }
+
+            // Helper: Reset stepper
+            function resetStepper() {
+                stepItems.forEach(item => item.classList.remove('active'));
+                stepConnectors.forEach(connector => connector.classList.remove('active'));
+            }
+
+            // ===========================
+            // ANIMATION ON SCROLL
+            // ===========================
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             };
-        }
 
-        // Debounced scroll event
-        const debouncedScroll = debounce(() => {
-            // Performance optimization
-        }, 100);
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
 
-        window.addEventListener('scroll', debouncedScroll);
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                fadeInObserver.observe(el);
+            });
+
+            // ===========================
+            // INITIALIZE ON LOAD
+            // ===========================
+
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('RumahLaundry Landing Page loaded');
+            });
+
+        })();
     </script>
 </body>
 
