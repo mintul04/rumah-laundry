@@ -17,17 +17,12 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('profile.index', compact('user'));
+        return view('admin.profile.index', compact('user'));
     }
 
     /**
      * Menampilkan form edit profile
      */
-    public function edit()
-    {
-        $user = Auth::user();
-        return view('profile.edit', compact('user'));
-    }
 
     /**
      * Update data profile
@@ -35,14 +30,12 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = Auth::user();
-        
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'nama_lengkap' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:500',
-            'bio' => 'nullable|string|max:1000',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -51,24 +44,24 @@ class ProfileController extends Controller
                 ->withInput();
         }
 
-        $data = $request->only(['name', 'email', 'phone', 'address', 'bio']);
+        $data = $request->only(['nama', 'nama_lengkap', 'email', 'foto']);
 
-        // Handle upload avatar
-        if ($request->hasFile('avatar')) {
-            // Hapus avatar lama jika ada
-            if ($user->avatar && Storage::exists('public/avatars/' . $user->avatar)) {
-                Storage::delete('public/avatars/' . $user->avatar);
+        // Handle upload foto
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($user->foto && Storage::exists('public/avatar/' . $user->foto)) {
+                Storage::delete('public/avatar/' . $user->foto);
             }
-            
-            $avatar = $request->file('avatar');
-            $filename = time() . '_' . $avatar->getClientOriginalName();
-            $avatar->storeAs('public/avatars', $filename);
-            $data['avatar'] = $filename;
+
+            $foto = $request->file('foto');
+            $filename = time() . '_' . $foto->getClientOriginalName();
+            $path = $foto->store('avatar', 'public');
+            $data['foto'] = $path;
         }
 
-        User::update($data);
+        User::where('id', $user->id)->update($data);
 
-        return redirect()->route('admin.profile.index')
+        return redirect()->route('profile.index')
             ->with('success', 'Profile berhasil diperbarui.');
     }
 
@@ -78,7 +71,7 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         $user = Auth::user();
-        
+
         $validator = Validator::make($request->all(), [
             'current_password' => 'required',
             'new_password' => 'required|string|min:8|confirmed',
@@ -90,18 +83,16 @@ class ProfileController extends Controller
                 ->withInput();
         }
 
-        // Verifikasi password saat ini
         if (!Hash::check($request->current_password, $user->password)) {
             return redirect()->back()
                 ->with("error", 'Password saat ini salah.');
         }
 
-        // Update password
-        User::update([
+        User::where('id', $user->id)->update([
             'password' => Hash::make($request->new_password)
         ]);
 
-        return redirect()->route('admin.profile.index')
+        return redirect()->route('profile.index')
             ->with("success", 'Password berhasil diperbarui.');
     }
 
@@ -121,13 +112,12 @@ class ProfileController extends Controller
                 ->with('error', 'Password salah.');
         }
 
-        // Hapus avatar jika ada
-        if ($user->avatar) {
-            Storage::delete('public/avatars/' . $user->avatar);
+        // Hapus foto jika ada
+        if ($user->foto) {
+            Storage::delete('public/avatar/' . $user->foto);
         }
 
         Auth::logout();
-
 
         return redirect('/')
             ->with('success', 'Akun berhasil dihapus.');

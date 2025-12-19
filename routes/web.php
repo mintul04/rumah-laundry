@@ -18,11 +18,11 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-proses', [AuthController::class, 'loginProses'])->name('loginProses');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // PROFILE ROUTES
-    Route::prefix('admin/profile')->name('admin.profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'index'])->name('index');
-        Route::put('/update', [ProfileController::class, 'update'])->name('update');
-        Route::post('/password', [ProfileController::class, 'updatePassword'])->name('password');
+// PROFILE ROUTES
+Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
+    Route::put('/update', [ProfileController::class, 'update'])->name('update');
+    Route::post('/password', [ProfileController::class, 'updatePassword'])->name('password');
 });
 
 // Route Resource untuk Paket Laundry

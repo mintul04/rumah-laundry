@@ -10,11 +10,11 @@
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link href="{{ asset('assets/vendor/fontawesome/all.min.css') }}" rel="stylesheet">
-    
+
     <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css" rel="stylesheet">
-    
+
     <link href="{{ asset('assets/vendor/sweetalert/sweetalert.min.css') }}" rel="stylesheet">
 
     <style>
@@ -252,45 +252,60 @@
         </div>
     </div>
 
-    <!-- DataTables JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-
     <!-- Bootstrap 5 JS -->
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/fontawesome/all.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            // Inisialisasi DataTables untuk semua tabel dengan kelas .datatable
-            $('.datatable').DataTable({
-                "language": {
-                    "lengthMenu": "Tampilkan _MENU_ data per halaman",
-                    "zeroRecords": "Data tidak ditemukan",
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                    "infoEmpty": "Tidak ada data tersedia",
-                    "infoFiltered": "(disaring dari _MAX_ total data)",
-                    "search": "Cari:",
-                    "paginate": {
-                        "first": "Pertama",
-                        "last": "Terakhir",
-                        "next": "Berikutnya",
-                        "previous": "Sebelumnya"
-                    }
-                },
-                "responsive": true,
-                "autoWidth": false,
-                "dom": '<"row"<"col-md-6"l><"col-md-6"f>>rt<"row"<"col-md-6"i><"col-md-6"p>>',
-                "pageLength": 10
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+                position: "top-end",
+                toast: true,
+                timer: 4000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-xl'
+                }
             });
-        });
-    </script>
+        </script>
+    @endif
+
+    {{-- Error --}}
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: '{{ session('error') }}',
+                timer: 4000,
+                position: "top-end",
+                toast: true,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-xl'
+                }
+            });
+        </script>
+    @endif
+
+    {{-- Info --}}
+    @if (session('info'))
+        <script>
+            Swal.fire({
+                icon: 'info',
+                title: '{{ session('info') }}',
+                position: "top-end",
+                toast: true,
+                timer: 4000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-xl'
+                }
+            });
+        </script>
+    @endif
 
     @stack('scripts')
 </body>
