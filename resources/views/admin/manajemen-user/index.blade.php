@@ -255,11 +255,11 @@
                             <td>
                                 <div class="action-buttons">
                                     @if ($item->role == 'admin')
-                                        <a href="{{ route('manajemen-user.edit', $item->id) }}" class="btn-edit text-decoration-none">Edit</a>
+                                        <a href="{{ route('manajemen-user.edit', $item->id) }}" class="btn-edit text-decoration-none"><i class="fa fa-pen"></i> Edit</a>
                                     @else
-                                        <a href="{{ route('manajemen-user.edit', $item->id) }}" class="btn-edit text-decoration-none">Edit</a>
+                                        <a href="{{ route('manajemen-user.edit', $item->id) }}" class="btn-edit text-decoration-none"><i class="fa fa-pen"></i> Edit</a>
                                         <button class="btn-delete" onclick="openDeleteModal({{ $item->id }}, '{{ addslashes($item->nama) }}')">
-                                            Hapus
+                                            <i class="fa fa-trash"></i> Hapus
                                         </button>
                                     @endif
                                 </div>
@@ -289,13 +289,6 @@
             </div>
         </div>
     </div>
-
-    @if (session('success'))
-        <div class="alert alert-success"
-            style="max-width: 700px; margin: 1.5rem auto 0; padding: 0.75rem 1.25rem; background-color: #d4edda; color: #155724; border-radius: 0.375rem; border: 1px solid #c3e6cb;">
-            {{ session('success') }}
-        </div>
-    @endif
 @endsection
 
 @push('scripts')
