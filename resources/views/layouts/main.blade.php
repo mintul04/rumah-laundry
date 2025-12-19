@@ -264,7 +264,7 @@
                 title: '{{ session('success') }}',
                 position: "top-end",
                 toast: true,
-                timer: 4000,
+                timer: 3000,
                 showConfirmButton: false,
                 customClass: {
                     popup: 'rounded-xl'
@@ -279,7 +279,7 @@
             Swal.fire({
                 icon: 'error',
                 title: '{{ session('error') }}',
-                timer: 4000,
+                timer: 3000,
                 position: "top-end",
                 toast: true,
                 showConfirmButton: false,
@@ -298,7 +298,7 @@
                 title: '{{ session('info') }}',
                 position: "top-end",
                 toast: true,
-                timer: 4000,
+                timer: 3000,
                 showConfirmButton: false,
                 customClass: {
                     popup: 'rounded-xl'
