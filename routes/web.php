@@ -3,12 +3,12 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\PaketLaundryController;
-use App\Http\Controllers\LayananController;
 use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ManajemenUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProfileController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +17,13 @@ Route::get('/', [LandingPageController::class, 'landingPage'])->name('landing-pa
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-proses', [AuthController::class, 'loginProses'])->name('loginProses');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // PROFILE ROUTES
+    Route::prefix('admin/profile')->name('admin.profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
+        Route::post('/password', [ProfileController::class, 'updatePassword'])->name('password');
+});
 
 // Route Resource untuk Paket Laundry
 Route::resource('paket-laundry', PaketLaundryController::class);
@@ -50,4 +57,4 @@ Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('das
 // Pastikan route ada
 // Route::get('/pesanan/create', [PesananController::class, 'create'])->name('pesanan.create');
 // Route::post('/pesanan/store', [PesananController::class, 'store'])->name('pesanan.store');
-// Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
+// Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');  
