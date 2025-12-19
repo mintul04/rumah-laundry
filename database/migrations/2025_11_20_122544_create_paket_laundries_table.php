@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('paket_laundries', function (Blueprint $table) {
             $table->id();
             $table->string('nama_paket');
-            $table->decimal('harga', 10, 2);
+            $table->integer('harga');
             $table->string('satuan')->default('kg');
             $table->string('waktu_pengerjaan')->default(24);
             $table->text('deskripsi')->nullable();

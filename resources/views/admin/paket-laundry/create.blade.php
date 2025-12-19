@@ -320,12 +320,29 @@
         }
 
         /* Stagger animation for form groups */
-        .form-group:nth-child(1) { animation-delay: 0.1s; }
-        .form-group:nth-child(2) { animation-delay: 0.2s; }
-        .form-group:nth-child(3) { animation-delay: 0.3s; }
-        .form-group:nth-child(4) { animation-delay: 0.4s; }
-        .form-group:nth-child(5) { animation-delay: 0.5s; }
-        .form-group:nth-child(6) { animation-delay: 0.6s; }
+        .form-group:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .form-group:nth-child(6) {
+            animation-delay: 0.6s;
+        }
     </style>
 @endpush
 
@@ -359,9 +376,7 @@
                                         <label class="form-label">
                                             Jenis Paket <span class="required">*</span>
                                         </label>
-                                        <input type="text" name="nama_paket" class="form-control" 
-                                               placeholder="Masukkan nama paket"
-                                               value="{{ old('nama_paket') }}" required>
+                                        <input type="text" name="nama_paket" class="form-control" placeholder="Masukkan nama paket" value="{{ old('nama_paket') }}" required>
                                         @error('nama_paket')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -376,9 +391,11 @@
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text">Rp</span>
-                                            <input type="number" name="harga" class="form-control" 
-                                                   value="{{ old('harga') }}"
-                                                   placeholder="Masukkan harga" required min="0" step="500">
+                                            <!-- Input yang terlihat (read-only untuk UX) -->
+                                            <input type="text" id="harga_display" class="form-control" value="{{ old('harga') ? number_format((float) old('harga'), 0, ',', '.') : '' }}"
+                                                placeholder="Contoh: 15.000" required>
+                                            <!-- Hidden input untuk nilai murni -->
+                                            <input type="hidden" name="harga" id="harga" value="{{ old('harga', '') }}">
                                         </div>
                                         @error('harga')
                                             <div class="text-danger">{{ $message }}</div>
@@ -444,9 +461,7 @@
                                         <label class="form-label">
                                             Deskripsi Paket <span class="required">*</span>
                                         </label>
-                                        <textarea name="deskripsi" class="form-control" 
-                                                  placeholder="Masukkan deskripsi paket laundry" 
-                                                  rows="4" required>{{ old('deskripsi') }}</textarea>
+                                        <textarea name="deskripsi" class="form-control" placeholder="Masukkan deskripsi paket laundry" rows="4" required>{{ old('deskripsi') }}</textarea>
                                         <div class="form-text">
                                             Jelaskan detail layanan yang termasuk dalam paket ini.
                                         </div>
@@ -476,39 +491,44 @@
 
 @push('scripts')
     <script>
-        // Format currency input
-        document.querySelector('input[name="harga"]').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/[^\d]/g, '');
-            if (value) {
-                e.target.value = parseInt(value).toLocaleString('id-ID');
-            }
-        });
-
-        // Remove formatting on form submit
-        document.querySelector('form').addEventListener('submit', function(e) {
-            let hargaInput = document.querySelector('input[name="harga"]');
-            let value = hargaInput.value.replace(/[^\d]/g, '');
-            hargaInput.value = value;
-        });
-
-        // Auto-focus first input
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('input[name="nama_paket"]').focus();
-        });
+            const displayInput = document.getElementById('harga_display');
+            const hiddenInput = document.getElementById('harga');
 
-        // Add input validation feedback
-        const inputs = document.querySelectorAll('.form-control');
-        inputs.forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.value.trim() === '') {
-                    this.style.borderColor = 'var(--accent-danger)';
-                } else {
-                    this.style.borderColor = 'var(--border-color)';
+            // Saat halaman dimuat, set hidden input dari old() jika ada
+            if (hiddenInput.value) {
+                displayInput.value = parseInt(hiddenInput.value).toLocaleString('id-ID');
+            }
+
+            // Saat user ketik di display input
+            displayInput.addEventListener('input', function(e) {
+                let clean = e.target.value.replace(/[^\d]/g, '');
+                e.target.value = clean ? parseInt(clean).toLocaleString('id-ID') : '';
+                hiddenInput.value = clean; // Simpan angka murni di hidden input
+            });
+
+            // Saat blur, pastikan format
+            displayInput.addEventListener('blur', function() {
+                if (this.value && !hiddenInput.value) {
+                    // Jika user paste "12.000", ekstrak angkanya
+                    let clean = this.value.replace(/[^\d]/g, '');
+                    this.value = clean ? parseInt(clean).toLocaleString('id-ID') : '';
+                    hiddenInput.value = clean;
                 }
             });
 
-            input.addEventListener('input', function() {
-                this.style.borderColor = 'var(--primary-blue)';
+            // Auto-focus
+            document.querySelector('input[name="nama_paket"]')?.focus();
+
+            // Validasi visual
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.value.trim() === '') {
+                        this.style.borderColor = 'var(--accent-danger)';
+                    } else {
+                        this.style.borderColor = 'var(--border-color)';
+                    }
+                });
             });
         });
     </script>

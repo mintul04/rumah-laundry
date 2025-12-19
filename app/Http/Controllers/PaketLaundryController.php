@@ -34,7 +34,7 @@ class PaketLaundryController extends Controller
     // Validasi data input
     $validator = Validator::make($request->all(), [
         'nama_paket' => 'required|string|max:255', 
-        'harga' => 'required|numeric|min:0',
+        'harga' => 'required|numeric|min:1',
         'satuan' => 'required|in:kg,pcs,lusin',
         'waktu_pengerjaan' => 'required|string|max:255',
         'deskripsi' => 'required|string'
@@ -89,7 +89,7 @@ class PaketLaundryController extends Controller
         // Validasi data input
         $validator = Validator::make($request->all(), [
             'nama_paket' => 'required|string|max:255', // Ganti 'jenis_paket' menjadi 'nama_paket'
-            'harga' => 'required|numeric|min:0',
+            'harga' => 'required|numeric|min:1',
             'satuan' => 'required|in:kg,pcs,lusin',
             'waktu_pengerjaan' => 'required|string|max:255',
             'deskripsi' => 'required|string'
