@@ -6,17 +6,20 @@
 @push('styles')
     <style>
         :root {
-            --primary-blue: #0d6efd;
-            --primary-dark: #0a58ca;
-            --primary-light: #e3f2fd;
+            --primary-blue: #0066cc;
+            --primary-dark: #004ba3;
+            --primary-light: #e6f2ff;
             --neutral-white: #ffffff;
-            --neutral-gray: #f8f9fa;
-            --neutral-dark: #333333;
+            --neutral-light: #f8f9fa;
+            --neutral-gray: #e9ecef;
+            --neutral-dark: #495057;
+            --accent-success: #28a745;
+            --accent-warning: #ffc107;
             --accent-danger: #dc3545;
+            --accent-info: #17a2b8;
             --border-color: #dee2e6;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
 
         .form-container {
