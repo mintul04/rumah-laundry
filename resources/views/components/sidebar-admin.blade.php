@@ -43,10 +43,17 @@
             @if (auth()->user()->role == 'admin')
                 <li style="margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 2rem;">
                     <a href="{{ route('manajemen-user.index') }}" class="@if (request()->routeIs('manajemen-user.*')) active @endif">
-                        <i class="fas fa-gear"></i>
+                        <i class="fas fa-users"></i>
                         <span>Manajemen User</span>
                     </a>
                 </li>
+            @endif
+
+            @if (auth()->user()->role == 'admin')
+                    <a href="{{ route('pengaturan.index') }}" class="@if (request()->routeIs('pengaturan.*')) active @endif">
+                        <i class="fas fa-gear"></i>
+                        <span>Pengaturan</span>
+                    </a>
             @endif
             </li>
         </ul>

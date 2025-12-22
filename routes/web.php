@@ -5,6 +5,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\PaketLaundryController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\ManajemenUserController;
+use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
@@ -59,6 +60,17 @@ Route::middleware('auth')
 
 // manajemen_user
 Route::middleware('auth')->resource('manajemen-user', ManajemenUserController::class);
+
+// pengaturan
+Route::middleware('auth')->group(function () {
+    Route::get('/pengaturan', [PengaturanController::class, 'index'])
+        ->name('pengaturan.index');
+
+    Route::put('/pengaturan', [PengaturanController::class, 'update'])
+        ->name('pengaturan.update');
+});
+
+
 
 // dashboard-admin
 Route::middleware('auth')

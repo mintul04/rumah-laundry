@@ -18,7 +18,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        // Pastikan menggunakan with() untuk memuat relasi
+        
         $transaksis = Transaksi::latest()->get();
 
         return view('admin.transaksi.index', compact('transaksis'));
@@ -48,6 +48,7 @@ class TransaksiController extends Controller
             'tanggal_selesai' => 'required|date',
             'pembayaran' => 'required|in:lunas,dp',
             'status_order' => 'required|in:baru,diproses,selesai,diambil',
+            'jumlah_dp' => 'nullable|numeric|min:0',
             'total' => 'required|numeric|min:0',
             'items' => 'required|array|min:1',
             'items.*.paket_id' => 'required|exists:paket_laundries,id',
@@ -55,6 +56,20 @@ class TransaksiController extends Controller
             'diskon' => 'nullable|numeric|min:0'
         ]);
 
+        // Validasi khusus untuk DP
+        if ($request->pembayaran === 'dp') {
+            $request->validate([
+                'jumlah_dp' => [
+                    'required',
+                    'numeric',
+                    'min:1000', // Minimal DP 1000
+                    'max:' . $request->total
+                ],
+            ], [
+                'jumlah_dp.max' => 'Jumlah DP tidak boleh melebihi total transaksi',
+                'jumlah_dp.min' => 'Jumlah DP minimal Rp 1.000',
+            ]);
+        }
         // Mulai transaksi database untuk memastikan konsistensi data
         DB::beginTransaction();
 
@@ -68,6 +83,7 @@ class TransaksiController extends Controller
                 'pembayaran' => $request->pembayaran,
                 'jumlah_dp' => $request->pembayaran === 'dp' ? $request->jumlah_dp : null,
                 'status_order' => $request->status_order,
+                'down_payment' => $request->down_payment,
                 'total' => $request->total,
             ]);
 
@@ -90,7 +106,6 @@ class TransaksiController extends Controller
             // Redirect ke halaman index dengan pesan sukses
             return redirect()->route('transaksi.index')
                 ->with('success', 'Transaksi berhasil ditambahkan!');
-
         } catch (\Exception $e) {
             // Rollback transaksi jika terjadi kesalahan
             DB::rollback();

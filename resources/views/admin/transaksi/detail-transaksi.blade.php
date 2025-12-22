@@ -384,12 +384,15 @@
                 </div>
                 <div class="info-item">
                     <span class="info-label">Tanggal Terima</span>
-                    <span class="info-value">{{ \Carbon\Carbon::parse($transaksi->tanggal_terima)->locale('id')->isoFormat('D MMMM Y') }}</span>
+                    <span
+                        class="info-value">{{ \Carbon\Carbon::parse($transaksi->tanggal_terima)->locale('id')->isoFormat('D MMMM Y') }}</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Tanggal Selesai</span>
-                    <span class="info-value">{{ \Carbon\Carbon::parse($transaksi->tanggal_selesai)->locale('id')->isoFormat('D MMMM Y') }}</span>
+                    <span
+                        class="info-value">{{ \Carbon\Carbon::parse($transaksi->tanggal_selesai)->locale('id')->isoFormat('D MMMM Y') }}</span>
                 </div>
+                <!-- Di bagian informasi transaksi -->
                 <div class="info-item">
                     <span class="info-label">Pembayaran</span>
                     <span class="info-value">
@@ -398,7 +401,7 @@
                         @elseif($transaksi->pembayaran == 'dp')
                             <span class="status-badge badge-dp">DP</span>
                         @else
-                            <span class="status-badge badge-belum-lunas">Belum Lunas</span>
+                            <span class="status-badge badge-belum-lunas">Belum Bayar</span>
                         @endif
                     </span>
                 </div>
@@ -416,6 +419,18 @@
                         @endif
                     </span>
                 </div>
+
+                @if ($transaksi->pembayaran == 'dp')
+                    <div class="info-item">
+                        <span class="info-label">Jumlah DP</span>
+                        <span class="info-value">Rp {{ number_format($transaksi->jumlah_dp, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sisa</span>
+                        <span class="info-value">Rp {{ number_format($transaksi->total - $transaksi->jumlah_dp, 0, ',', '.') }}</span>
+                    </div>
+                @endif
+
                 <div class="info-item">
                     <span class="info-label">Total</span>
                     <span class="info-value">Rp {{ number_format($transaksi->total, 0, ',', '.') }}</span>
@@ -483,7 +498,8 @@
                 @method('PUT')
                 <select name="status_order" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
                     <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>Baru</option>
-                    <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                    <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>Diproses
+                    </option>
                     <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>Selesai</option>
                     <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>Diambil</option>
                 </select>

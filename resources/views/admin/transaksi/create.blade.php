@@ -334,7 +334,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">No. Order</label>
-                                        <input type="text" class="form-control" name="no_order" value="{{ $lastOrderNumber }}" readonly style="background-color: #f8f9fa; font-weight: 600;">
+                                        <input type="text" class="form-control" name="no_order"
+                                            value="{{ $lastOrderNumber }}" readonly
+                                            style="background-color: #f8f9fa; font-weight: 600;">
                                     </div>
                                 </div>
 
@@ -342,7 +344,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Nama Pelanggan <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="nama_pelanggan" required placeholder="Masukkan nama pelanggan">
+                                        <input type="text" class="form-control" name="nama_pelanggan" required
+                                            placeholder="Masukkan nama pelanggan">
                                     </div>
                                 </div>
                             </div>
@@ -352,7 +355,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Tanggal Terima <span class="required">*</span></label>
-                                        <input type="date" name="tanggal_terima" class="form-control" value="{{ date('Y-m-d') }}" required>
+                                        <input type="date" name="tanggal_terima" class="form-control"
+                                            value="{{ date('Y-m-d') }}" required>
                                     </div>
                                 </div>
 
@@ -360,7 +364,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Tanggal Selesai <span class="required">*</span></label>
-                                        <input type="date" name="tanggal_selesai" class="form-control" value="{{ date('Y-m-d') }}" required>
+                                        <input type="date" name="tanggal_selesai" class="form-control"
+                                            value="{{ date('Y-m-d') }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -378,99 +383,105 @@
                                     </div>
                                 </div>
 
-                                <!-- Jumlah DP (conditional) -->
-                                <div class="col-md-6" id="dp-input-container" style="display: none;">
-                                    <div class="form-group">
-                                        <label class="form-label">Jumlah DP</label>
-                                        <input type="number" class="form-control" name="jumlah_dp" id="jumlah_dp" placeholder="Masukkan jumlah DP" min="0">
+                                <!-- Detail Pesanan -->
+                                <div class="section-title">
+                                    <i class="fas fa-list"></i> Detail Pesanan
+                                </div>
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Paket</th>
+                                            <th>Berat</th>
+                                            <th>Subtotal</th>
+                                            <th>Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="items-container">
+                                        <tr class="item-row">
+                                            <td>1</td>
+                                            <td>
+                                                <select name="items[0][paket_id]" class="form-control paket-select"
+                                                    required>
+                                                    <option value="">-- Pilih Paket --</option>
+                                                    @foreach ($pakets as $paket)
+                                                        <option value="{{ $paket->id }}"
+                                                            data-harga="{{ $paket->harga }}">
+                                                            {{ $paket->nama_paket }} - Rp
+                                                            {{ number_format($paket->harga, 0, ',', '.') }} /
+                                                            {{ $paket->satuan }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" name="items[0][berat]"
+                                                    class="form-control berat-input" step="0.1" min="0.1"
+                                                    value="1" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control subtotal-input" value=""
+                                                    readonly style="background-color: #f8f9fa; font-weight: 600;">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm remove-item" disabled>
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="row justify-content-start mb-3">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn-primary-sm" id="add-item">
+                                            <i class="fas fa-plus"></i> Tambah Item
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Detail Pesanan -->
-                            <div class="section-title">
-                                <i class="fas fa-list"></i> Detail Pesanan
-                            </div>
+                                <!-- Total & Pembayaran -->
+                                <div class="section-title">
+                                    <i class="fas fa-calculator"></i> Total & Pembayaran
+                                </div>
 
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Paket</th>
-                                        <th>Berat</th>
-                                        <th>Subtotal</th>
-                                        <th>Tindakan</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="items-container">
-                                    <tr class="item-row">
-                                        <td>1</td>
-                                        <td>
-                                            <select name="items[0][paket_id]" class="form-control paket-select" required>
-                                                <option value="">-- Pilih Paket --</option>
-                                                @foreach ($pakets as $paket)
-                                                    <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
-                                                        {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }} / {{ $paket->satuan }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="number" name="items[0][berat]" class="form-control berat-input" step="0.1" min="0.1" value="1" required>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control subtotal-input" value="Rp 0" readonly style="background-color: #f8f9fa; font-weight: 600;">
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-sm remove-item" disabled>
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Diskon (Rp)</label>
+                                            <input type="number" name="diskon" class="form-control" id="diskon-input"
+                                                value="0" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Total Akhir</label>
+                                            <input type="number" name="total" class="form-control"
+                                                id="total-final-display" value="0" readonly
+                                                style="background-color: #f8f9fa; font-weight: 600; font-size: 1.1rem;">
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div class="row justify-content-start mb-3">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn-primary-sm" id="add-item">
-                                        <i class="fas fa-plus"></i> Tambah Item
+                                <div class="form-group">
+                                    <label class="form-label">Jumlah DP (Rp)</label>
+                                    <input type="number" name="jumlah_dp" class="form-control" id="jumlah_dp"
+                                        value="0" min="0">
+                                </div>
+
+                                <!-- Hidden Status Order -->
+                                <input type="hidden" name="status_order" value="baru">
+
+                                <!-- Form Actions -->
+                                <div class="form-actions">
+                                    <a href="{{ route('transaksi.index') }}" class="btn-cancel">
+                                        <i class="fas fa-arrow-left"></i> Kembali
+                                    </a>
+                                    <button type="submit" class="btn-submit">
+                                        <i class="fas fa-save"></i> Simpan Transaksi
                                     </button>
                                 </div>
-                            </div>
-
-                            <!-- Total & Pembayaran -->
-                            <div class="section-title">
-                                <i class="fas fa-calculator"></i> Total & Pembayaran
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Diskon (Rp)</label>
-                                        <input type="number" name="diskon" class="form-control" id="diskon-input" value="0" min="0">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Total Akhir</label>
-                                        <input type="number" name="total" class="form-control" id="total-final-display" value="0" readonly
-                                            style="background-color: #f8f9fa; font-weight: 600; font-size: 1.1rem;">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hidden Status Order -->
-                            <input type="hidden" name="status_order" value="baru">
-
-                            <!-- Form Actions -->
-                            <div class="form-actions">
-                                <a href="{{ route('transaksi.index') }}" class="btn-cancel">
-                                    <i class="fas fa-arrow-left"></i> Kembali
-                                </a>
-                                <button type="submit" class="btn-submit">
-                                    <i class="fas fa-save"></i> Simpan Transaksi
-                                </button>
-                            </div>
                         </form>
                     </div>
                 </div>
@@ -481,101 +492,149 @@
     {{-- Tetap gunakan script asli tanpa perubahan logika --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
             let itemCount = 1;
 
-            document.getElementById('add-item').addEventListener('click', function() {
-                const newRow = document.createElement('tr');
-                newRow.className = 'item-row';
-                newRow.innerHTML = `
-                <td>${itemCount + 1}</td>
-                <td>
-                    <select name="items[${itemCount}][paket_id]" class="form-control paket-select" required>
-                        <option value="">-- Pilih Paket --</option>
-                        @foreach ($pakets as $paket)
-                            <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
-                                {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }} / {{ $paket->satuan }}
-                            </option>
-                        @endforeach
-                    </select>
-                </td>
-                <td>
-                    <input type="number" name="items[${itemCount}][berat]" class="form-control berat-input" 
-                        step="0.1" min="0.1" value="1" required>
-                </td>
-                <td>
-                    <input type="text" class="form-control subtotal-input" value="Rp 0" readonly
-                        style="background-color: #f8f9fa; font-weight: 600;">
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm remove-item">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            `;
-                document.getElementById('items-container').appendChild(newRow);
-                itemCount++;
+            const pembayaranSelect = document.querySelector('select[name="pembayaran"]');
+            const dpInput = document.getElementById('jumlah_dp');
+            const totalInput = document.getElementById('total-final-display');
+            const totalHidden = document.querySelector('input[name="total"]');
+            const diskonInput = document.getElementById('diskon-input');
+            const itemsContainer = document.getElementById('items-container');
+            const addItemBtn = document.getElementById('add-item');
 
-                document.querySelectorAll('.remove-item').forEach((btn, index) => {
-                    btn.disabled = index === 0;
-                });
-
-                attachEventListeners(newRow);
-                calculateTotal();
-            });
-
+            /* ===============================
+                HITUNG TOTAL & SUBTOTAL
+            =============================== */
             function calculateTotal() {
                 let subtotalItems = 0;
 
                 document.querySelectorAll('.item-row').forEach(row => {
-                    const paketSelect = row.querySelector('.paket-select');
-                    const beratInput = row.querySelector('.berat-input');
-                    const subtotalInput = row.querySelector('.subtotal-input');
+                    const paket = row.querySelector('.paket-select');
+                    const berat = row.querySelector('.berat-input');
+                    const subtotal = row.querySelector('.subtotal-input');
 
-                    if (paketSelect.value && beratInput.value) {
-                        const harga = parseFloat(paketSelect.selectedOptions[0].dataset.harga);
-                        const berat = parseFloat(beratInput.value);
-                        const itemSubtotal = harga * berat;
+                    if (paket.value && berat.value) {
+                        const harga = parseFloat(paket.selectedOptions[0].dataset.harga);
+                        const beratVal = parseFloat(berat.value);
+                        const hasil = harga * beratVal;
 
-                        subtotalItems += itemSubtotal;
-                        subtotalInput.value = 'Rp ' + itemSubtotal.toLocaleString('id-ID');
+                        subtotal.value = hasil.toLocaleString('id-ID');
+                        subtotalItems += hasil;
                     } else {
-                        subtotalInput.value = 'Rp 0';
+                        subtotal.value = '';
                     }
                 });
 
-                const diskon = parseFloat(document.getElementById('diskon-input').value) || 0;
+                const diskon = parseFloat(diskonInput.value) || 0;
                 const totalAkhir = subtotalItems - diskon;
 
-                document.querySelector('input[name="total"]').value = totalAkhir;
-                document.getElementById('total-final-display').value = totalAkhir;
+                totalHidden.value = totalAkhir > 0 ? totalAkhir : '';
+                totalInput.value = totalAkhir > 0 ? totalAkhir : '';
+
+                updateDPUI();
             }
 
-            document.querySelector('select[name="pembayaran"]').addEventListener('change', function() {
-                const dpContainer = document.getElementById('dp-input-container');
-                const dpInput = document.getElementById('jumlah_dp');
-                if (this.value === 'dp') {
-                    dpContainer.style.display = 'block';
-                    dpInput.setAttribute('required', 'required');
+            /* ===============================
+                DP LOGIC
+            =============================== */
+            function updateDPUI() {
+                const total = parseFloat(totalHidden.value) || 0;
+
+                if (pembayaranSelect.value === 'dp' && total > 0) {
+                    dpInput.style.display = 'block';
+                    dpInput.required = true;
+                    dpInput.max = total;
+
+                    if (!dpInput.value) {
+                        dpInput.value = Math.round(total * DEFAULT_DP_PERCENT);
+                    }
+
+                    let info = document.getElementById('dp-info');
+                    if (!info) {
+                        info = document.createElement('div');
+                        info.id = 'dp-info';
+                        info.className = 'form-text text-info mt-1';
+                        dpInput.parentNode.appendChild(info);
+                    }
+
+                    const sisa = total - (parseFloat(dpInput.value) || 0);
+                    info.innerHTML = `Sisa pembayaran: <strong>Rp ${sisa.toLocaleString('id-ID')}</strong>`;
+
                 } else {
-                    dpContainer.style.display = 'none';
-                    dpInput.removeAttribute('required');
                     dpInput.value = '';
+                    dpInput.required = false;
+                    dpInput.style.display = 'none';
+
+                    const info = document.getElementById('dp-info');
+                    if (info) info.remove();
                 }
+            }
+
+            /* ===============================
+                TAMBAH ITEM
+            =============================== */
+            addItemBtn.addEventListener('click', function() {
+                const row = document.createElement('tr');
+                row.className = 'item-row';
+                row.innerHTML = `
+            <td>${itemCount + 1}</td>
+            <td>
+                <select name="items[${itemCount}][paket_id]" class="form-control paket-select" required>
+                    <option value="">-- Pilih Paket --</option>
+                    @foreach ($pakets as $paket)
+                        <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
+                            {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }} / {{ $paket->satuan }}
+                        </option>
+                    @endforeach
+                </select>
+            </td>
+            <td>
+                <input type="number" name="items[${itemCount}][berat]" class="form-control berat-input"
+                    step="0.1" min="0.1" value="1" required>
+            </td>
+            <td>
+                <input type="text" class="form-control subtotal-input" readonly>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm remove-item">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+                itemsContainer.appendChild(row);
+                itemCount++;
+
+                attachRowEvents(row);
+                calculateTotal();
             });
 
-            function attachEventListeners(row) {
+            /* ===============================
+                EVENT BARIS
+            =============================== */
+            function attachRowEvents(row) {
                 row.querySelector('.paket-select').addEventListener('change', calculateTotal);
                 row.querySelector('.berat-input').addEventListener('input', calculateTotal);
                 row.querySelector('.remove-item').addEventListener('click', function() {
-                    if (!this.disabled) {
-                        row.remove();
-                        calculateTotal();
-                    }
+                    row.remove();
+                    calculateTotal();
                 });
             }
 
-            attachEventListeners(document.querySelector('.item-row'));
-            document.getElementById('diskon-input').addEventListener('input', calculateTotal);
+            attachRowEvents(document.querySelector('.item-row'));
+
+            /* ===============================
+                EVENT GLOBAL
+            =============================== */
+            pembayaranSelect.addEventListener('change', updateDPUI);
+            diskonInput.addEventListener('input', calculateTotal);
+
+            dpInput.addEventListener('input', function() {
+                const total = parseFloat(totalHidden.value) || 0;
+                if (this.value > total) this.value = total;
+                updateDPUI();
+            });
+
         });
     </script>
 @endsection

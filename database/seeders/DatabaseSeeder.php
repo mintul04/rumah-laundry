@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PaketLaundrySeeder::class,
             UserSeeder::class,
+            PengaturanSeeder::class,
         ]);
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('tanggal_terima');
             $table->date('tanggal_selesai');
             $table->enum('pembayaran', ['lunas', 'belum_lunas', 'dp'])->default('belum_lunas');
-            $table->string('jumlah_dp')->nullable();
+            $table->decimal('jumlah_dp', 15, 2)->nullable();
             $table->enum('status_order', ['baru', 'diproses', 'selesai', 'diambil'])->default('baru');
             $table->integer('total')->default(0);
             $table->timestamps();

@@ -52,6 +52,35 @@
             transform: translateY(-1px);
         }
 
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-size: 0.95rem;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--neutral-white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -177,6 +206,10 @@
                 align-items: stretch;
             }
 
+            .search-box {
+                justify-content: flex-start;
+            }
+
             th,
             td {
                 padding: 0.6rem 0.75rem;
@@ -211,6 +244,11 @@
             </a>
         </div>
 
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Cari user...">
+            <button class="btn-primary">Cari</button>
+        </div>
+
         <div class="table-responsive">
             <table>
                 <thead>
@@ -232,11 +270,18 @@
                             <td>{{ $item->nama_pelanggan }}</td>
                             <td>{{ $item->tanggal_terima }}</td>
                             <td>
-                                @if ($item->pembayaran == 'lunas')
-                                    <span class="badge badge-lunas">Lunas</span>
-                                @elseif ($item->pembayaran == 'dp')
-                                    <span class="badge badge-belum-lunas">Belum Lunas</span>
-                                @endif
+                                <div class="d-flex align-items-center gap-2">
+                                    @if ($item->pembayaran === 'dp')
+                                        <span class="badge bg-primary">DP</span>
+                                        <small class="text-muted">
+                                            {{ number_format($item->jumlah_dp, 0, ',', '.') }}
+                                        </small>
+                                    @elseif ($item->pembayaran === 'lunas')
+                                        <span class="badge bg-success">Lunas</span>
+                                    @else
+                                        <span class="badge bg-secondary">Belum Bayar</span>
+                                    @endif
+                                </div>
                             </td>
                             <td>
                                 @if ($item->status_order == 'baru')
@@ -251,11 +296,15 @@
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{{ route('transaksi.show', $item->id) }}" class="btn-info"><i class="fa fa-eye"></i> Detail</a>
-                                    <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST" style="display: inline;">
+                                    <a href="{{ route('transaksi.show', $item->id) }}" class="btn-info"><i
+                                            class="fa fa-eye"></i> Detail</a>
+                                    <form action="{{ route('transaksi.destroy', $item->id) }}" method="POST"
+                                        style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-delete" onclick="return confirm('Yakin ingin menghapus transaksi ini?')"><i class="fa fa-trash"></i> Hapus</button>
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Yakin ingin menghapus transaksi ini?')"><i
+                                                class="fa fa-trash"></i> Hapus</button>
                                     </form>
                                 </div>
                             </td>
@@ -272,5 +321,20 @@
 @endsection
 
 @push('scripts')
-    <!-- Tidak ada script khusus selain confirm(), sudah inline -->
+    <script>
+        // Pencarian sederhana
+        document.querySelector('.search-input').addEventListener('input', function() {
+            const term = this.value.toLowerCase();
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+        });
+
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            document.querySelector('.search-input').dispatchEvent(new Event('input'));
+        });
+
+        // <!-- Tidak ada script khusus selain confirm(), sudah inline -->
+    </script>
 @endpush
