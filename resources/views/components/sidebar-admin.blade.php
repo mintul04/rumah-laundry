@@ -1,9 +1,12 @@
 <aside class="admin-sidebar">
     <div class="sidebar-brand" style="display: flex; align-items: center; gap: 10px;">
-        {{-- <img src="{{ asset('img/rumah.png') }}" alt="Logo rumah" style="width: 35px; height: auto;"> --}}
-        <i class="fas fa-wind" style="font-size: 1.5rem;"></i>
+        @if ($pengaturan->logo)
+            <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo RumahLaundry" style="height: 40px; width: auto; object-fit: contain; border-radius: 6px;">
+        @else
+            <i class="fas fa-wind" style="font-size: 1.5rem;"></i>
+        @endif
         <div>
-            <span class="sidebar-brand-text">RumahLaundry</span>
+            <span class="sidebar-brand-text">{{ $pengaturan->nama_laundry ?? "RumahLaundry" }}</span>
             <div style="font-size: 0.9rem; opacity: 0.8;">{{ auth()->user()->role == 'admin' ? 'Admin' : 'Karyawan' }}</div>
         </div>
     </div>
@@ -50,10 +53,10 @@
             @endif
 
             @if (auth()->user()->role == 'admin')
-                    <a href="{{ route('pengaturan.index') }}" class="@if (request()->routeIs('pengaturan.*')) active @endif">
-                        <i class="fas fa-gear"></i>
-                        <span>Pengaturan</span>
-                    </a>
+                <a href="{{ route('pengaturan.index') }}" class="@if (request()->routeIs('pengaturan.*')) active @endif">
+                    <i class="fas fa-gear"></i>
+                    <span>Pengaturan</span>
+                </a>
             @endif
             </li>
         </ul>

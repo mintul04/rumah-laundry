@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email_laundry');
             $table->text('alamat_laundry');
             $table->string('nama_pemilik');
+            $table->string('telepon_laundry');
             $table->string('logo')->nullable();
             $table->timestamps();
         });

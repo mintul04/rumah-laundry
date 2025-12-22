@@ -1049,10 +1049,17 @@
     <nav class="navbar-landing navbar navbar-expand-lg navbar-light" id="mainNavbar">
         <div class="container">
             <a class="navbar-brand-custom text-decoration-none" href="#home">
-                <div class="brand-icon">
-                    <i class="fas fa-water text-white"></i>
-                </div>
-                <span>RumahLaundry</span>
+                @if ($pengaturan->logo)
+                    <div class="brand-icon">
+                        <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo {{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}"
+                            style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,.1);">
+                    </div>
+                @else
+                    <div class="brand-icon">
+                        <i class="fas fa-water text-white"></i>
+                    </div>
+                @endif
+                <span>{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
@@ -1078,12 +1085,12 @@
 
                 <div class="navbar-cta ms-3">
 
-                <div class="navbar-cta-group ms-lg-3 d-flex gap-2">
-                    <a href="{{ Route('login') }}"><button class="btn btn-nav-primary">Login</button></a>
+                    <div class="navbar-cta-group ms-lg-3 d-flex gap-2">
+                        <a href="{{ Route('login') }}"><button class="btn btn-nav-primary">Login</button></a>
 
+                    </div>
                 </div>
             </div>
-        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -1165,14 +1172,14 @@
                         <div class="location-icon-box">
                             <i class="fas fa-store text-white"></i>
                         </div>
-                        <h3 class="location-card-title">RumahLaundry Central</h3>
+                        <h3 class="location-card-title">{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }} Central</h3>
                         <p class="mb-4" style="color: var(--clr-text-secondary);">Outlet utama kami dengan fasilitas lengkap dan
                             staf profesional siap melayani Anda.</p>
 
                         <ul class="location-info-list">
                             <li>
                                 <i class="fas fa-map-marker-alt"></i>
-                                <span>Jl. Laundry No. 123, Kota Anda</span>
+                                <span>{{ $pengaturan->alamat_laundry }}</span>
                             </li>
                             <li>
                                 <i class="fas fa-clock"></i>
@@ -1180,7 +1187,7 @@
                             </li>
                             <li>
                                 <i class="fas fa-phone"></i>
-                                <span>+62 812-3456-7890</span>
+                                <span>{{ $pengaturan->telepon_laundry ?? '+62 812-3456-7890' }}</span>
                             </li>
                             <li>
                                 <i class="fas fa-wifi"></i>
@@ -1196,7 +1203,7 @@
                             <a href="https://maps.google.com" target="_blank" class="btn-location">
                                 <i class="fas fa-directions"></i> Petunjuk Arah
                             </a>
-                            <a href="tel:+6281234567890" class="btn"
+                            <a href="https://wa.me/{{ $pengaturan->telepon ?? '6281234567890' }}" target="_blank" class="btn"
                                 style="background: var(--clr-white); color: var(--clr-text-primary); border: 1.5px solid var(--clr-neutral-200); padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition-base);">
                                 <i class="fas fa-phone"></i> Telepon Sekarang
                             </a>
@@ -1211,7 +1218,7 @@
     <section id="features" class="features-section">
         <div class="container">
             <div class="section-header-wrapper">
-                <h2 class="section-title">Keunggulan RumahLaundry</h2>
+                <h2 class="section-title">Keunggulan {{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}</h2>
                 <p class="section-subtitle">Mengapa ribuan pelanggan mempercayai laundry kami</p>
             </div>
 
@@ -1393,7 +1400,7 @@
         <div class="container">
             <div class="row g-4 mb-5">
                 <div class="col-md-4">
-                    <h5 class="footer-title">RumahLaundry</h5>
+                    <h5 class="footer-title">{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}</h5>
                     <p class="footer-desc">Layanan laundry offline terpercaya dengan standar kebersihan tinggi dan pelayanan
                         maksimal untuk seluruh keluarga Anda.</p>
                     <div class="social-links-group">
@@ -1414,9 +1421,9 @@
                 </div>
                 <div class="col-md-4">
                     <h5 class="footer-title">Kontak & Lokasi</h5>
-                    <p class="footer-desc"><i class="fas fa-map-marker-alt me-2"></i> Jl. Laundry No. 123, Kota Anda</p>
-                    <p class="footer-desc"><i class="fas fa-phone me-2"></i> +62 812-3456-7890</p>
-                    <p class="footer-desc"><i class="fas fa-envelope me-2"></i> info@rumahlaundry.id</p>
+                    <p class="footer-desc"><i class="fas fa-map-marker-alt me-2"></i> {{ $pengaturan->alamat_laundry ?? ' Jl. Laundry No. 123, Jakarta' }}</p>
+                    <p class="footer-desc"><i class="fas fa-phone me-2"></i> +{{ $pengaturan->telepon_laundry ?? '62 812-3456-7890' }}</p>
+                    <p class="footer-desc"><i class="fas fa-envelope me-2"></i> {{ $pengaturan->email_laundry ?? 'info@rumahlaundry.id' }}</p>
                     <p class="footer-desc"><i class="fas fa-clock me-2"></i> Buka 24/7</p>
                 </div>
             </div>

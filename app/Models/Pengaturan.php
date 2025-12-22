@@ -14,5 +14,6 @@ class Pengaturan extends Model
         'email_laundry',
         'alamat_laundry',
         'nama_pemilik',
+        'telepon_laundry',
     ];
 }

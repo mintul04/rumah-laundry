@@ -19,6 +19,7 @@ class PengaturanController extends Controller
     {
         $request->validate([
             'nama_laundry' => 'required|string|max:255',
+            'telepon_laundry' => 'required|string|max:255',
             'email_laundry' => 'required|email',
             'alamat_laundry' => 'required|string',
             'nama_pemilik' => 'required|string|max:255',
@@ -30,14 +31,21 @@ class PengaturanController extends Controller
         // Handle upload logo
         if ($request->hasFile('logo')) {
             // Hapus logo lama jika ada
-            if ($pengaturan->logo && Storage::exists('public/' . $pengaturan->logo)) {
-                Storage::delete('public/' . $pengaturan->logo);
+            if ($pengaturan->logo && Storage::disk('public')->exists($pengaturan->logo)) {
+                Storage::disk('public')->delete($pengaturan->logo);
             }
 
             // Simpan logo baru
-            $logoPath = $request->file('logo')->store('logos', 'public');
+            $logoPath = $request->file('logo')->store('logo', 'public');
             $pengaturan->logo = $logoPath;
         }
+
+        //formatInternasionalTelepon
+        $telepon = preg_replace('/[^\d]/', '', $request->telepon_laundry);
+        if (substr($telepon, 0, 1) === '0') {
+            $telepon = '62' . substr($telepon, 1);
+        }
+        $pengaturan->telepon_laundry = $telepon;
 
         // Update data lainnya
         $pengaturan->nama_laundry = $request->nama_laundry;
