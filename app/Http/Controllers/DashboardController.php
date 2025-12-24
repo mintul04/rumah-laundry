@@ -6,6 +6,7 @@ use App\Models\Transaksi;
 use App\Models\PaketLaundry;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -39,13 +40,17 @@ class DashboardController extends Controller
         // Data untuk Penjualan 7 Hari Terakhir
         $salesLast7Days = $this->getSalesLast7Days();
 
+        // 5 paket paling laris (1 bulan terakhir)
+        $topPaketLaris = $this->getTopPaketLaris();
+
         return view('admin.dashboard', [
-            'totalPesanan'        => $totalPesanan,
-            'totalPelanggan'      => $totalPelanggan,
-            'totalPaket'          => $totalPaket,
+            'totalPesanan' => $totalPesanan,
+            'totalPelanggan' => $totalPelanggan,
+            'totalPaket' => $totalPaket,
             'pendapatanFormatted' => $pendapatanFormatted,
-            'statusData'          => $statusData,
-            'salesLast7Days'      => $salesLast7Days
+            'statusData' => $statusData,
+            'salesLast7Days' => $salesLast7Days,
+            'topPaketLaris' => $topPaketLaris,
         ]);
     }
 
@@ -80,50 +85,34 @@ class DashboardController extends Controller
      */
     private function getSalesLast7Days()
     {
-        $endDate = Carbon::now();
-        $startDate = Carbon::now()->subDays(6);
-        
+        $endDate = Carbon::today();
+        $startDate = Carbon::today()->subDays(6);
+
         $dates = [];
         $sales = [];
         $orderCounts = [];
-        
-        // Nama hari dalam bahasa Indonesia singkat
+
+        // Nama hari dalam bahasa Indonesia
         $daysInIndonesian = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-        
-        // Cek apakah ada data transaksi di database
-        $hasData = Transaksi::count() > 0;
-        
+
         for ($i = 0; $i < 7; $i++) {
-            $date = $startDate->copy()->addDays($i);
-            
-            // Format: Sen, 23
-            $dayName = $daysInIndonesian[$date->dayOfWeek];
-            $dates[] = $dayName . ', ' . $date->format('j');
-            
-            if ($hasData) {
-                // Total pendapatan per hari (hanya yang lunas)
-                $total = Transaksi::whereDate('created_at', $date->format('Y-m-d'))
-                    ->where('pembayaran', 'lunas')
-                    ->sum('total');
-                
-                // Jumlah pesanan per hari
-                $orderCount = Transaksi::whereDate('created_at', $date->format('Y-m-d'))
-                    ->count();
-            } else {
-                // Data dummy untuk development/demo
-                // Pattern: random dengan trend naik turun
-                $baseSales = [1500000, 1800000, 2200000, 1900000, 2500000, 2100000, 1700000];
-                $baseOrders = [8, 10, 12, 9, 14, 11, 7];
-                
-                $total = $baseSales[$i] + rand(-200000, 200000);
-                $orderCount = $baseOrders[$i] + rand(-2, 2);
-            }
-            
-            $sales[] = $total;
-            $orderCounts[] = $orderCount;
+            $currentDate = $startDate->copy()->addDays($i);
+            $dayName = $daysInIndonesian[$currentDate->dayOfWeek];
+            $dates[] = $dayName . ', ' . $currentDate->format('j');
+
+            // Pendapatan hanya dari transaksi yang **lunas**
+            $dailySales = Transaksi::whereDate('created_at', $currentDate->format('Y-m-d'))
+                ->where('pembayaran', 'lunas')
+                ->sum('total');
+
+            // Jumlah pesanan (semua status)
+            $dailyOrders = Transaksi::whereDate('created_at', $currentDate->format('Y-m-d'))
+                ->count();
+
+            $sales[] = (int) $dailySales;
+            $orderCounts[] = (int) $dailyOrders;
         }
 
-        // Format total pendapatan
         $totalSales = array_sum($sales);
         $totalOrders = array_sum($orderCounts);
         $averageSales = $totalSales > 0 ? $totalSales / 7 : 0;
@@ -136,7 +125,29 @@ class DashboardController extends Controller
             'total_sales_formatted' => $this->formatRupiah($totalSales),
             'total_orders' => $totalOrders,
             'average_sales' => $this->formatRupiah($averageSales),
-            'has_data' => $hasData
+            'has_data' => true // Karena kita selalu pakai data riil
         ];
+    }
+
+    /**
+     * Ambil 5 paket laundry paling laris dalam 1 bulan terakhir
+     */
+    private function getTopPaketLaris()
+    {
+        return PaketLaundry::select(
+            'paket_laundries.id',
+            'paket_laundries.nama_paket',
+            DB::raw('SUM(transaksi_details.subtotal) as total_pendapatan')
+        )
+            ->join('transaksi_details', 'paket_laundries.id', '=', 'transaksi_details.paket_id')
+            ->join('transaksis', 'transaksi_details.transaksi_id', '=', 'transaksis.id')
+            ->whereBetween('transaksis.created_at', [
+                Carbon::now()->subMonth()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])
+            ->groupBy('paket_laundries.id', 'paket_laundries.nama_paket')
+            ->orderByRaw('SUM(transaksi_details.subtotal) DESC')
+            ->limit(5)
+            ->get();
     }
 }
