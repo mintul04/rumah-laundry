@@ -13,7 +13,9 @@
     <link href="{{ asset('assets/vendor/fontawesome/all.min.css') }}" rel="stylesheet">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
 
     <style>
         /* ===========================
@@ -1051,7 +1053,8 @@
             <a class="navbar-brand-custom text-decoration-none" href="#home">
                 @if ($pengaturan->logo)
                     <div class="brand-icon">
-                        <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo {{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}"
+                        <img src="{{ Storage::url($pengaturan->logo) }}"
+                            alt="Logo {{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}"
                             style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,.1);">
                     </div>
                 @else
@@ -1102,7 +1105,8 @@
                         Cuci & Setrika <span class="hero-title-highlight">Semudah</span> Pesan Makanan
                     </h1>
                     <p class="hero-subtitle">
-                        Laundry offline terpercaya dengan layanan cuci & setrika yang wangi dan berkualitas tinggi untuk keluarga
+                        Laundry offline terpercaya dengan layanan cuci & setrika yang wangi dan berkualitas tinggi untuk
+                        keluarga
                         Anda.
                     </p>
 
@@ -1125,30 +1129,40 @@
                 <div class="col-lg-6">
                     <div class="hero-visual">
                         <div class="hero-visual-inner">
-                            <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="300" height="300" viewBox="0 0 300 300" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <!-- Washing Machine Illustration -->
-                                <rect x="75" y="50" width="150" height="200" rx="12" fill="#F0F9FF" stroke="#0066FF" stroke-width="2" />
+                                <rect x="75" y="50" width="150" height="200" rx="12" fill="#F0F9FF"
+                                    stroke="#0066FF" stroke-width="2" />
                                 <rect x="90" y="70" width="120" height="30" rx="6" fill="#E0F2FE" />
                                 <!-- Circles for buttons -->
                                 <circle cx="110" cy="85" r="5" fill="#0066FF" />
                                 <circle cx="130" cy="85" r="5" fill="#06B6D4" />
                                 <circle cx="150" cy="85" r="5" fill="#10B981" />
                                 <!-- Main drum -->
-                                <circle cx="150" cy="150" r="50" fill="white" stroke="#0066FF" stroke-width="3" />
-                                <circle cx="150" cy="150" r="35" fill="#E0F2FE" stroke="#0066FF" stroke-width="2" />
+                                <circle cx="150" cy="150" r="50" fill="white" stroke="#0066FF"
+                                    stroke-width="3" />
+                                <circle cx="150" cy="150" r="35" fill="#E0F2FE" stroke="#0066FF"
+                                    stroke-width="2" />
                                 <!-- Inner details -->
-                                <circle cx="150" cy="150" r="20" fill="white" stroke="#0066FF" stroke-width="1.5" />
+                                <circle cx="150" cy="150" r="20" fill="white" stroke="#0066FF"
+                                    stroke-width="1.5" />
                                 <!-- Clothes -->
-                                <rect x="100" y="210" width="25" height="30" rx="4" fill="#10B981" opacity="0.8" />
-                                <rect x="135" y="210" width="25" height="30" rx="4" fill="#F59E0B" opacity="0.8" />
-                                <rect x="170" y="210" width="25" height="30" rx="4" fill="#0066FF" opacity="0.8" />
+                                <rect x="100" y="210" width="25" height="30" rx="4" fill="#10B981"
+                                    opacity="0.8" />
+                                <rect x="135" y="210" width="25" height="30" rx="4" fill="#F59E0B"
+                                    opacity="0.8" />
+                                <rect x="170" y="210" width="25" height="30" rx="4" fill="#0066FF"
+                                    opacity="0.8" />
                                 <!-- Bubbles -->
                                 <circle cx="120" cy="120" r="6" fill="#06B6D4" opacity="0.5" />
                                 <circle cx="180" cy="130" r="5" fill="#06B6D4" opacity="0.4" />
                                 <circle cx="160" cy="110" r="7" fill="#06B6D4" opacity="0.6" />
                                 <!-- Sparkles -->
-                                <path d="M150 40 L152 47 L159 49 L152 51 L150 58 L148 51 L141 49 L148 47 Z" fill="#F59E0B" opacity="0.7" />
-                                <path d="M220 140 L222 145 L227 147 L222 149 L220 154 L218 149 L213 147 L218 145 Z" fill="#10B981" opacity="0.7" />
+                                <path d="M150 40 L152 47 L159 49 L152 51 L150 58 L148 51 L141 49 L148 47 Z"
+                                    fill="#F59E0B" opacity="0.7" />
+                                <path d="M220 140 L222 145 L227 147 L222 149 L220 154 L218 149 L213 147 L218 145 Z"
+                                    fill="#10B981" opacity="0.7" />
                             </svg>
                         </div>
                     </div>
@@ -1162,7 +1176,8 @@
         <div class="container">
             <div class="section-header-wrapper">
                 <h2 class="section-title">Lokasi Laundry Kami</h2>
-                <p class="section-subtitle">Datang langsung ke outlet kami karena kami menggunakan layanan laundry terpercaya
+                <p class="section-subtitle">Datang langsung ke outlet kami karena kami menggunakan layanan laundry
+                    terpercaya
                 </p>
             </div>
 
@@ -1173,7 +1188,8 @@
                             <i class="fas fa-store text-white"></i>
                         </div>
                         <h3 class="location-card-title">{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }} Central</h3>
-                        <p class="mb-4" style="color: var(--clr-text-secondary);">Outlet utama kami dengan fasilitas lengkap dan
+                        <p class="mb-4" style="color: var(--clr-text-secondary);">Outlet utama kami dengan fasilitas
+                            lengkap dan
                             staf profesional siap melayani Anda.</p>
 
                         <ul class="location-info-list">
@@ -1203,7 +1219,8 @@
                             <a href="https://maps.google.com" target="_blank" class="btn-location">
                                 <i class="fas fa-directions"></i> Petunjuk Arah
                             </a>
-                            <a href="https://wa.me/{{ $pengaturan->telepon ?? '6281234567890' }}" target="_blank" class="btn"
+                            <a href="https://wa.me/{{ $pengaturan->telepon ?? '6281234567890' }}" target="_blank"
+                                class="btn"
                                 style="background: var(--clr-white); color: var(--clr-text-primary); border: 1.5px solid var(--clr-neutral-200); padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition-base);">
                                 <i class="fas fa-phone"></i> Telepon Sekarang
                             </a>
@@ -1231,7 +1248,8 @@
                             </div>
                         </div>
                         <h3 class="feature-card-title">Laundry Terpercaya</h3>
-                        <p class="feature-card-desc">Tim kami terdiri dari profesional yang berpengalaman dan memiliki standar
+                        <p class="feature-card-desc">Tim kami terdiri dari profesional yang berpengalaman dan memiliki
+                            standar
                             kualitas terbaik</p>
                     </div>
                 </div>
@@ -1243,7 +1261,8 @@
                             </div>
                         </div>
                         <h3 class="feature-card-title">Harga Jelas</h3>
-                        <p class="feature-card-desc">Tidak ada biaya tersembunyi, bayar sesuai berat dengan timbangan digital</p>
+                        <p class="feature-card-desc">Tidak ada biaya tersembunyi, bayar sesuai berat dengan timbangan
+                            digital</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
@@ -1254,7 +1273,8 @@
                             </div>
                         </div>
                         <h3 class="feature-card-title">Express 24 Jam</h3>
-                        <p class="feature-card-desc">Layanan kilat untuk kebutuhan mendesak dengan proses maksimal 24 jam</p>
+                        <p class="feature-card-desc">Layanan kilat untuk kebutuhan mendesak dengan proses maksimal 24
+                            jam</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
@@ -1265,7 +1285,8 @@
                             </div>
                         </div>
                         <h3 class="feature-card-title">Laundry Aman</h3>
-                        <p class="feature-card-desc">Perlakuan khusus untuk bahan-bahan sensitif dengan deterjen hipoalergenik</p>
+                        <p class="feature-card-desc">Perlakuan khusus untuk bahan-bahan sensitif dengan deterjen
+                            hipoalergenik</p>
                     </div>
                 </div>
             </div>
@@ -1277,7 +1298,7 @@
         <div class="container">
             <div class="section-header-wrapper">
                 <h2 class="section-title">Layanan Kami</h2>
-                <p class="section-subtitle">Berbagai paket laundry sesuai kebutuhan Anda</p>
+                <p class="section-subtitle">Yang Paling Rekomend Buat Anda</p>
             </div>
 
             <div class="row g-4">
@@ -1285,12 +1306,15 @@
                     <div class="service-card-item fade-in-up" style="animation-delay: 0.1s;">
                         <div class="service-icon-wrapper">
                             <div class="service-icon-circle">
-                                <i class="fas fa-tshirt text-white"></i>
+                                <i class="fas fa-soap text-white"></i>
                             </div>
                         </div>
+                        <img src="{{ asset('img/cuci biasa.jpg') }}" alt="Cuci Biasa"
+                            style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
                         <h3 class="service-card-title">Cuci Biasa</h3>
-                        <p class="service-card-desc">Cucian standar dengan deterjen berkualitas tinggi dan pewangi pilihan</p>
-                        <p class="service-price-text">Mulai dari <strong>Rp 8.000/kg</strong></p>
+                        <p class="service-card-desc">Cucian standar dengan deterjen berkualitas tinggi dan pewangi
+                            pilihan</p>
+                        <p class="service-price-text">Mulai dari <strong>Rp 5.000/Pcs</strong></p>
                         <p class="service-time-text">
                             <i class="far fa-clock"></i> 3-4 hari kerja
                         </p>
@@ -1305,11 +1329,13 @@
                                 <i class="fas fa-star text-white"></i>
                             </div>
                         </div>
-                        <h3 class="service-card-title">Cuci + Setrika</h3>
-                        <p class="service-card-desc">Cucian lengkap dengan setrika profesional dan lipatan rapi</p>
-                        <p class="service-price-text">Mulai dari <strong>Rp 12.000/kg</strong></p>
+                        <img src="{{ asset('img/cuci express.png') }}" alt="Express 24 Jam"
+                            style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
+                        <h3 class="service-card-title">Cuci Express/Regular</h3>
+                        <p class="service-card-desc">Layanan kilat dalam 24 jam untuk kebutuhan mendesak</p>
+                        <p class="service-price-text">Mulai dari <strong>Rp 10.000/kg</strong></p>
                         <p class="service-time-text">
-                            <i class="far fa-clock"></i> 2-3 hari kerja
+                            <i class="far fa-clock"></i> 1 hari kerja
                         </p>
                     </div>
                 </div>
@@ -1318,19 +1344,28 @@
                     <div class="service-card-item fade-in-up" style="animation-delay: 0.3s;">
                         <div class="service-icon-wrapper">
                             <div class="service-icon-circle">
-                                <i class="fas fa-shipping-fast text-white"></i>
+                                <i class="fas fa-tshirt text-white"></i>
                             </div>
                         </div>
-                        <h3 class="service-card-title">Express Service</h3>
-                        <p class="service-card-desc">Layanan kilat dalam 24 jam untuk kebutuhan mendesak</p>
-                        <p class="service-price-text">Mulai dari <strong>Rp 15.000/kg</strong></p>
+                        <img src="{{ asset('img/cuci setrika.jpg') }}" alt="Cuci + Setrika"
+                            style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
+                        <h3 class="service-card-title">Cuci + Setrika</h3>
+                        <p class="service-card-desc">Cucian lengkap dengan setrika profesional dan lipatan rapi</p>
+                        <p class="service-price-text">Mulai dari <strong>Rp 8.000/Lusin</strong></p>
                         <p class="service-time-text">
-                            <i class="far fa-clock"></i> 1 hari kerja
+                            <i class="far fa-clock"></i> 2-3 hari kerja
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
+            <section id="services" class="services-section">
+                <div class="container">
+                    <div class="section-header-wrapper">
+                        <h2 class="section-title">Dan Masih Banyak Lainnya</h2>
+                        <p class="section-subtitle">Berbagai paket laundry sesuai kebutuhan Anda</p>
+                    </div>
+                </div>
+            </section>
     </section>
 
     <!-- Process Section (Cek Status) -->
@@ -1338,7 +1373,8 @@
         <div class="container">
             <div class="section-header-wrapper">
                 <h2 class="section-title">Cek Status Pesanan Anda</h2>
-                <p class="section-subtitle">Masukkan kode pesanan untuk melihat status: Baru, Diproses, Selesai, atau Diambil
+                <p class="section-subtitle">Masukkan kode pesanan anda untuk melihat status: Baru, Diproses, Selesai, atau
+                    Diambil
                 </p>
             </div>
 
@@ -1347,7 +1383,8 @@
                     <form id="statusForm" class="search-form-wrapper mb-4">
                         @csrf
                         <div class="input-group">
-                            <input type="text" id="orderCode" class="form-control search-form-input" placeholder="Contoh: ORD-000001" required>
+                            <input type="text" id="orderCode" class="form-control search-form-input"
+                                placeholder="Contoh: ORD-000001" required>
                             <button class="btn search-form-btn" type="submit">
                                 <i class="fas fa-search me-2"></i>Cek Status
                             </button>
@@ -1401,13 +1438,18 @@
             <div class="row g-4 mb-5">
                 <div class="col-md-4">
                     <h5 class="footer-title">{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}</h5>
-                    <p class="footer-desc">Layanan laundry offline terpercaya dengan standar kebersihan tinggi dan pelayanan
+                    <p class="footer-desc">Layanan laundry offline terpercaya dengan standar kebersihan tinggi dan
+                        pelayanan
                         maksimal untuk seluruh keluarga Anda.</p>
                     <div class="social-links-group">
-                        <a href="#" class="social-link-item" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link-item" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link-item" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" class="social-link-item" title="Maps"><i class="fas fa-map-marker-alt"></i></a>
+                        <a href="#" class="social-link-item" title="Facebook"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link-item" title="Instagram"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link-item" title="WhatsApp"><i
+                                class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link-item" title="Maps"><i
+                                class="fas fa-map-marker-alt"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -1421,14 +1463,18 @@
                 </div>
                 <div class="col-md-4">
                     <h5 class="footer-title">Kontak & Lokasi</h5>
-                    <p class="footer-desc"><i class="fas fa-map-marker-alt me-2"></i> {{ $pengaturan->alamat_laundry ?? ' Jl. Laundry No. 123, Jakarta' }}</p>
-                    <p class="footer-desc"><i class="fas fa-phone me-2"></i> +{{ $pengaturan->telepon_laundry ?? '62 812-3456-7890' }}</p>
-                    <p class="footer-desc"><i class="fas fa-envelope me-2"></i> {{ $pengaturan->email_laundry ?? 'info@rumahlaundry.id' }}</p>
+                    <p class="footer-desc"><i class="fas fa-map-marker-alt me-2"></i>
+                        {{ $pengaturan->alamat_laundry ?? ' Jl. Laundry No. 123, Jakarta' }}</p>
+                    <p class="footer-desc"><i class="fas fa-phone me-2"></i>
+                        +{{ $pengaturan->telepon_laundry ?? '62 812-3456-7890' }}</p>
+                    <p class="footer-desc"><i class="fas fa-envelope me-2"></i>
+                        {{ $pengaturan->email_laundry ?? 'info@rumahlaundry.id' }}</p>
                     <p class="footer-desc"><i class="fas fa-clock me-2"></i> Buka 24/7</p>
                 </div>
             </div>
             <div class="footer-bottom text-center">
-                <p>&copy; 2025 RumahLaundry. Semua hak dilindungi. | <a href="#">Kebijakan Privasi</a> | <a href="#">Syarat
+                <p>&copy; 2025 RumahLaundry. Semua hak dilindungi. | <a href="#">Kebijakan Privasi</a> | <a
+                        href="#">Syarat
                         Layanan</a> | <a href="{{ Route('login') }}">Admin Area</a>
                 </p>
             </div>
@@ -1529,7 +1575,8 @@
                 const originalHTML = submitBtn.innerHTML;
 
                 // Show loading state
-                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
+                submitBtn.innerHTML =
+                    '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
                 submitBtn.disabled = true;
 
                 try {
@@ -1562,7 +1609,8 @@
 
                     if (result.success) {
                         const data = result.data;
-                        const statusOrderText = data.status_order.charAt(0).toUpperCase() + data.status_order.slice(1);
+                        const statusOrderText = data.status_order.charAt(0).toUpperCase() + data
+                            .status_order.slice(1);
 
                         // Build detail HTML with required data
                         const detailHTML = `

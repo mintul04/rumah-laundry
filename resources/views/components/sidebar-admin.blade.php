@@ -1,7 +1,7 @@
 <aside class="admin-sidebar">
     <div class="sidebar-brand" style="display: flex; align-items: center; gap: 10px;">
         @if ($pengaturan->logo)
-            <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo RumahLaundry" style="height: 40px; width: auto; object-fit: contain; border-radius: 6px;">
+            <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo RumahLaundry" style="height: 60px; width: auto; object-fit: contain; border-radius: 6px;">
         @else
             <i class="fas fa-wind" style="font-size: 1.5rem;"></i>
         @endif

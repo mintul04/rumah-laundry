@@ -27,7 +27,6 @@
 
         .settings-container {
             width: 100%;
-            /* margin: 2rem 0; */
             padding: 0 1rem;
         }
 
@@ -201,8 +200,8 @@
                     <!-- 1. Logo Instansi -->
                     <div class="form-section">
                         <h2 class="section-title"><i class="fas fa-image"></i> Logo Instansi</h2>
-                        <div class="row">
-                            <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
                                 @if ($pengaturan?->logo)
                                     <div class="mb-3 text-center">
                                         <p class="text-muted small mb-2">Logo Saat Ini:</p>
@@ -216,11 +215,11 @@
                                         </div>
                                     </div>
                                 @endif
-
+                            </div>
+                            <div class="col-md-8">
                                 <div class="mb-3">
-                                    <label for="logo" class="form-label">Ubah Logo</label>
+                                    <label for="logo" class="form-label">Upload Logo Baru</label>
                                     <input type="file" class="form-control" id="logo" name="logo" accept=".jpg,.jpeg,.png">
-                                    <div class="form-text">Format: JPG, PNG. Maks. 2MB.</div>
                                 </div>
                             </div>
                         </div>
@@ -230,23 +229,21 @@
                     <div class="form-section">
                         <h2 class="section-title"><i class="fas fa-store"></i> Informasi Instansi</h2>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="nama_laundry" class="form-label">Nama Laundry *</label>
-                                <input type="text" class="form-control" id="nama_laundry" name="nama_laundry" value="{{ old('nama_laundry', $pengaturan?->nama_laundry ?? 'Arrabia Laundry') }}"
-                                    required>
+                            <div class="col-md-4 mb-3">
+                                <label for="nama_laundry" class="form-label">Nama Laundry</label>
+                                <input type="text" class="form-control" id="nama_laundry" name="nama_laundry" value="{{ old('nama_laundry', $pengaturan?->nama_laundry ?? 'Arrabia Laundry') }}" required>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="email_laundry" class="form-label">Email Laundry *</label>
-                                <input type="email" class="form-control" id="email_laundry" name="email_laundry"
-                                    value="{{ old('email_laundry', $pengaturan?->email_laundry ?? 'armalialaundry@gmail.com') }}" required>
+                            <div class="col-md-4 mb-3">
+                                <label for="telepon_laundry" class="form-label">Telepon Laundry</label>
+                                <input type="text" class="form-control" id="telepon_laundry" name="telepon_laundry" value="{{ old('telepon_laundry', $pengaturan?->telepon_laundry ?? '6281234567890') }}" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="email_laundry" class="form-label">Email Laundry</label>
+                                <input type="email" class="form-control" id="email_laundry" name="email_laundry" value="{{ old('email_laundry', $pengaturan?->email_laundry ?? 'arrablialaundry@gmail.com') }}" required>
                             </div>
                             <div class="col-12 mb-3">
-                                <label for="alamat_laundry" class="form-label">Alamat Laundry *</label>
-                                <textarea class="form-control" id="alamat_laundry" name="alamat_laundry" rows="3" required>{{ old('alamat_laundry', $pengaturan?->alamat_laundry ?? "Kamisari's Polisi Bambang Suprapio No.24, Bodno, Koc Gondokusuman, Koto Yogakarta, L.") }}</textarea>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="telepon_laundry" class="form-label">Telepon Laundry *</label>
-                                <input class="form-control" id="telepon_laundry" name="telepon_laundry" value="{{ old('telepon_laundry', $pengaturan?->telepon_laundry ?? '6281234567890') }}" required>
+                                <label for="alamat_laundry" class="form-label">Alamat Laundry</label>
+                                <textarea class="form-control" id="alamat_laundry" name="alamat_laundry" rows="2" required>{{ old('alamat_laundry', $pengaturan?->alamat_laundry ?? "Kamisari's Polisi Bambang Suprapio No.24, Bodno, Koc Gondokusuman, Koto Yogakarta, L.") }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -255,9 +252,9 @@
                     <div class="form-section">
                         <h2 class="section-title"><i class="fas fa-user"></i> Informasi Pemilik</h2>
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="nama_pemilik" class="form-label">Nama Pemilik *</label>
-                                <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" value="{{ old('nama_pemilik', $pengaturan?->nama_pemilik ?? 'Uchina Madara') }}" required>
+                            <div class="col-md-4">
+                                <label for="nama_pemilik" class="form-label">Nama Pemilik</label>
+                                <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" value="{{ old('nama_pemilik', $pengaturan?->nama_pemilik ?? 'Uchiha Madara') }}" required>
                             </div>
                         </div>
                     </div>

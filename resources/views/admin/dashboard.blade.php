@@ -5,6 +5,10 @@
 
 @push('styles')
     <style>
+        /* CSS yang sudah ada tetap... */
+
+        /* Chart Container Styles */
+
         /* Menambah style untuk header beranda */
         .beranda-header {
             background: #fbfbfe;
@@ -283,11 +287,178 @@
             .stat-content h3 {
                 font-size: 0.75rem;
             }
+
+            /* Chart Container Styles - PERBAIKAN */
+            .chart-container {
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+                margin-bottom: 2rem;
+                border: 1px solid #e5e7eb;
+            }
+
+            .chart-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 1.5rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #f3f4f6;
+            }
+
+            .chart-title {
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: #1f2937;
+                margin: 0;
+            }
+
+            .chart-subtitle {
+                font-size: 0.875rem;
+                color: #6b7280;
+                margin-top: 0.25rem;
+            }
+
+            .chart-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: #f3f4f6;
+                padding: 0.375rem 0.75rem;
+                border-radius: 8px;
+                font-size: 0.8125rem;
+                font-weight: 500;
+                color: #4b5563;
+                border: 1px solid #e5e7eb;
+            }
+
+            .chart-badge i {
+                font-size: 0.875rem;
+                color: #4f6ae4;
+            }
+
+            .chart-body {
+                margin-bottom: 1.5rem;
+            }
+
+            .chart-wrapper {
+                position: relative;
+                height: 220px;
+                width: 100%;
+                background: white;
+                border-radius: 8px;
+                padding: 1rem;
+                border: 1px solid #f3f4f6;
+            }
+
+            .chart-summary {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid #f3f4f6;
+            }
+
+            .summary-item {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.75rem;
+                background: #f9fafb;
+                border-radius: 8px;
+                border: 1px solid #e5e7eb;
+            }
+
+            .summary-icon {
+                width: 40px;
+                height: 40px;
+                background: linear-gradient(135deg, #4f6ae4 0%, #4e5fe5 100%);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1rem;
+                flex-shrink: 0;
+            }
+
+            .summary-content {
+                flex: 1;
+                min-width: 0;
+                /* Untuk mencegah overflow */
+            }
+
+            .summary-label {
+                font-size: 0.75rem;
+                color: #6b7280;
+                font-weight: 500;
+                margin-bottom: 0.25rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .summary-value {
+                font-size: 0.9375rem;
+                font-weight: 600;
+                color: #1f2937;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            /* Styling untuk chart placeholder jika tidak ada data */
+            .chart-placeholder {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                color: #9ca3af;
+            }
+
+            .chart-placeholder i {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+                opacity: 0.5;
+            }
+
+            .chart-placeholder p {
+                font-size: 0.875rem;
+                margin: 0;
+            }
+
+            @media (max-width: 768px) {
+                .chart-container {
+                    padding: 1.25rem;
+                }
+
+                .chart-wrapper {
+                    height: 200px;
+                    padding: 0.75rem;
+                }
+
+                .chart-summary {
+                    grid-template-columns: 1fr;
+                    gap: 0.75rem;
+                }
+
+                .chart-header {
+                    flex-direction: column;
+                    gap: 0.75rem;
+                }
+
+                .chart-badge {
+                    align-self: flex-start;
+                }
+            }
         }
     </style>
 @endpush
 
 @section('content')
+
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-icon blue">
@@ -314,7 +485,7 @@
                 <i class="fas fa-concierge-bell"></i>
             </div>
             <div class="stat-content">
-                <h3>Total Layanan</h3>
+                <h3>Total Pesanan</h3>
                 <div class="stat-number">{{ $totalPesanan ?? 0 }}</div>
             </div>
         </div>
@@ -360,4 +531,172 @@
             </p>
         </div>
     </div>
+
+    <!-- ========== TAMBAHKAN INI ========== -->
+    <!-- Grafik Penjualan 7 Hari Terakhir -->
+    <div class="col-md-8">
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <h3 class="chart-title">📈 Penjualan 7 Hari Terakhir</h3>
+                    <p class="chart-subtitle">Data transaksi harian</p>
+                </div>
+                <div class="chart-badge">
+                    <i class="fas fa-chart-line"></i>
+                    <span>{{ $salesLast7Days['has_data'] ? 'Data Real' : 'Data Demo' }}</span>
+                </div>
+            </div>
+
+            <div class="chart-body">
+                <div class="chart-wrapper">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-summary">
+                <div class="summary-item">
+                    <div class="summary-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-label">Total Pendapatan</div>
+                        <div class="summary-value">{{ $salesLast7Days['total_sales_formatted'] }}</div>
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-label">Total Pesanan</div>
+                        <div class="summary-value">{{ $salesLast7Days['total_orders'] }} pesanan</div>
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <div class="summary-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-label">Rata-rata Harian</div>
+                        <div class="summary-value">{{ $salesLast7Days['average_sales'] }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ========== AKHIR TAMBAHAN ========== -->
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize Sales Chart - VERSI SIMPEL
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('salesChart');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+
+            // Data dari controller
+            const labels = @json($salesLast7Days['labels'] ?? []);
+            const salesData = @json($salesLast7Days['sales'] ?? []);
+
+            // Format untuk tooltip Rupiah
+            const formatRupiah = (number) => {
+                if (!number || number === 0) return 'Rp 0';
+                if (number >= 1000000) {
+                    return 'Rp ' + (number / 1000000).toFixed(1) + ' JT';
+                } else if (number >= 1000) {
+                    return 'Rp ' + (number / 1000).toFixed(0) + ' RB';
+                } else {
+                    return 'Rp ' + number.toLocaleString('id-ID');
+                }
+            };
+
+            // Warna chart
+            const chartColor = '#4f6ae4';
+            const gridColor = '#e5e7eb';
+            const textColor = '#6b7280';
+
+            // Buat chart
+            new Chart(ctx, {
+                type: 'bar', // Ganti ke 'bar' untuk tampilan seperti contoh
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pendapatan',
+                        data: salesData,
+                        backgroundColor: 'rgba(79, 106, 228, 0.7)',
+                        borderColor: chartColor,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#111827',
+                            bodyColor: '#4b5563',
+                            borderColor: '#e5e7eb',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return formatRupiah(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: textColor,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: gridColor,
+                                drawBorder: false,
+                                tickLength: 0
+                            },
+                            ticks: {
+                                color: textColor,
+                                font: {
+                                    size: 10
+                                },
+                                padding: 5,
+                                callback: function(value) {
+                                    if (value >= 1000000) return (value / 1000000).toFixed(1) + 'JT';
+                                    if (value >= 1000) return (value / 1000).toFixed(0) + 'RB';
+                                    return value;
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

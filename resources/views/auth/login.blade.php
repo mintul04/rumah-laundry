@@ -264,7 +264,11 @@
         <div class="login-card">
             <!-- Clean header with title -->
             <div class="card-header">
-                <img src="{{ asset('img/rumah.png') }}" alt="Logo rumah" style="width: 200px; height: auto;">
+                @if ($pengaturan->logo)
+                    <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo RumahLaundry" style="height: 200px; width: auto; object-fit: contain; border-radius: 6px;">
+                @else
+                    <i class="fas fa-wind" style="font-size: 1.5rem;"></i>
+                @endif
                 <h1 class="login-title">Welcome Back</h1>
                 <p class="login-subtitle">Sign in to your account</p>
             </div>

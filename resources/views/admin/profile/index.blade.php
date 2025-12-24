@@ -24,9 +24,12 @@
                                 <div class="col-lg-3">
                                     <div class="text-center">
                                         <div class="position-relative d-inline-block">
-                                            <div class="avatar-wrapper rounded-circle bg-gradient-primary d-flex align-items-center justify-content-center overflow-hidden shadow-lg">
+                                            <div
+                                                class="avatar-wrapper rounded-circle bg-gradient-primary d-flex align-items-center justify-content-center overflow-hidden shadow-lg">
                                                 @if (auth()->user()->foto)
-                                                    <img src="{{ Storage::url(auth()->user()->foto) }}" alt="{{ auth()->user()->nama }}" class="w-100 h-100 object-fit-cover">
+                                                    <img src="{{ Storage::url(auth()->user()->foto) }}"
+                                                        alt="{{ auth()->user()->nama }}"
+                                                        class="w-100 h-100 object-fit-cover">
                                                 @else
                                                     <span class="text-white fw-bold fs-2">
                                                         {{ strtoupper(substr(auth()->user()->nama, 0, 2)) }}
@@ -35,8 +38,10 @@
                                             </div>
                                         </div>
                                         <div class="mt-4">
-                                            <label for="foto" class="form-label d-block fw-medium text-dark">Ganti Foto Profil</label>
-                                            <input type="file" name="foto" id="foto" class="form-control form-control-sm" accept="image/*">
+                                            <label for="foto" class="form-label d-block fw-medium text-dark">Ganti Foto
+                                                Profil</label>
+                                            <input type="file" name="foto" id="foto"
+                                                class="form-control form-control-sm" accept="image/*">
                                             <small class="text-muted d-block mt-1">Maks. 2MB (JPG, PNG, GIF)</small>
                                         </div>
                                     </div>
@@ -47,7 +52,8 @@
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
-                                            <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control form-control-lg @error('nama_lengkap') is-invalid @enderror"
+                                            <input type="text" name="nama_lengkap" id="nama_lengkap"
+                                                class="form-control form-control-lg @error('nama_lengkap') is-invalid @enderror"
                                                 value="{{ old('nama_lengkap', auth()->user()->nama_lengkap) }}" required>
                                             @error('nama_lengkap')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -56,7 +62,8 @@
 
                                         <div class="col-md-6">
                                             <label for="nama" class="form-label">Username</label>
-                                            <input type="text" name="nama" id="nama" class="form-control form-control-lg @error('nama') is-invalid @enderror"
+                                            <input type="text" name="nama" id="nama"
+                                                class="form-control form-control-lg @error('nama') is-invalid @enderror"
                                                 value="{{ old('nama', auth()->user()->nama) }}" required>
                                             @error('nama')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -65,7 +72,8 @@
 
                                         <div class="col-12">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" name="email" id="email" class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                            <input type="email" name="email" id="email"
+                                                class="form-control form-control-lg @error('email') is-invalid @enderror"
                                                 value="{{ old('email', auth()->user()->email) }}" required>
                                             @error('email')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -95,7 +103,9 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label for="current_password" class="form-label">Password Saat Ini</label>
-                                        <input type="password" name="current_password" id="current_password" class="form-control form-control-lg @error('current_password') is-invalid @enderror" required>
+                                        <input type="password" name="current_password" id="current_password"
+                                            class="form-control form-control-lg @error('current_password') is-invalid @enderror"
+                                            required>
                                         @error('current_password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -103,17 +113,20 @@
 
                                     <div class="mb-3">
                                         <label for="new_password" class="form-label">Password Baru</label>
-                                        <input type="password" name="new_password" id="new_password" class="form-control form-control-lg @error('new_password') is-invalid @enderror" required>
+                                        <input type="password" name="new_password" id="new_password"
+                                            class="form-control form-control-lg @error('new_password') is-invalid @enderror"
+                                            required>
                                         @error('new_password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="new_password_confirmation" class="form-label">Konfirmasi Password Baru</label>
-                                        <input type="password" name="new_password_confirmation" id="new_password_confirmation" class="form-control form-control-lg" required>
+                                        <label for="new_password_confirmation" class="form-label">Konfirmasi Password
+                                            Baru</label>
+                                        <input type="password" name="new_password_confirmation"
+                                            id="new_password_confirmation" class="form-control form-control-lg" required>
                                     </div>
-
                                     <button type="submit" class="btn btn-warning btn-lg px-5 py-2 text-white">
                                         <i class="fas fa-sync-alt me-2"></i> Ubah Password
                                     </button>

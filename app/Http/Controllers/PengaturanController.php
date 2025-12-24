@@ -19,10 +19,10 @@ class PengaturanController extends Controller
     {
         $request->validate([
             'nama_laundry' => 'required|string|max:255',
-            'telepon_laundry' => 'required|string|max:255',
             'email_laundry' => 'required|email',
             'alamat_laundry' => 'required|string',
             'nama_pemilik' => 'required|string|max:255',
+            'telepon_laundry' => 'required|string|max:20',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -52,6 +52,7 @@ class PengaturanController extends Controller
         $pengaturan->email_laundry = $request->email_laundry;
         $pengaturan->alamat_laundry = $request->alamat_laundry;
         $pengaturan->nama_pemilik = $request->nama_pemilik;
+        
         $pengaturan->save();
 
         return redirect()->route('pengaturan.index')
