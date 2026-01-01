@@ -147,7 +147,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Auto-focus
+            // Auto-focus on first input
             document.querySelector('input[name="nama_paket"]')?.focus();
 
             // Validasi visual saat blur
