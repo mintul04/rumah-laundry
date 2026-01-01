@@ -70,8 +70,6 @@ Route::middleware('auth')->group(function () {
         ->name('pengaturan.update');
 });
 
-
-
 // dashboard-admin
 Route::middleware('auth')
     ->get('/dashboard-admin', [DashboardController::class, 'index'])

@@ -3,536 +3,165 @@
 @section('title', 'Tambah Paket Laundry - RumahLaundry')
 @section('page-title', 'Tambah Paket Laundry Baru')
 
-@push('styles')
-    <style>
-        :root {
-            --primary-blue: #0066cc;
-            --primary-dark: #004ba3;
-            --primary-light: #e6f2ff;
-            --neutral-white: #ffffff;
-            --neutral-light: #f8f9fa;
-            --neutral-gray: #e9ecef;
-            --neutral-dark: #495057;
-            --accent-success: #28a745;
-            --accent-warning: #ffc107;
-            --accent-danger: #dc3545;
-            --accent-info: #17a2b8;
-            --border-color: #dee2e6;
-            --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-
-        .form-container {
-            background: var(--neutral-white);
-            border-radius: 0.75rem;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
-            margin: 0;
-            padding: 0;
-            width: 100%;
-        }
-
-        .form-header {
-            background: linear-gradient(135deg, var(--primary-blue), #0a58ca);
-            color: var(--neutral-white);
-            padding: 1.5rem 2rem;
-            border-radius: 0.75rem 0.75rem 0 0;
-            margin-bottom: 2rem;
-        }
-
-        .form-header h2 {
-            margin: 0;
-            font-size: 1.75rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .form-header h2 i {
-            font-size: 1.5rem;
-        }
-
-        .form-content {
-            padding: 0 2rem 2rem;
-        }
-
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -1rem;
-        }
-
-        .col-md-6 {
-            flex: 0 0 50%;
-            max-width: 50%;
-            padding: 0 1rem;
-        }
-
-        .col-md-12 {
-            flex: 0 0 100%;
-            max-width: 100%;
-            padding: 0 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.75rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            color: var(--neutral-dark);
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-            letter-spacing: 0.3px;
-        }
-
-        .form-label .required {
-            color: var(--accent-danger);
-            margin-left: 4px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            background-color: var(--neutral-white);
-            color: var(--neutral-dark);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
-            background-color: var(--neutral-white);
-        }
-
-        .form-control:hover {
-            border-color: #adb5bd;
-        }
-
-        .form-control::placeholder {
-            color: #6c757d;
-            opacity: 0.7;
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-            line-height: 1.5;
-            padding: 1rem;
-        }
-
-        select.form-control {
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 1rem center;
-            background-repeat: no-repeat;
-            background-size: 1.25em 1.25em;
-            padding-right: 3rem;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-        }
-
-        .input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-group-text {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            background-color: var(--neutral-gray);
-            border: 2px solid var(--border-color);
-            border-right: none;
-            border-radius: 0.5rem 0 0 0.5rem;
-            padding: 0 1rem;
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-            color: var(--neutral-dark);
-            z-index: 2;
-        }
-
-        .input-group .form-control {
-            padding-left: 3.5rem;
-            border-left: none;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 2px solid var(--border-color);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
-            color: var(--neutral-white);
-            border: none;
-            padding: 0.875rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-submit:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary-blue));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        .btn-cancel {
-            background-color: var(--neutral-gray);
-            color: var(--neutral-dark);
-            border: 2px solid var(--border-color);
-            padding: 0.875rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .btn-cancel:hover {
-            background-color: #e9ecef;
-            border-color: #adb5bd;
-            transform: translateY(-2px);
-        }
-
-        .form-info {
-            background-color: var(--primary-light);
-            border-left: 4px solid var(--primary-blue);
-            padding: 1.25rem;
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-            color: #004085;
-            line-height: 1.6;
-        }
-
-        .form-info i {
-            margin-right: 0.75rem;
-            color: var(--primary-blue);
-            font-size: 1.1rem;
-        }
-
-        .text-danger {
-            color: var(--accent-danger);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .text-danger::before {
-            content: "⚠";
-            font-size: 0.875rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .form-content {
-                padding: 0 1.5rem 1.5rem;
-            }
-
-            .form-header {
-                padding: 1.25rem 1.5rem;
-            }
-
-            .col-md-6 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            .form-actions {
-                flex-direction: column-reverse;
-                gap: 0.75rem;
-            }
-
-            .btn-submit,
-            .btn-cancel {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .form-container {
-                border-radius: 0.5rem;
-            }
-
-            .form-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .form-content {
-                padding: 0 1rem 1rem;
-            }
-
-            .form-group {
-                margin-bottom: 1.5rem;
-            }
-
-            .form-control {
-                padding: 0.75rem;
-            }
-        }
-
-        /* Animation for form elements */
-        .form-group {
-            animation: fadeInUp 0.5s ease-out forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Stagger animation for form groups */
-        .form-group:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .form-group:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .form-group:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .form-group:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .form-group:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .form-group:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-    </style>
-@endpush
-
 @section('content')
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-10">
-                <div class="form-container">
-                    <!-- Form Header -->
-                    <div class="form-header">
-                        <h2>
-                            <i class="fas fa-plus-circle"></i>
-                            Tambah Paket Laundry Baru
-                        </h2>
-                    </div>
+    <div x-data="{
+        hargaDisplay: @js(old('harga') ? number_format((int) old('harga'), 0, ',', '.') : ''),
+        hargaRaw: @js(old('harga', '')),
+        formatHarga() {
+            if (this.hargaRaw) {
+                this.hargaDisplay = parseInt(this.hargaRaw).toLocaleString('id-ID');
+            } else {
+                this.hargaDisplay = '';
+            }
+        }
+    }" x-init="$nextTick(() => formatHarga())" class="mx-auto">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            <!-- Form Header -->
+            <div class="bg-linear-to-r from-blue-600 to-blue-700 px-6 py-5">
+                <h1 class="text-xl md:text-2xl font-bold text-white flex items-center gap-3">
+                    <i class="fas fa-plus-circle"></i>
+                    Tambah Paket Laundry Baru
+                </h1>
+            </div>
 
-                    <!-- Form Content -->
-                    <div class="form-content">
-                        <div class="form-info">
-                            <i class="fas fa-info-circle"></i>
-                            Lengkapi semua informasi paket laundry di bawah ini. Pastikan data yang dimasukkan sudah benar.
+            <!-- Form Content -->
+            <div class="p-6">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-6 text-blue-800">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Lengkapi semua informasi paket laundry di bawah ini. Pastikan data yang dimasukkan sudah benar.
+                </div>
+
+                <form action="{{ route('paket-laundry.store') }}" method="POST">
+                    @csrf
+
+                    <!-- Row 1 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Nama Paket -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">
+                                Jenis Paket <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="nama_paket" value="{{ old('nama_paket') }}" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                placeholder="Masukkan nama paket">
+                            @error('nama_paket')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
                         </div>
 
-                        <form action="{{ route('paket-laundry.store') }}" method="POST">
-                            @csrf
-
-                            <div class="row">
-                                <!-- Jenis Paket -->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Jenis Paket <span class="required">*</span>
-                                        </label>
-                                        <input type="text" name="nama_paket" class="form-control" placeholder="Masukkan nama paket" value="{{ old('nama_paket') }}" required>
-                                        @error('nama_paket')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                        <!-- Harga -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">
+                                Harga (Rp) <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 font-medium">Rp</span>
                                 </div>
-
-                                <!-- Harga -->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Harga (Rp.) <span class="required">*</span>
-                                        </label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">Rp</span>
-                                            <!-- Input yang terlihat (read-only untuk UX) -->
-                                            <input type="text" id="harga_display" class="form-control" value="{{ old('harga') ? number_format((float) old('harga'), 0, ',', '.') : '' }}"
-                                                placeholder="Contoh: 15.000" required>
-                                            <!-- Hidden input untuk nilai murni -->
-                                            <input type="hidden" name="harga" id="harga" value="{{ old('harga', '') }}">
-                                        </div>
-                                        @error('harga')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                                <input x-model="hargaDisplay" x-on:input="hargaRaw = $event.target.value.replace(/[^\d]/g, ''); formatHarga()" x-on:blur="formatHarga()" type="text"
+                                    placeholder="Contoh: 15.000" required
+                                    class="w-full pl-12 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                                <input type="hidden" name="harga" x-bind:value="hargaRaw">
                             </div>
-
-                            <div class="row">
-                                <!-- Satuan -->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Satuan <span class="required">*</span>
-                                        </label>
-                                        <select name="satuan" class="form-control" required>
-                                            <option value="">Pilih Satuan</option>
-                                            <option value="kg" {{ old('satuan') == 'kg' ? 'selected' : '' }}>
-                                                Kg - Kilogram
-                                            </option>
-                                            <option value="pcs" {{ old('satuan') == 'pcs' ? 'selected' : '' }}>
-                                                Pcs - Piece (Per Potong)
-                                            </option>
-                                            <option value="lusin" {{ old('satuan') == 'lusin' ? 'selected' : '' }}>
-                                                Lusin
-                                            </option>
-                                        </select>
-                                        @error('satuan')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <!-- Waktu Pengerjaan -->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Waktu Pengerjaan <span class="required">*</span>
-                                        </label>
-                                        <select name="waktu_pengerjaan" class="form-control" required>
-                                            <option value="">Pilih Waktu Pengerjaan</option>
-                                            <option value="express" {{ old('waktu_pengerjaan') == 'express' ? 'selected' : '' }}>
-                                                Express (24 Jam)
-                                            </option>
-                                            <option value="regular" {{ old('waktu_pengerjaan') == 'regular' ? 'selected' : '' }}>
-                                                Regular (2-3 Hari)
-                                            </option>
-                                            <option value="ekonomi" {{ old('waktu_pengerjaan') == 'ekonomi' ? 'selected' : '' }}>
-                                                Ekonomi (4-5 Hari)
-                                            </option>
-                                        </select>
-                                        @error('waktu_pengerjaan')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Deskripsi Paket -->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Deskripsi Paket <span class="required">*</span>
-                                        </label>
-                                        <textarea name="deskripsi" class="form-control" placeholder="Masukkan deskripsi paket laundry" rows="4" required>{{ old('deskripsi') }}</textarea>
-                                        <div class="form-text">
-                                            Jelaskan detail layanan yang termasuk dalam paket ini.
-                                        </div>
-                                        @error('deskripsi')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Form Actions -->
-                            <div class="form-actions">
-                                <a href="{{ route('paket-laundry.index') }}" class="btn-cancel">
-                                    <i class="fas fa-arrow-left"></i> Kembali
-                                </a>
-                                <button type="submit" class="btn-submit">
-                                    <i class="fas fa-save"></i> Simpan Paket
-                                </button>
-                            </div>
-                        </form>
+                            @error('harga')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
                     </div>
-                </div>
+
+                    <!-- Row 2 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Satuan -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">
+                                Satuan <span class="text-red-500">*</span>
+                            </label>
+                            <select name="satuan" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 20 20%22%3e%3cpath stroke=%22%236b7280%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%221.5%22 d=%22m6 8 4 4 4-4%22/%3e%3c/svg%3e')] bg-right bg-no-repeat bg-size-[1.25em_1.25em] pr-10">
+                                <option value="">Pilih Satuan</option>
+                                <option value="kg" {{ old('satuan') == 'kg' ? 'selected' : '' }}>Kg - Kilogram</option>
+                                <option value="pcs" {{ old('satuan') == 'pcs' ? 'selected' : '' }}>Pcs - Piece</option>
+                                <option value="lusin" {{ old('satuan') == 'lusin' ? 'selected' : '' }}>Lusin</option>
+                            </select>
+                            @error('satuan')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        <!-- Waktu Pengerjaan -->
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">
+                                Waktu Pengerjaan <span class="text-red-500">*</span>
+                            </label>
+                            <select name="waktu_pengerjaan" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 20 20%22%3e%3cpath stroke=%22%236b7280%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%221.5%22 d=%22m6 8 4 4 4-4%22/%3e%3c/svg%3e')] bg-right bg-no-repeat bg-size-[1.25em_1.25em] pr-10">
+                                <option value="">Pilih Waktu Pengerjaan</option>
+                                <option value="express" {{ old('waktu_pengerjaan') == 'express' ? 'selected' : '' }}>Express (24 Jam)</option>
+                                <option value="regular" {{ old('waktu_pengerjaan') == 'regular' ? 'selected' : '' }}>Regular (2-3 Hari)</option>
+                                <option value="ekonomi" {{ old('waktu_pengerjaan') == 'ekonomi' ? 'selected' : '' }}>Ekonomi (4-5 Hari)</option>
+                            </select>
+                            @error('waktu_pengerjaan')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Deskripsi -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-medium mb-2">
+                            Deskripsi Paket <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="deskripsi" rows="4" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                            placeholder="Masukkan deskripsi paket laundry">{{ old('deskripsi') }}</textarea>
+                        <p class="mt-1 text-sm text-gray-500">Jelaskan detail layanan yang termasuk dalam paket ini.</p>
+                        @error('deskripsi')
+                            <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-gray-200">
+                        <a href="{{ route('paket-laundry.index') }}"
+                            class="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Kembali
+                        </a>
+                        <button type="submit"
+                            class="inline-flex items-center justify-center px-5 py-2.5 bg-linear-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow hover:shadow-md hover:-translate-y-0.5 transition transform focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <i class="fas fa-save mr-2"></i> Simpan Paket
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-@endsection
 
-@push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const displayInput = document.getElementById('harga_display');
-            const hiddenInput = document.getElementById('harga');
-
-            // Saat halaman dimuat, set hidden input dari old() jika ada
-            if (hiddenInput.value) {
-                displayInput.value = parseInt(hiddenInput.value).toLocaleString('id-ID');
-            }
-
-            // Saat user ketik di display input
-            displayInput.addEventListener('input', function(e) {
-                let clean = e.target.value.replace(/[^\d]/g, '');
-                e.target.value = clean ? parseInt(clean).toLocaleString('id-ID') : '';
-                hiddenInput.value = clean; // Simpan angka murni di hidden input
-            });
-
-            // Saat blur, pastikan format
-            displayInput.addEventListener('blur', function() {
-                if (this.value && !hiddenInput.value) {
-                    // Jika user paste "12.000", ekstrak angkanya
-                    let clean = this.value.replace(/[^\d]/g, '');
-                    this.value = clean ? parseInt(clean).toLocaleString('id-ID') : '';
-                    hiddenInput.value = clean;
-                }
-            });
-
+        document.addEventListener('DOMContentLoaded', () => {
             // Auto-focus
             document.querySelector('input[name="nama_paket"]')?.focus();
 
-            // Validasi visual
-            document.querySelectorAll('.form-control').forEach(input => {
-                input.addEventListener('blur', function() {
+            // Validasi visual saat blur
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                el.addEventListener('blur', function() {
                     if (this.value.trim() === '') {
-                        this.style.borderColor = 'var(--accent-danger)';
+                        this.classList.remove('border-gray-300', 'focus:border-blue-500');
+                        this.classList.add('border-red-500');
                     } else {
-                        this.style.borderColor = 'var(--border-color)';
+                        this.classList.remove('border-red-500');
+                        this.classList.add('border-gray-300');
                     }
                 });
             });
         });
     </script>
-@endpush
+@endsection
