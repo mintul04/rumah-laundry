@@ -1079,7 +1079,7 @@
                         <a class="nav-link-custom text-decoration-none" href="#features">Keunggulan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link-custom text-decoration-none" href="#services">Layanan</a>
+                        <a class="nav-link-custom text-decoration-none" href="#services">Paket Laundry</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link-custom text-decoration-none" href="#process">Cek Pesanan</a>
@@ -1182,16 +1182,16 @@
             </div>
 
             <div class="row justify-content-center">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="location-card-wrapper">
-                        <div class="location-icon-box">
-                            <i class="fas fa-store text-white"></i>
-                        </div>
-                        <h3 class="location-card-title">{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }} Central</h3>
-                        <p class="mb-4" style="color: var(--clr-text-secondary);">Outlet utama kami dengan fasilitas
-                            lengkap dan
-                            staf profesional siap melayani Anda.</p>
-
+                        <h3 class="location-card-title">
+                            <i class="fas fa-map-marker-alt me-2" style="color: var(--clr-primary);"></i>
+                            {{ $pengaturan->nama_laundry ?? 'RumahLaundry' }} Central
+                        </h3>
+                        <p class="mb-4" style="color: var(--clr-text-secondary);">
+                            <i class="fas fa-store me-2" style="color: var(--clr-accent-teal);"></i>
+                            Outlet utama kami dengan fasilitas lengkap dan staf profesional siap melayani Anda.
+                        </p>
                         <ul class="location-info-list">
                             <li>
                                 <i class="fas fa-map-marker-alt"></i>
@@ -1201,10 +1201,7 @@
                                 <i class="fas fa-clock"></i>
                                 <span>Buka 24/7 jam</span>
                             </li>
-                            <li>
-                                <i class="fas fa-phone"></i>
-                                <span>{{ $pengaturan->telepon_laundry ?? '+62 812-3456-7890' }}</span>
-                            </li>
+
                             <li>
                                 <i class="fas fa-wifi"></i>
                                 <span>Free WiFi untuk pelanggan</span>
@@ -1215,15 +1212,12 @@
                             </li>
                         </ul>
 
-                        <div class="d-flex gap-3 flex-wrap mt-4">
+
+                        <div class="d-flex gap-3 flex-wrap mt-4 justify-content-center">
                             <a href="https://maps.google.com" target="_blank" class="btn-location">
                                 <i class="fas fa-directions"></i> Petunjuk Arah
                             </a>
-                            <a href="https://wa.me/{{ $pengaturan->telepon ?? '6281234567890' }}" target="_blank"
-                                class="btn"
-                                style="background: var(--clr-white); color: var(--clr-text-primary); border: 1.5px solid var(--clr-neutral-200); padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition-base);">
-                                <i class="fas fa-phone"></i> Telepon Sekarang
-                            </a>
+
                         </div>
                     </div>
                 </div>
@@ -1239,54 +1233,59 @@
                 <p class="section-subtitle">Mengapa ribuan pelanggan mempercayai laundry kami</p>
             </div>
 
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.1s;">
-                        <div class="feature-icon-wrapper">
-                            <div class="feature-icon-circle">
-                                <i class="fas fa-user-shield text-white"></i>
+            <div class="location-card-wrapper">
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card-item fade-in-up" style="animation-delay: 0.1s;">
+                            <div class="feature-icon-wrapper">
+                                <div class="feature-icon-circle">
+                                    <i class="fas fa-user-shield text-white"></i>
+                                </div>
                             </div>
+                            <h3 class="feature-card-title">Laundry Terpercaya</h3>
+                            <p class="feature-card-desc">Tim kami terdiri dari profesional yang berpengalaman dan
+                                memiliki
+                                standar
+                                kualitas terbaik</p>
                         </div>
-                        <h3 class="feature-card-title">Laundry Terpercaya</h3>
-                        <p class="feature-card-desc">Tim kami terdiri dari profesional yang berpengalaman dan memiliki
-                            standar
-                            kualitas terbaik</p>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.2s;">
-                        <div class="feature-icon-wrapper">
-                            <div class="feature-icon-circle">
-                                <i class="fas fa-tag text-white"></i>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card-item fade-in-up" style="animation-delay: 0.2s;">
+                            <div class="feature-icon-wrapper">
+                                <div class="feature-icon-circle">
+                                    <i class="fas fa-tag text-white"></i>
+                                </div>
                             </div>
+                            <h3 class="feature-card-title">Harga Jelas</h3>
+                            <p class="feature-card-desc">Tidak ada biaya tersembunyi, bayar sesuai berat dengan
+                                timbangan
+                                digital</p>
                         </div>
-                        <h3 class="feature-card-title">Harga Jelas</h3>
-                        <p class="feature-card-desc">Tidak ada biaya tersembunyi, bayar sesuai berat dengan timbangan
-                            digital</p>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.3s;">
-                        <div class="feature-icon-wrapper">
-                            <div class="feature-icon-circle">
-                                <i class="fas fa-bolt text-white"></i>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card-item fade-in-up" style="animation-delay: 0.3s;">
+                            <div class="feature-icon-wrapper">
+                                <div class="feature-icon-circle">
+                                    <i class="fas fa-bolt text-white"></i>
+                                </div>
                             </div>
+                            <h3 class="feature-card-title">Express 24 Jam</h3>
+                            <p class="feature-card-desc">Layanan kilat untuk kebutuhan mendesak dengan proses maksimal
+                                24
+                                jam</p>
                         </div>
-                        <h3 class="feature-card-title">Express 24 Jam</h3>
-                        <p class="feature-card-desc">Layanan kilat untuk kebutuhan mendesak dengan proses maksimal 24
-                            jam</p>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card-item fade-in-up" style="animation-delay: 0.4s;">
-                        <div class="feature-icon-wrapper">
-                            <div class="feature-icon-circle">
-                                <i class="fas fa-shield-alt text-white"></i>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card-item fade-in-up" style="animation-delay: 0.4s;">
+                            <div class="feature-icon-wrapper">
+                                <div class="feature-icon-circle">
+                                    <i class="fas fa-shield-alt text-white"></i>
+                                </div>
                             </div>
+                            <h3 class="feature-card-title">Laundry Aman</h3>
+                            <p class="feature-card-desc">Perlakuan khusus untuk bahan-bahan sensitif dengan deterjen
+                                hipoalergenik</p>
                         </div>
-                        <h3 class="feature-card-title">Laundry Aman</h3>
-                        <p class="feature-card-desc">Perlakuan khusus untuk bahan-bahan sensitif dengan deterjen
-                            hipoalergenik</p>
                     </div>
                 </div>
             </div>
@@ -1297,74 +1296,69 @@
     <section id="services" class="services-section">
         <div class="container">
             <div class="section-header-wrapper">
-                <h2 class="section-title">Layanan Kami</h2>
+                <h2 class="section-title">Paket Laundry Kami</h2>
                 <p class="section-subtitle">Yang Paling Rekomend Buat Anda</p>
             </div>
 
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-card-item fade-in-up" style="animation-delay: 0.1s;">
-                        <div class="service-icon-wrapper">
-                            <div class="service-icon-circle">
-                                <i class="fas fa-soap text-white"></i>
+            <div class="location-card-wrapper">
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="service-card-item fade-in-up" style="animation-delay: 0.1s;">
+                            <div class="service-icon-wrapper">
+                                <div class="service-icon-circle">
+                                    <i class="fas fa-soap text-white"></i>
+                                </div>
                             </div>
+                            <img src="{{ asset('img/cuci biasa.jpg') }}" alt="Cuci Biasa"
+                                style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
+                            <h3 class="service-card-title">Cuci Biasa</h3>
+                            <p class="service-card-desc">Cucian standar dengan deterjen berkualitas tinggi dan pewangi
+                                pilihan</p>
+                            <p class="service-price-text">Mulai dari <strong>Rp 5.000/Pcs</strong></p>
+                            </p>
                         </div>
-                        <img src="{{ asset('img/cuci biasa.jpg') }}" alt="Cuci Biasa"
-                            style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
-                        <h3 class="service-card-title">Cuci Biasa</h3>
-                        <p class="service-card-desc">Cucian standar dengan deterjen berkualitas tinggi dan pewangi
-                            pilihan</p>
-                        <p class="service-price-text">Mulai dari <strong>Rp 5.000/Pcs</strong></p>
-                        <p class="service-time-text">
-                            <i class="far fa-clock"></i> 3-4 hari kerja
-                        </p>
                     </div>
-                </div>
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-card-item featured fade-in-up" style="animation-delay: 0.2s;">
-                        <span class="badge-featured-tag">Paling Populer</span>
-                        <div class="service-icon-wrapper">
-                            <div class="service-icon-circle">
-                                <i class="fas fa-star text-white"></i>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="service-card-item featured fade-in-up" style="animation-delay: 0.2s;">
+                            <span class="badge-featured-tag">Paling Populer</span>
+                            <div class="service-icon-wrapper">
+                                <div class="service-icon-circle">
+                                    <i class="fas fa-star text-white"></i>
+                                </div>
                             </div>
+                            <img src="{{ asset('img/cuci express.png') }}" alt="Express 24 Jam"
+                                style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
+                            <h3 class="service-card-title">Cuci Express/Regular</h3>
+                            <p class="service-card-desc">Layanan kilat dalam 24 jam untuk kebutuhan mendesak</p>
+                            <p class="service-price-text">Mulai dari <strong>Rp 10.000/kg</strong></p>
+                            </p>
                         </div>
-                        <img src="{{ asset('img/cuci express.png') }}" alt="Express 24 Jam"
-                            style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
-                        <h3 class="service-card-title">Cuci Express/Regular</h3>
-                        <p class="service-card-desc">Layanan kilat dalam 24 jam untuk kebutuhan mendesak</p>
-                        <p class="service-price-text">Mulai dari <strong>Rp 10.000/kg</strong></p>
-                        <p class="service-time-text">
-                            <i class="far fa-clock"></i> 1 hari kerja
-                        </p>
                     </div>
-                </div>
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-card-item fade-in-up" style="animation-delay: 0.3s;">
-                        <div class="service-icon-wrapper">
-                            <div class="service-icon-circle">
-                                <i class="fas fa-tshirt text-white"></i>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="service-card-item fade-in-up" style="animation-delay: 0.3s;">
+                            <div class="service-icon-wrapper">
+                                <div class="service-icon-circle">
+                                    <i class="fas fa-tshirt text-white"></i>
+                                </div>
                             </div>
+                            <img src="{{ asset('img/cuci setrika.jpg') }}" alt="Cuci + Setrika"
+                                style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
+                            <h3 class="service-card-title">Cuci + Setrika</h3>
+                            <p class="service-card-desc">Cucian lengkap dengan setrika profesional dan lipatan rapi</p>
+                            <p class="service-price-text">Mulai dari <strong>Rp 8.000/Lusin</strong></p>
+                            </p>
                         </div>
-                        <img src="{{ asset('img/cuci setrika.jpg') }}" alt="Cuci + Setrika"
-                            style="height: 150px; width: auto; object-fit: contain; border-radius: 6px;">
-                        <h3 class="service-card-title">Cuci + Setrika</h3>
-                        <p class="service-card-desc">Cucian lengkap dengan setrika profesional dan lipatan rapi</p>
-                        <p class="service-price-text">Mulai dari <strong>Rp 8.000/Lusin</strong></p>
-                        <p class="service-time-text">
-                            <i class="far fa-clock"></i> 2-3 hari kerja
-                        </p>
                     </div>
                 </div>
-            </div>
-            <section id="services" class="services-section">
-                <div class="container">
-                    <div class="section-header-wrapper">
-                        <h2 class="section-title">Dan Masih Banyak Lainnya</h2>
-                        <p class="section-subtitle">Berbagai paket laundry sesuai kebutuhan Anda</p>
+                <section id="services" class="services-section">
+                    <div class="container">
+                        <div class="section-header-wrapper">
+                            <h2 class="section-title">Dan Masih Banyak Lagi✔️</h2>
+                            <p class="section-subtitle">Berbagai paket laundry sesuai kebutuhan Anda</p>
+                        </div>
                     </div>
-                </div>
             </section>
     </section>
 
@@ -1372,8 +1366,9 @@
     <section id="process" class="process-section">
         <div class="container">
             <div class="section-header-wrapper">
-                <h2 class="section-title">Cek Status Pesanan Anda</h2>
-                <p class="section-subtitle">Masukkan kode pesanan anda untuk melihat status: Baru, Diproses, Selesai, atau
+                <h2 class="section-title">Cek Status Pesanan Anda😊</h2>
+                <p class="section-subtitle">Masukkan kode pesanan anda untuk melihat status: Baru, Diproses, Selesai,
+                    atau
                     Diambil
                 </p>
             </div>

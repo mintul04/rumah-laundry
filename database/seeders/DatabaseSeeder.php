@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             PaketLaundrySeeder::class,
             UserSeeder::class,
             PengaturanSeeder::class,
-            TransaksiSeeder::class,
+            // TransaksiSeeder::class,
         ]);
     }
 }

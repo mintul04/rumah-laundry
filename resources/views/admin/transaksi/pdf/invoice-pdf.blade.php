@@ -183,6 +183,13 @@
                 <td></td>
                 <td><strong>Rp 0</strong></td>
             </tr>
+            @if($transaksi->pembayaran == 'dp')
+            <tr class="total-row">
+                <td colspan="2" class="text-end"><strong>Total DP:</strong></td>
+                <td></td>
+                <td><strong>Rp {{ number_format($transaksi->jumlah_dp, 0, ',', '.') }}</strong></td>
+            </tr>
+            @endif
             <tr class="total-row">
                 <td colspan="2" class="text-end"><strong>Total Akhir:</strong></td>
                 <td></td>

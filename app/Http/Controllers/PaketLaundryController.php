@@ -14,7 +14,7 @@ class PaketLaundryController extends Controller
      */
     public function index()
     {
-        $paketLaundries = PaketLaundry::latest()->get();
+        $paketLaundries = PaketLaundry::latest()->paginate(6);
         return view('admin.paket-laundry.index', compact('paketLaundries'));
     }
 

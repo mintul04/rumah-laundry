@@ -103,6 +103,13 @@
             white-space: nowrap;
         }
 
+        /* Tambahkan style untuk kolom No */
+        th:first-child, td:first-child {
+            width: 60px;
+            text-align: center;
+            font-weight: 600;
+        }
+
         tbody tr {
             transition: background-color 0.15s ease;
         }
@@ -209,6 +216,7 @@
             color: var(--neutral-gray);
         }
 
+
         @media (max-width: 768px) {
             .table-header {
                 flex-direction: column;
@@ -233,6 +241,11 @@
             td {
                 font-size: 0.875rem;
                 padding: 0.6rem 0.75rem;
+            }
+
+            th:first-child, td:first-child {
+                width: 50px;
+                padding: 0.6rem 0.5rem;
             }
 
             .badge {
@@ -269,6 +282,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Jenis Paket</th>
                         <th>Harga</th>
                         <th>Satuan</th>
@@ -280,6 +294,8 @@
                 <tbody>
                     @foreach ($paketLaundries as $paket)
                         <tr>
+                            <td>{{ ($paketLaundries->currentPage() - 1) * $paketLaundries->perPage() + $loop->iteration }}</td>
+                            
                             <td>
                                 <span class="badge badge-{{ strtolower($paket->jenis_paket ?? 'basic') }}">
                                     {{ $paket->nama_paket }}
@@ -288,14 +304,19 @@
                             <td class="price">Rp {{ number_format($paket->harga, 0, ',', '.') }}</td>
                             <td>{{ $paket->satuan }}</td>
                             <td>{{ $paket->waktu_pengerjaan ?? '3 Hari' }}</td>
-                            <td style="max-width: 200px; word-wrap: break-word;">{{ $paket->deskripsi ?? 'Tidak ada deskripsi' }}</td>
+                            <td style="max-width: 200px; word-wrap: break-word;">
+                                {{ $paket->deskripsi ?? 'Tidak ada deskripsi' }}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{{ route('paket-laundry.edit', $paket->id) }}" class="btn-edit text-decoration-none"><i class="fa fa-pen"></i> Edit</a>
-                                    <form action="{{ route('paket-laundry.destroy', $paket->id) }}" method="POST" style="display: inline;">
+                                    <a href="{{ route('paket-laundry.edit', $paket->id) }}"
+                                        class="btn-edit text-decoration-none"><i class="fa fa-pen"></i> Edit</a>
+                                    <form action="{{ route('paket-laundry.destroy', $paket->id) }}" method="POST"
+                                        style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-delete" onclick="return confirm('Yakin ingin menghapus paket ini?')"><i class="fa fa-trash"></i> Hapus</button>
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Yakin ingin menghapus paket ini?')"><i
+                                                class="fa fa-trash"></i> Hapus</button>
                                     </form>
                                 </div>
                             </td>
@@ -304,11 +325,8 @@
                 </tbody>
             </table>
 
-            <div class="pagination">
-                <div class="pagination-info text-secondary">
-                    Menampilkan {{ $paketLaundries->count() }} paket
-                </div>
-            </div>
+            {{ $paketLaundries->onEachSide(0)->links('pagination::simple-bootstrap-5') }}
+
         @else
             <div class="empty-state">
                 <i class="fas fa-box-open"></i>

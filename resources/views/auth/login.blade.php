@@ -19,7 +19,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background-color: #52a0ee;
+            background-color: #e0ebf6;
             min-height: 100vh;
             display: flex;
             align-items: center;

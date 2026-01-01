@@ -22,7 +22,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
             min-height: 100vh;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
@@ -435,7 +435,7 @@
                             @forelse ($statusPembayaran as $status => $jumlah)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="fw-semibold">{{ ucfirst(str_replace('_', ' ', $status)) }}</span>
+                                        <span class="fw-semibold">{{ ucfirst(str_replace('_', ' ', $status)) }} Pembayaran </span>
                                     </div>
                                     <span class="text-white badge {{ $status == 'lunas' ? 'bg-success' : ($status == 'belum_lunas' ? 'bg-danger' : 'bg-warning') }} rounded-pill">
                                         <i class="fas fa-{{ $status == 'lunas' ? 'check-circle' : ($status == 'belum_lunas' ? 'times-circle' : 'money-bill-wave') }} me-1"></i>{{ $jumlah }}

@@ -355,7 +355,7 @@
     </div>
 
     <div class="row animate-fade-in mt-3" style="animation-delay: 0.2s;">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="header-address">
                 <div class="laundry-name">RumahLaundry</div>
                 <div class="laundry-address">
@@ -364,28 +364,28 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="welcome-section">
-                <h2 class="welcome-title">
-                    Selamat Datang,
-                    @if (Auth::user()->role == 'admin')
-                        Administrator
-                    @else
-                        Karyawan
-                    @endif
-                    <i class="fas fa-star ms-1"></i>
-                </h2>
-                <p class="welcome-subtitle">
-                    Anda login sebagai
-                    @if (Auth::user()->role == 'admin')
-                        Admin
-                    @else
-                        Karyawan
-                    @endif RumahLaundry
-                </p>
-            </div>
+       <div class="welcome-section">
+        <div class="welcome-content">
+            <h2 class="welcome-title">
+                Selamat Datang
+                @if (Auth::user()->role == 'admin')
+                    Administrator
+                @else
+                    Karyawan
+                @endif
+                ✨
+            </h2>
+            <p class="welcome-subtitle">
+                Anda login sebagai
+                @if (Auth::user()->role == 'admin')
+                    Admin RumahLaundry
+                @else
+                    Karyawan RumahLaundry
+                @endif
+            </p>
         </div>
     </div>
+</div>
 
     <div class="row animate-fade-in" style="animation-delay: 0.3s;">
         <div class="col-md-6 mb-4">

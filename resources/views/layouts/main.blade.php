@@ -168,14 +168,16 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--neutral-white);
-            font-weight: 600;
+            color: #ffffff;
+            font-weight: 700;
             font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
         }
+
 
         .user-info span {
             display: block;

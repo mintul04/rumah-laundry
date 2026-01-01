@@ -427,7 +427,8 @@
                     </div>
                     <div class="info-item">
                         <span class="info-label">Sisa</span>
-                        <span class="info-value">Rp {{ number_format($transaksi->total - $transaksi->jumlah_dp, 0, ',', '.') }}</span>
+                        <span class="info-value">Rp
+                            {{ number_format($transaksi->total - $transaksi->jumlah_dp, 0, ',', '.') }}</span>
                     </div>
                 @endif
 
@@ -483,6 +484,12 @@
                         <span>Pajak</span>
                         <span>Rp 0</span>
                     </div>
+                    @if ($transaksi->pembayaran == 'dp')
+                        <div class="total-item">
+                            <span>Total DP</span>
+                            <span>Rp {{ number_format($transaksi->jumlah_dp, 0, ',', '.') }}</span>
+                        </div>
+                    @endif
                     <div class="total-item total-final">
                         <span>Total Akhir</span>
                         <span>Rp {{ number_format($transaksi->total, 0, ',', '.') }}</span>
@@ -491,41 +498,41 @@
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-            <form action="{{ route('transaksi.update-status', $transaksi->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('PUT')
-                <select name="status_order" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
-                    <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>Baru</option>
-                    <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>Diproses
-                    </option>
-                    <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                    <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>Diambil</option>
-                </select>
-            </form>
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <form action="{{ route('transaksi.update-status', $transaksi->id) }}" method="POST" class="d-inline">
+            @csrf
+            @method('PUT')
+            <select name="status_order" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
+                <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>Baru</option>
+                <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>Diproses
+                </option>
+                <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>Diambil</option>
+            </select>
+        </form>
 
-            <form action="{{ route('transaksi.update-pembayaran', $transaksi->id) }}" method="POST" class="d-inline">
-                @csrf
-                @method('PUT')
-                <select name="pembayaran" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
-                    <option value="dp" {{ $transaksi->pembayaran == 'dp' ? 'selected' : '' }}>DP</option>
-                    <option value="lunas" {{ $transaksi->pembayaran == 'lunas' ? 'selected' : '' }}>Lunas</option>
-                </select>
-            </form>
+        <form action="{{ route('transaksi.update-pembayaran', $transaksi->id) }}" method="POST" class="d-inline">
+            @csrf
+            @method('PUT')
+            <select name="pembayaran" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
+                <option value="dp" {{ $transaksi->pembayaran == 'dp' ? 'selected' : '' }}>DP</option>
+                <option value="lunas" {{ $transaksi->pembayaran == 'lunas' ? 'selected' : '' }}>Lunas</option>
+            </select>
+        </form>
 
-            <a href="{{ route('export.invoice.pdf', $transaksi->id) }}" class="btn-action btn-print text-decoration-none">
-                <i class="fas fa-print"></i> Cetak Invoice
-            </a>
-            <form action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" class="d-inline"
-                onsubmit="return confirm('Yakin ingin menghapus transaksi ini? Data tidak bisa dikembalikan.')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-action btn-delete">
-                    <i class="fas fa-trash-alt"></i> Hapus
-                </button>
-            </form>
-        </div>
+        <a href="{{ route('export.invoice.pdf', $transaksi->id) }}" class="btn-action btn-print text-decoration-none">
+            <i class="fas fa-print"></i> Cetak Invoice
+        </a>
+        <form action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" class="d-inline"
+            onsubmit="return confirm('Yakin ingin menghapus transaksi ini? Data tidak bisa dikembalikan.')">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn-action btn-delete">
+                <i class="fas fa-trash-alt"></i> Hapus
+            </button>
+        </form>
+    </div>
     </div>
 @endsection
 @push('scripts')
