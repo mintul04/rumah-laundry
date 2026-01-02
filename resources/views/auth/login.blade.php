@@ -5,328 +5,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Bootstrap 5 CSS -->
-    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Font Awesome Icons -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="{{ asset('assets/vendor/fontawesome/all.min.css') }}" rel="stylesheet">
-        {{-- SweetAlert2 --}}
     <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.min.css') }}">
-
     <title>{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }} - Login</title>
+
+    {{-- Background pattern untuk card --}}
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background-color: #52a0ee;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Clean background with subtle pattern */
-        
-
-        .login-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 420px;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .login-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-header {
-            background-color: #ffffff;
-            padding: 40px 20px 20px;
-            text-align: center;
-        }
-
-        .login-title {
-            color: #0d6efd;
-            font-size: 28px;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
-
-        .login-subtitle {
-            color: #6c757d;
-            font-size: 15px;
-            margin: 10px 0 0;
-            font-weight: 400;
-        }
-
-        .card-body {
-            padding: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-            position: relative;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .form-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-label i {
-            color: #0d6efd;
-            font-size: 16px;
-        }
-
-        .form-control {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: #ffffff;
-            color: #333;
-        }
-
-        .form-control:focus {
-            border-color: #0d6efd;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
-            outline: none;
-        }
-
-        .form-control::placeholder {
-            color: #6c757d;
-        }
-
-        .password-toggle {
+        .login-card::before {
+            content: "";
             position: absolute;
-            right: 16px;
-            top: 48px;
-            cursor: pointer;
-            color: #6c757d;
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            transition: color 0.2s;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(13, 110, 253, 0.04) 0%, transparent 70%);
+            border-radius: 0 0 0 100px;
+            z-index: 0;
         }
 
-        .password-toggle:hover {
-            color: #0d6efd;
+        .login-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(13, 110, 253, 0.03) 0%, transparent 70%);
+            border-radius: 0 100px 0 0;
+            z-index: 0;
         }
 
-        .btn-login {
-            width: 100%;
-            padding: 14px 20px;
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 16px;
+        .form-content {
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.25);
-        }
-
-        .btn-login:hover {
-            background-color: #0a58ca;
-            border-color: #0a58ca;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(13, 110, 253, 0.4);
-        }
-
-        .btn-login:active {
-            transform: translateY(0);
-        }
-
-        .btn-login:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .btn-login.loading {
-            pointer-events: none;
-        }
-
-        .spinner-border-sm {
-            width: 14px;
-            height: 14px;
-            margin-right: 8px;
-        }
-
-        .form-footer {
-            margin-top: 30px;
-            padding-top: 24px;
-            border-top: 1px solid #f0f0f0;
-            text-align: center;
-        }
-
-        .form-footer-text {
-            color: #6c757d;
-            font-size: 14px;
-            margin: 0;
-        }
-
-        .form-footer-link {
-            color: #0d6efd;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-
-        .form-footer-link:hover {
-            color: #0a58ca;
-            text-decoration: underline;
-        }
-
-        .alert {
-            border-radius: 8px;
-            border: none;
-            margin-bottom: 24px;
-            animation: slideIn 0.3s ease;
-            padding: 12px 16px;
-        }
-
-        .alert-danger {
-            background: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            border-left: 4px solid #dc3545;
-        }
-
-        .alert-success {
-            background: rgba(40, 167, 69, 0.1);
-            color: #28a745;
-            border-left: 4px solid #28a745;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 576px) {
-            .login-container {
-                max-width: 100%;
-            }
-
-            .card-body {
-                padding: 25px 20px;
-            }
-
-            .login-title {
-                font-size: 24px;
-            }
+            z-index: 1;
         }
     </style>
 </head>
 
-<body>
-    <div class="login-container">
-        <div class="login-card">
-            <!-- Clean header with title -->
-            <div class="card-header">
-                @if ($pengaturan->logo)
-                    <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo RumahLaundry" style="height: 200px; width: auto; object-fit: contain; border-radius: 6px;">
-                @else
-                    <i class="fas fa-wind" style="font-size: 1.5rem;"></i>
-                @endif
-                <h1 class="login-title">Welcome Back</h1>
-                <p class="login-subtitle">Sign in to your account</p>
-            </div>
+<body class="font-sans bg-linear-to-br from-blue-50 to-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md relative">
+        <!-- Subtle floating dots (opsional, bisa dihapus jika terlalu banyak) -->
+        <div class="absolute -top-6 -left-6 w-4 h-4 rounded-full bg-blue-200 opacity-30 animate-pulse"></div>
+        <div class="absolute -bottom-8 -right-8 w-3 h-3 rounded-full bg-blue-300 opacity-40"></div>
 
-            <div class="card-body">
-                <!-- Error message container -->
-                <div id="alertContainer"></div>
+        <div class="login-card bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative">
+            <!-- Accent top bar -->
+            <div class="h-1.5 bg-blue-600 w-full"></div>
 
-                <!-- Form structure -->
-                <form id="loginForm" action="{{ Route('loginProses') }}" method="POST">
+            <div class="form-content p-8">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    @if ($pengaturan->logo)
+                        <div class="mb-5 flex justify-center">
+                            <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo {{ $pengaturan->nama_laundry }}" class="h-20 object-contain drop-shadow-sm">
+                        </div>
+                    @else
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-5">
+                            <i class="fas fa-wind text-blue-600 text-2xl"></i>
+                        </div>
+                    @endif
+                    <h1 class="text-2xl font-bold text-gray-800">Welcome Back</h1>
+                    <p class="text-gray-500 text-sm mt-1">Sign in to manage your laundry</p>
+                </div>
+
+                <!-- Alert container -->
+                <div id="alertContainer" class="mb-6"></div>
+
+                <!-- Form -->
+                <form id="loginForm" action="{{ route('loginProses') }}" method="POST">
                     @csrf
 
-                    <!-- Email Field -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-envelope"></i>Email Address
+                    <!-- Email -->
+                    <div class="mb-6">
+                        <label class="flex items-center gap-2 text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">
+                            <i class="fas fa-envelope text-blue-600"></i> Email Address
                         </label>
-                        <input type="email" name="email" class="form-control" placeholder="your@email.com" required
-                            autocomplete="email">
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <i class="fas fa-envelope text-sm"></i>
+                            </span>
+                            <input type="email" name="email"
+                                class="w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition placeholder:text-gray-400"
+                                placeholder="your@email.com" required autocomplete="email">
+                        </div>
                     </div>
 
-                    <!-- Password Field -->
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-lock"></i>Password
+                    <!-- Password -->
+                    <div class="mb-7">
+                        <label class="flex items-center gap-2 text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">
+                            <i class="fas fa-lock text-blue-600"></i> Password
                         </label>
-                        <div style="position: relative;">
-                            <input type="password" name="password" id="passwordInput" class="form-control"
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <i class="fas fa-lock text-sm"></i>
+                            </span>
+                            <input type="password" name="password" id="passwordInput"
+                                class="w-full pl-12 pr-12 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition placeholder:text-gray-400"
                                 placeholder="••••••••" required autocomplete="current-password">
-                            <button type="button" class="password-toggle" onclick="togglePasswordVisibility()"
-                                aria-label="Toggle password visibility" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: #f8f9fa; border: 1px solid #ced4da; border-radius: 4px; padding: 4px 8px;">
+                            <button type="button" class="password-toggle absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600" onclick="togglePasswordVisibility()"
+                                aria-label="Toggle password visibility">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Submit button -->
-                    <button type="submit" class="btn-login">
-                        <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>Sign In
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
                     </button>
                 </form>
-
-                <!-- Footer with signup link -->
             </div>
         </div>
+
+        <!-- Optional subtle footer -->
+        <p class="text-center text-gray-400 text-xs mt-6">
+            © {{ date('Y') }} {{ $pengaturan->nama_laundry ?? 'RumahLaundry' }}. All rights reserved.
+        </p>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/fontawesome/all.min.js') }}"></script>
 
-    <!-- JavaScript for interactivity -->
     <script>
-        // Toggle password visibility
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('passwordInput');
             const icon = event.target.closest('i');
@@ -342,37 +146,33 @@
             }
         }
 
-        // Form validation and submission
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             const email = document.querySelector('input[name="email"]');
             const password = document.querySelector('input[name="password"]');
 
-            // Basic validation
             if (!email.value.trim()) {
                 e.preventDefault();
-                showAlert('Please enter your email address', 'danger');
+                showAlert('Silakan masukkan alamat email Anda.', 'danger');
                 email.focus();
                 return;
             }
 
             if (!password.value) {
                 e.preventDefault();
-                showAlert('Please enter your password', 'danger');
+                showAlert('Silakan masukkan kata sandi Anda.', 'danger');
                 password.focus();
                 return;
             }
 
-            // Email format validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email.value)) {
                 e.preventDefault();
-                showAlert('Please enter a valid email address', 'danger');
+                showAlert('Silakan masukkan alamat email yang valid.', 'danger');
                 email.focus();
                 return;
             }
         });
 
-        // Show alert messages
         function showAlert(message, type = 'danger') {
             const alertContainer = document.getElementById('alertContainer');
             const alertDiv = document.createElement('div');
@@ -386,20 +186,67 @@
             alertContainer.innerHTML = '';
             alertContainer.appendChild(alertDiv);
 
-            // Auto-dismiss after 5 seconds
             setTimeout(() => {
                 alertDiv.classList.remove('show');
                 setTimeout(() => alertDiv.remove(), 300);
             }, 5000);
         }
 
-        // Keyboard navigation
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && e.target.name === 'password') {
                 document.getElementById('loginForm').dispatchEvent(new Event('submit'));
             }
         });
     </script>
+
+    <!-- SweetAlert Flash Messages -->
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: "{{ session('success') }}",
+                position: "top-end",
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-lg shadow-lg'
+                }
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: "{{ session('error') }}",
+                position: "top-end",
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-lg shadow-lg'
+                }
+            });
+        </script>
+    @endif
+
+    @if (session('info'))
+        <script>
+            Swal.fire({
+                icon: 'info',
+                title: "{{ session('info') }}",
+                position: "top-end",
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-lg shadow-lg'
+                }
+            });
+        </script>
+    @endif
 </body>
 
 </html>
