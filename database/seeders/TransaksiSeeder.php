@@ -25,7 +25,7 @@ class TransaksiSeeder extends Seeder
 
         $faker = Factory::create('id_ID');
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             // Tanggal terima: acak dalam 30 hari terakhir
             $tanggalTerima = Carbon::now()->subDays(rand(0, 30));
             // Tanggal selesai: 2–5 hari setelah tanggal terima
@@ -36,7 +36,12 @@ class TransaksiSeeder extends Seeder
             $jumlahDp = $pembayaran === 'dp' ? round(rand(10000, 100000) / 100) * 100 : null;
 
             $transaksi = Transaksi::create([
-                'no_order' => 'ORD-' . strtoupper(Str::random(8)),
+                'no_order' => (function () {
+                    $prefix = 'ORD-';
+                    $latest = Transaksi::latest('id')->first();
+                    $nextNumber = $latest ? (int) substr($latest->no_order, strlen($prefix)) + 1 : 1;
+                    return $prefix . sprintf('%06d', $nextNumber);
+                })(),
                 'nama_pelanggan' => $faker->name,
                 'tanggal_terima' => $tanggalTerima,
                 'tanggal_selesai' => $tanggalSelesai,
@@ -68,6 +73,5 @@ class TransaksiSeeder extends Seeder
             $transaksi->update(['total' => $totalTransaksi]);
         }
 
-        $this->command->info('10 transaksi berhasil dibuat dengan detailnya.');
     }
 }

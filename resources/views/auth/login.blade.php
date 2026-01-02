@@ -9,7 +9,11 @@
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link href="{{ asset('assets/vendor/fontawesome/all.min.css') }}" rel="stylesheet">
-    <title>Login - Modern Authentication</title>
+        {{-- SweetAlert2 --}}
+    <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.min.css') }}">
+
+    <title>{{ $pengaturan->nama_laundry ?? 'RumahLaundry' }} - Login</title>
     <style>
         * {
             margin: 0;

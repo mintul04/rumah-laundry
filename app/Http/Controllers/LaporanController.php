@@ -14,22 +14,19 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        // AMBIL DATA DARI DATABASE
-        // Perbaikan: Ganti 'tanggal_transaksi' dengan 'tanggal_terima' karena kolom itu yang ada
         $transaksis = Transaksi::orderBy('tanggal_terima', 'desc')
             ->orderBy('tanggal_selesai', 'desc')
-            ->get();
+            ->paginate(10);
 
         // Hitung statistik dari database
-        $totalTransactions = $transaksis->count();
-        $totalPendapatan = $transaksis->sum('total');
+        $totalTransactions = Transaksi::count();
+        $totalPendapatan = Transaksi::sum('total');
         $rataRata = $totalTransactions > 0 ? $totalPendapatan / $totalTransactions : 0;
 
         // Hitung pelanggan aktif (unik)
-        $pelangganAktif = $transaksis->unique('nama_pelanggan')->count();
+        $pelangganAktif = Transaksi::distinct('nama_pelanggan')->count('nama_pelanggan');
 
         // Analisis per tanggal penerimaan (tanggal_terima)
-        // Perbaikan: Gunakan 'tanggal_terima' sebagai pengganti 'tanggal_transaksi'
         $transaksiPerTanggal = $transaksis->groupBy('tanggal_terima')
             ->map(function ($items) {
                 return [
@@ -66,7 +63,7 @@ class LaporanController extends Controller
             'transaksiPerTanggal' => $transaksiPerTanggal,
             'statusPembayaran' => $statusPembayaran,
             'topCustomers' => $topCustomers,
-            'periode' => date('F Y')
+            'periode' => Carbon::now()->isoFormat('MMMM YYYY')
         ]);
     }
 

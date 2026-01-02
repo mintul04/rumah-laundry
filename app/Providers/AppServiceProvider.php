@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Pengaturan;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Pastikan locale Laravel ke Indonesia
+        App::setLocale('id');
+
+        // Atur locale Carbon global
+        Carbon::setLocale('id');
+
         //landing-page
         View::composer(['layouts.main', 'frontend.landing-page'], function ($view) {
             $pengaturan = Pengaturan::first();

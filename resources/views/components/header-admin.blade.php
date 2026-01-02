@@ -12,9 +12,13 @@
                 <div class="text-right hidden sm:block">
                     <div class="text-sm font-medium text-gray-700">{{ auth()->user()->nama ?? 'Manda' }}</div>
                 </div>
+                @if (auth()->user()->foto)
+                    <img src="{{ Storage::url(auth()->user()->foto) }}" alt="Foto Profil" class="w-10 h-10 rounded-full object-cover">
+                @else
                 <div class="w-10 h-10 rounded-full bg-linear-to-br from-blue-700 to-blue-400 flex items-center justify-center text-white font-semibold text-sm">
                     {{ auth()->user() ? strtoupper(substr(auth()->user()->nama, 0, 1)) : 'M' }}
                 </div>
+                @endif
             </button>
 
             <!-- Dropdown Menu -->

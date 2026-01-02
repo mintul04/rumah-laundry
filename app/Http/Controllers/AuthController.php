@@ -19,7 +19,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($validation)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard-admin');
+            return redirect()->intended('dashboard-admin')->with('success', 'Login Berhasil');
         }
 
         return back()->with('error', 'Password atau Username Salah');
@@ -30,6 +30,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Logout Berhasil');
     }
 }

@@ -3,348 +3,143 @@
 @section('title', 'Manajemen User - RumahLaundry')
 @section('page-title', 'Daftar User')
 
-@push('styles')
-    <style>
-        .table-container {
-            background: var(--neutral-white);
-            border-radius: 0.75rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .table-header h5 {
-            font-size: 1.25rem;
-            color: var(--neutral-dark);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-add {
-            background-color: var(--primary-blue);
-            color: var(--neutral-white);
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.375rem;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-add:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .search-box {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .search-input {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.375rem;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-blue);
-            color: var(--neutral-white);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-            color: var(--neutral-dark);
-        }
-
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
-        .badge-admin {
-            background-color: #ffebee;
-            color: #c62828;
-        }
-
-        .badge-karyawan {
-            background-color: #e3f2fd;
-            color: #1565c0;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--border-color);
-            vertical-align: middle;
-            margin-right: 0.5rem;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn-edit,
-        .btn-delete {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-edit {
-            background-color: #fff3e0;
-            color: #f57c00;
-            border: 1px solid #f57c00;
-        }
-
-        .btn-edit:hover {
-            background-color: #f57c00;
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: #ffebee;
-            color: #d32f2f;
-            border: 1px solid #d32f2f;
-        }
-
-        .btn-delete:hover {
-            background-color: #d32f2f;
-            color: white;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: var(--neutral-gray);
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.6;
-        }
-
-        @media (max-width: 768px) {
-            .table-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search-box {
-                justify-content: space-between;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-                gap: 0.25rem;
-            }
-
-            table {
-                font-size: 0.85rem;
-            }
-
-            th,
-            td {
-                padding: 0.5rem;
-            }
-
-            .user-avatar {
-                width: 32px;
-                height: 32px;
-            }
-
-            .btn-edit,
-            .btn-delete {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
-    <div class="table-container">
-        <div class="table-header">
-            <h5><i class="fas fa-users"></i> Manajemen User</h5>
-            <a href="{{ route('manajemen-user.create') }}" class="btn-add">
-                <i class="fas fa-plus"></i> Tambah User
-            </a>
-        </div>
-
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="Cari user...">
-            <button class="btn-primary">Cari</button>
-        </div>
-
-        @if ($user->count() > 0)
-            <table>
-                <thead>
-                    <tr>
-                        <th>Avatar</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($user as $item)
-                        <tr>
-                            <td>
-                                @if ($item->foto)
-                                    <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto" class="user-avatar">
-                                @else
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama) }}&background=random" alt="Avatar" class="user-avatar">
-                                @endif
-                                <strong>{{ $item->nama }}</strong>
-                            </td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->email ?? '-' }}</td>
-                            <td>
-                                <span class="badge badge-{{ $item->role == 'admin' ? 'admin' : 'karyawan' }}">
-                                    {{ ucfirst($item->role) }}
-                                </span>
-                            </td>
-                            <td>{{ $item->jenis_kelamin }}</td>
-                            <td>
-                                <div class="action-buttons">
-                                    @if ($item->role == 'admin')
-                                        <a href="{{ route('manajemen-user.edit', $item->id) }}" class="btn-edit text-decoration-none"><i class="fa fa-pen"></i> Edit</a>
-                                    @else
-                                        <a href="{{ route('manajemen-user.edit', $item->id) }}" class="btn-edit text-decoration-none"><i class="fa fa-pen"></i> Edit</a>
-                                        <button class="btn-delete" onclick="openDeleteModal({{ $item->id }}, '{{ addslashes($item->nama) }}')">
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </button>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <div class="empty-state">
-                <i class="fas fa-user-group"></i>
-                <p>Belum ada data user</p>
+    <div x-data="{ searchTerm: '' }" class="max-w-7xl mx-auto px-4 py-6">
+        <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+            <!-- Header -->
+            <div class="px-6 py-5 border-b border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-users text-indigo-600"></i>
+                    Manajemen User
+                </h2>
+                <a href="{{ route('manajemen-user.create') }}"
+                    class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm hover:from-indigo-700 hover:to-purple-700 transition-all hover:-translate-y-0.5">
+                    <i class="fas fa-plus"></i> Tambah User
+                </a>
             </div>
-        @endif
+
+            <!-- Search -->
+            <div class="px-6 py-4 border-b border-gray-100">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="flex-1 relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400 text-sm"></i>
+                        </div>
+                        <input x-model="searchTerm" type="text" placeholder="Cari user..."
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table or Empty State -->
+            @if ($user->isNotEmpty())
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avatar</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Kelamin</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach ($user as $item)
+                                <tr x-show="(@js($item->nama . ' ' . $item->email)).toLowerCase().includes(searchTerm.toLowerCase())" class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            @if ($item->foto)
+                                                <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto" class="w-10 h-10 rounded-full object-cover border">
+                                            @else
+                                                <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama) }}&background=random" alt="Avatar" class="w-10 h-10 rounded-full border">
+                                            @endif
+                                            <span class="font-medium text-gray-800">{{ $item->nama }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-700">{{ $item->nama }}</td>
+                                    <td class="px-6 py-4 text-gray-600">{{ $item->email ?? '-' }}</td>
+                                    <td class="px-6 py-4">
+                                        @if ($item->role === 'admin')
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-medium">
+                                                {{ ucfirst($item->role) }}
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-medium">
+                                                {{ ucfirst($item->role) }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-700">{{ $item->jenis_kelamin }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-2">
+                                            <a href="{{ route('manajemen-user.edit', $item->id) }}"
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-800 font-medium rounded text-xs transition-colors">
+                                                <i class="fa fa-pen text-xs"></i> Edit
+                                            </a>
+
+                                            @if ($item->role !== 'admin')
+                                                <form id="hapus-user-{{ $item->id }}" action="{{ route('manajemen-user.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+
+                                                <button onclick="konfirmasiHapusUser({{ $item->id }}, '{{ addslashes($item->nama) }}')" type="button"
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-800 font-medium rounded text-xs transition-colors">
+                                                    <i class="fa fa-trash text-xs"></i> Hapus
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <!-- Empty filtered state -->
+                    <div x-show="!Array.from($root.querySelectorAll('tbody tr')).some(tr => tr.style.display !== 'none')" class="px-6 py-12 text-center text-gray-500" x-cloak>
+                        <i class="fas fa-search fa-2x opacity-50 mb-3"></i>
+                        <p>Tidak ada user yang cocok</p>
+                    </div>
+                </div>
+            @else
+                <div class="px-6 py-16 text-center text-gray-500">
+                    <i class="fas fa-user-group text-4xl opacity-60 mb-4"></i>
+                    <p class="text-lg font-medium">Belum ada data user</p>
+                </div>
+            @endif
+        </div>
     </div>
 
-    <div class="modal-backdrop" id="deleteModal"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1050; justify-content: center; align-items: center;">
-        <div class="modal-content-custom" style="background: var(--neutral-white); border-radius: 0.75rem; padding: 2rem; max-width: 500px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
-            <h5 style="font-size: 1.25rem; font-weight: 700; color: var(--neutral-dark); margin-bottom: 1.5rem;">
-                <i class="fas fa-exclamation-triangle" style="color: var(--accent-danger);"></i> Konfirmasi Hapus
-            </h5>
-            <p id="deleteMessage">Apakah Anda yakin ingin menghapus user ini?</p>
-            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button style="background: #dee2e6; border: none; padding: 0.6rem 1.2rem; border-radius: 0.375rem; cursor: pointer;" onclick="closeDeleteModal()">Batal</button>
-                <button style="background: var(--accent-danger); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 0.375rem; cursor: pointer;" onclick="confirmDelete()">Hapus</button>
-            </div>
-        </div>
-    </div>
-@endsection
-
-@push('scripts')
     <script>
-        let deleteId = null;
-
-        function openDeleteModal(id, nama) {
-            deleteId = id;
-            document.getElementById('deleteMessage').textContent = `Apakah Anda yakin ingin menghapus user "${nama}"?`;
-            document.getElementById('deleteModal').style.display = 'flex';
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-            deleteId = null;
-        }
-
-        function confirmDelete() {
-            if (deleteId) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = `/manajemen-user/${deleteId}`;
-                form.style.display = 'none';
-
-                const csrf = document.createElement('input');
-                csrf.name = '_token';
-                csrf.value = '{{ csrf_token() }}';
-                csrf.type = 'hidden';
-
-                const method = document.createElement('input');
-                method.name = '_method';
-                method.value = 'DELETE';
-                method.type = 'hidden';
-
-                form.append(csrf, method);
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-
-        // Pencarian sederhana
-        document.querySelector('.search-input').addEventListener('input', function() {
-            const term = this.value.toLowerCase();
-            document.querySelectorAll('tbody tr').forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(term) ? '' : 'none';
+        function konfirmasiHapusUser(id, nama) {
+            Swal.fire({
+                title: 'Hapus User?',
+                html: `
+                    <div class="text-center">
+                        <p class="text-slate-700 mb-2">Anda akan menghapus User:</p>
+                        <p class="text-lg font-bold text-red-600 mb-3">${nama}</p>
+                        <p class="text-sm text-slate-500">Tindakan ini tidak dapat dibatalkan</p>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: '<i class="fa-solid fa-trash mr-2"></i>Ya, Hapus',
+                cancelButtonText: '<i class="fa-solid fa-times mr-2"></i>Batal',
+                reverseButtons: true,
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 ml-2',
+                    cancelButton: 'inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('hapus-user-' + id).submit();
+                }
             });
-        });
-
-        document.querySelector('.btn-primary').addEventListener('click', function() {
-            document.querySelector('.search-input').dispatchEvent(new Event('input'));
-        });
-
-        // Tutup modal saat klik luar
-        document.getElementById('deleteModal').addEventListener('click', function(e) {
-            if (e.target === this) closeDeleteModal();
-        });
+        }
     </script>
-@endpush
+@endsection

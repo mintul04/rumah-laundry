@@ -3,267 +3,167 @@
 @section('page-title', 'Profil Saya')
 
 @section('content')
-    <div class="container-fluid px-4 py-4">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card profile-card">
-                    <div class="card-header border-0 pb-3 mb-3">
-                        <h3 class="card-title mb-0 fw-bold text-dark">
-                            <i class="fas fa-user-circle me-2 text-primary"></i>
-                            Profil Saya
-                        </h3>
-                    </div>
-                    <div class="card-body pt-0">
-                        <!-- Update Profile Form -->
-                        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
+    <div x-data="profileForm({
+        currentPhoto: '{{ auth()->user()->foto ? Storage::url(auth()->user()->foto) : null }}',
+        initials: '{{ strtoupper(substr(auth()->user()->nama, 0, 2)) }}'
+    })" class="mx-auto px-4 py-3">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+            <div class="px-6 py-6 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                    <i class="fas fa-user-circle text-indigo-600"></i>
+                    Profil Saya
+                </h1>
+            </div>
 
-                            <div class="row g-4">
-                                <!-- Avatar Section (Left) -->
-                                <div class="col-lg-3">
-                                    <div class="text-center">
-                                        <div class="position-relative d-inline-block">
-                                            <div
-                                                class="avatar-wrapper rounded-circle bg-gradient-primary d-flex align-items-center justify-content-center overflow-hidden shadow-lg">
-                                                @if (auth()->user()->foto)
-                                                    <img src="{{ Storage::url(auth()->user()->foto) }}"
-                                                        alt="{{ auth()->user()->nama }}"
-                                                        class="w-100 h-100 object-fit-cover">
-                                                @else
-                                                    <span class="text-white fw-bold fs-2">
-                                                        {{ strtoupper(substr(auth()->user()->nama, 0, 2)) }}
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="mt-4">
-                                            <label for="foto" class="form-label d-block fw-medium text-dark">Ganti Foto
-                                                Profil</label>
-                                            <input type="file" name="foto" id="foto"
-                                                class="form-control form-control-sm" accept="image/*">
-                                            <small class="text-muted d-block mt-1">Maks. 2MB (JPG, PNG, GIF)</small>
-                                        </div>
+            <div class="p-6">
+                <!-- Update Profile Form -->
+                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Avatar Section (Left) -->
+                        <div class="lg:col-span-1">
+                            <div class="flex flex-col items-center">
+                                <!-- Avatar Preview -->
+                                <div class="relative group">
+                                    <div
+                                        class="w-32 h-32 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg border-4 border-white transition-transform duration-300 group-hover:scale-105">
+                                        <template x-if="previewUrl || currentPhoto">
+                                            <img :src="previewUrl || currentPhoto" class="w-full h-full object-cover rounded-full" alt="Foto profil">
+                                        </template>
+                                        <template x-if="!previewUrl && !currentPhoto">
+                                            <span class="text-white text-2xl font-bold" x-text="initials"></span>
+                                        </template>
                                     </div>
                                 </div>
 
-                                <!-- Profile Form Fields (Right) -->
-                                <div class="col-lg-9">
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
-                                            <input type="text" name="nama_lengkap" id="nama_lengkap"
-                                                class="form-control form-control-lg @error('nama_lengkap') is-invalid @enderror"
-                                                value="{{ old('nama_lengkap', auth()->user()->nama_lengkap) }}" required>
-                                            @error('nama_lengkap')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                <div class="mt-6 w-full">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Ganti Foto Profil</label>
+                                    <label
+                                        class="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-50 transition bg-gray-50">
+                                        <div class="text-center">
+                                            <i class="fas fa-cloud-upload-alt text-gray-400 text-lg mb-1"></i>
+                                            <p class="text-xs text-gray-500">Klik untuk upload</p>
                                         </div>
-
-                                        <div class="col-md-6">
-                                            <label for="nama" class="form-label">Username</label>
-                                            <input type="text" name="nama" id="nama"
-                                                class="form-control form-control-lg @error('nama') is-invalid @enderror"
-                                                value="{{ old('nama', auth()->user()->nama) }}" required>
-                                            @error('nama')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" name="email" id="email"
-                                                class="form-control form-control-lg @error('email') is-invalid @enderror"
-                                                value="{{ old('email', auth()->user()->email) }}" required>
-                                            @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5 py-2">
-                                            <i class="fas fa-save me-2"></i> Simpan Perubahan
-                                        </button>
-                                    </div>
+                                        <input type="file" name="foto" x-ref="fileInput" class="hidden" accept="image/*" @change="handleFileSelect">
+                                    </label>
+                                    <p class="mt-2 text-xs text-gray-500 text-center">Maks. 2MB (JPG, PNG, GIF)</p>
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
-                        <!-- Divider -->
-                        <hr class="my-5">
+                        <!-- Profile Form Fields (Right) -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
+                                    <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', auth()->user()->nama_lengkap) }}" required
+                                        class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                                    @error('nama_lengkap')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
 
-                        <!-- Change Password Section -->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5 class="mb-4 fw-semibold text-dark">
-                                    <i class="fas fa-key me-2 text-warning"></i> Ubah Password
-                                </h5>
-                                <form action="{{ route('profile.password') }}" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="current_password" class="form-label">Password Saat Ini</label>
-                                        <input type="password" name="current_password" id="current_password"
-                                            class="form-control form-control-lg @error('current_password') is-invalid @enderror"
-                                            required>
-                                        @error('current_password')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+                                    <input type="text" name="nama" value="{{ old('nama', auth()->user()->nama) }}" required
+                                        class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                                    @error('nama')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="new_password" class="form-label">Password Baru</label>
-                                        <input type="password" name="new_password" id="new_password"
-                                            class="form-control form-control-lg @error('new_password') is-invalid @enderror"
-                                            required>
-                                        @error('new_password')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                                    <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" required
+                                        class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                                    @error('email')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
 
-                                    <div class="mb-3">
-                                        <label for="new_password_confirmation" class="form-label">Konfirmasi Password
-                                            Baru</label>
-                                        <input type="password" name="new_password_confirmation"
-                                            id="new_password_confirmation" class="form-control form-control-lg" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-warning btn-lg px-5 py-2 text-white">
-                                        <i class="fas fa-sync-alt me-2"></i> Ubah Password
-                                    </button>
-                                </form>
+                            <div class="pt-2">
+                                <button type="submit"
+                                    class="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-transform hover:-translate-y-0.5 hover:shadow-xl">
+                                    <i class="fas fa-save"></i> Simpan Perubahan
+                                </button>
                             </div>
                         </div>
                     </div>
+                </form>
+
+                <!-- Divider -->
+                <hr class="my-10 border-gray-200">
+
+                <!-- Change Password Section -->
+                <div class="max-w-2xl">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <i class="fas fa-key text-amber-500"></i>
+                        Ubah Password
+                    </h2>
+                    <form action="{{ route('profile.password') }}" method="POST">
+                        @csrf
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Password Saat Ini</label>
+                                <input type="password" name="current_password" required
+                                    class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                                @error('current_password')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Password Baru</label>
+                                <input type="password" name="new_password" required
+                                    class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                                @error('new_password')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi Password Baru</label>
+                                <input type="password" name="new_password_confirmation" required
+                                    class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                            </div>
+
+                            <div class="pt-2">
+                                <button type="submit"
+                                    class="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg hover:from-amber-600 hover:to-orange-600 transition-transform hover:-translate-y-0.5 hover:shadow-xl">
+                                    <i class="fas fa-sync-alt"></i> Ubah Password
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <style scoped>
-        /* Modern, non-flat card design */
-        .profile-card {
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border: none;
-            background: #ffffff;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+    <script>
+        function profileForm({
+            currentPhoto,
+            initials
+        }) {
+            return {
+                currentPhoto,
+                previewUrl: null,
+                initials,
+
+                openFilePicker() {
+                    this.$refs.fileInput.click();
+                },
+
+                handleFileSelect(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.previewUrl = URL.createObjectURL(file);
+                    }
+                },
+            };
         }
-
-        .profile-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-header {
-            padding: 1.5rem 1.5rem 1rem;
-        }
-
-        .card-title {
-            font-size: 1.75rem;
-        }
-
-        .card-body {
-            padding: 0 1.5rem 1.5rem;
-        }
-
-        /* Avatar with depth */
-        .avatar-wrapper {
-            width: 120px;
-            height: 120px;
-            border: 3px solid #ffffff;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-            transition: transform 0.25s ease;
-        }
-
-        .avatar-wrapper:hover {
-            transform: scale(1.03);
-        }
-
-        .bg-gradient-primary {
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
-        }
-
-        /* Form elements */
-        .form-label {
-            font-weight: 600;
-            color: #495057;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .form-control.form-control-lg {
-            padding: 0.875rem 1.25rem;
-            font-size: 1.05rem;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control.form-control-lg:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
-        }
-
-        .btn-lg {
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            padding: 0.85rem 1.75rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, #ffc107, #ffca2c);
-            border: none;
-            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.25);
-        }
-
-        .btn-warning:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 193, 7, 0.35);
-        }
-
-        /* Divider */
-        hr {
-            opacity: 0.2;
-            border-color: #dee2e6;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .profile-card {
-                border-radius: 12px;
-            }
-
-            .avatar-wrapper {
-                width: 100px;
-                height: 100px;
-            }
-
-            .card-title {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .container-fluid {
-                padding: 1rem;
-            }
-
-            .card-body {
-                padding: 0 1rem 1rem;
-            }
-
-            .btn-lg {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
+    </script>
 @endsection

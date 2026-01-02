@@ -3,427 +3,192 @@
 @section('title', 'Edit User - RumahLaundry')
 @section('page-title', 'Edit User')
 
-@push('styles')
-    <style>
-        :root {
-            --primary-blue: #0066cc;
-            --primary-dark: #004ba3;
-            --primary-light: #e6f2ff;
-            --neutral-white: #ffffff;
-            --neutral-light: #f8f9fa;
-            --neutral-gray: #e9ecef;
-            --neutral-dark: #495057;
-            --accent-success: #28a745;
-            --accent-warning: #ffc107;
-            --accent-danger: #dc3545;
-            --accent-info: #17a2b8;
-            --border-color: #dee2e6;
-            --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-
-        .form-container {
-            background: var(--neutral-white);
-            border-radius: 0.75rem;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
-            margin: 0;
-            padding: 0;
-            width: 100%;
-        }
-
-        .form-header {
-            background: linear-gradient(135deg, var(--primary-blue), #0a58ca);
-            color: var(--neutral-white);
-            padding: 1.5rem 2rem;
-            border-radius: 0.75rem 0.75rem 0 0;
-            margin-bottom: 2rem;
-        }
-
-        .form-header h2 {
-            margin: 0;
-            font-size: 1.75rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .form-header h2 i {
-            font-size: 1.5rem;
-        }
-
-        .form-content {
-            padding: 0 2rem 2rem;
-        }
-
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -1rem;
-        }
-
-        .col-md-6 {
-            flex: 0 0 50%;
-            max-width: 50%;
-            padding: 0 1rem;
-        }
-
-        .col-md-12 {
-            flex: 0 0 100%;
-            max-width: 100%;
-            padding: 0 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.75rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            color: var(--neutral-dark);
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-            letter-spacing: 0.3px;
-        }
-
-        .form-label .required {
-            color: var(--accent-danger);
-            margin-left: 4px;
-        }
-
-        .form-control,
-        .form-select {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            background-color: var(--neutral-white);
-            color: var(--neutral-dark);
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
-            background-color: var(--neutral-white);
-        }
-
-        .form-control:hover,
-        .form-select:hover {
-            border-color: #adb5bd;
-        }
-
-        .form-control::placeholder {
-            color: #6c757d;
-            opacity: 0.7;
-        }
-
-        select.form-select {
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 1rem center;
-            background-repeat: no-repeat;
-            background-size: 1.25em 1.25em;
-            padding-right: 3rem;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-        }
-
-        .current-photo {
-            display: inline-block;
-            margin-bottom: 0.75rem;
-        }
-
-        .current-photo img {
-            border-radius: 50%;
-            border: 3px solid var(--border-color);
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 2px solid var(--border-color);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
-            color: var(--neutral-white);
-            border: none;
-            padding: 0.875rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-submit:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary-blue));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        .btn-cancel {
-            background-color: var(--neutral-gray);
-            color: var(--neutral-dark);
-            border: 2px solid var(--border-color);
-            padding: 0.875rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .btn-cancel:hover {
-            background-color: #e9ecef;
-            border-color: #adb5bd;
-            transform: translateY(-2px);
-        }
-
-        .text-danger {
-            color: var(--accent-danger);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .text-danger::before {
-            content: "⚠";
-            font-size: 0.875rem;
-        }
-
-        .form-note {
-            font-size: 0.875rem;
-            color: #6c757d;
-            margin-top: 0.25rem;
-        }
-
-        .form-info {
-            background-color: var(--primary-light);
-            border-left: 4px solid var(--primary-blue);
-            padding: 1.25rem;
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-            color: #004085;
-            line-height: 1.6;
-        }
-
-        .form-info i {
-            margin-right: 0.75rem;
-            color: var(--primary-blue);
-            font-size: 1.1rem;
-        }
-
-        @media (max-width: 992px) {
-            .form-content {
-                padding: 0 1.5rem 1.5rem;
-            }
-
-            .form-header {
-                padding: 1.25rem 1.5rem;
-            }
-
-            .col-md-6 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            .form-actions {
-                flex-direction: column-reverse;
-                gap: 0.75rem;
-            }
-
-            .btn-submit,
-            .btn-cancel {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .form-container {
-                border-radius: 0.5rem;
-            }
-
-            .form-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .form-content {
-                padding: 0 1rem 1rem;
-            }
-
-            .form-group {
-                margin-bottom: 1.5rem;
-            }
-
-            .form-control,
-            .form-select {
-                padding: 0.75rem;
-            }
-
-            .current-photo img {
-                width: 70px;
-                height: 70px;
-            }
-        }
-    </style>
-@endpush
-
 @section('content')
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-10">
-                <div class="form-container">
-                    <!-- Form Header -->
-                    <div class="form-header">
-                        <h2>
-                            <i class="fas fa-user-edit"></i>
-                            Edit User: {{ $user->nama }}
-                        </h2>
-                    </div>
+    <div x-data="userEditForm({
+        currentPhoto: '{{ $user->foto ? asset('storage/' . $user->foto) : '' }}'
+    })" class="mx-auto px-4 py-3">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+            <!-- Header -->
+            <div class="bg-linear-to-r from-blue-600 to-indigo-700 px-6 py-6">
+                <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i class="fas fa-user-edit"></i>
+                    Edit User: {{ $user->nama }}
+                </h1>
+            </div>
 
-                    <!-- Form Content -->
-                    <div class="form-content">
-                        <div class="form-info">
-                            <i class="fas fa-info-circle"></i>
-                            Perbarui data user. Biarkan password atau foto kosong jika tidak ingin diubah.
-                        </div>
-
-                        <form action="{{ route('manajemen-user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Nama Lengkap <span class="required">*</span></label>
-                                        <input type="text" name="nama_lengkap" class="form-control" value="{{ old('nama_lengkap', $user->nama_lengkap) }}" required>
-                                        @error('nama_lengkap')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Username <span class="required">*</span></label>
-                                        <input type="text" name="nama" class="form-control" value="{{ old('nama', $user->nama) }}" required>
-                                        @error('nama')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}">
-                                        @error('email')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Password</label>
-                                        <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak diubah">
-                                        @error('password')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                        <small class="form-note">*Biarkan kosong jika tidak ingin mengubah password.</small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Role <span class="required">*</span></label>
-                                        <select name="role" class="form-select" required>
-                                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                            <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>Karyawan</option>
-                                        </select>
-                                        @error('role')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Jenis Kelamin <span class="required">*</span></label>
-                                        <select name="jenis_kelamin" class="form-select" required>
-                                            <option value="Laki-laki" {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                            <option value="Perempuan" {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                                        </select>
-                                        @error('jenis_kelamin')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Foto Profil</label>
-                                @if ($user->foto)
-                                    <div class="current-photo">
-                                        <img src="{{ asset('storage/' . $user->foto) }}" alt="Foto saat ini">
-                                    </div>
-                                @endif
-                                <input type="file" name="foto" class="form-control" accept="image/*">
-                                <small class="form-note">Biarkan kosong jika tidak ingin mengubah foto.</small>
-                                @error('foto')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-actions">
-                                <a href="{{ route('manajemen-user.index') }}" class="btn-cancel">
-                                    <i class="fas fa-arrow-left"></i> Kembali
-                                </a>
-                                <button type="submit" class="btn-submit">
-                                    <i class="fas fa-save"></i> Update User
-                                </button>
-                            </div>
-                        </form>
+            <div class="p-6">
+                <!-- Info Box -->
+                <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg mb-8 text-indigo-800">
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-info-circle mt-0.5 text-indigo-600"></i>
+                        <span>Perbarui data user. Biarkan password atau foto kosong jika tidak ingin diubah.</span>
                     </div>
                 </div>
+
+                <form action="{{ route('manajemen-user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <!-- Nama Lengkap & Username -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Nama Lengkap <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $user->nama_lengkap) }}" required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                            @error('nama_lengkap')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Username <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="nama" value="{{ old('nama', $user->nama) }}" required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
+                            @error('nama')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Email & Password -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                            <input type="email" name="email" value="{{ old('email', $user->email) }}"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                            @error('email')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                            <input type="password" name="password" placeholder="Kosongkan jika tidak diubah"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition">
+                            @error('password')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                            <p class="mt-1 text-sm text-gray-500">*Biarkan kosong jika tidak ingin mengubah password.</p>
+                        </div>
+                    </div>
+
+                    <!-- Role & Jenis Kelamin -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Role <span class="text-red-500">*</span>
+                            </label>
+                            <select name="role" required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition appearance-none bg-[url('image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27m6 8 4 4 4-4%27/%3e%3c/svg%3e')] bg-no-repeat bg-position-[1.25em_1.25em] pr-10">
+                                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="karyawan" {{ old('role', $user->role) == 'karyawan' ? 'selected' : '' }}>Karyawan</option>
+                            </select>
+                            @error('role')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Jenis Kelamin <span class="text-red-500">*</span>
+                            </label>
+                            <select name="jenis_kelamin" required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition appearance-none bg-[url('image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27m6 8 4 4 4-4%27/%3e%3c/svg%3e')] bg-no-repeat bg-position-[1.25em_1.25em] pr-10">
+                                <option value="Laki - Laki" {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Laki - Laki' ? 'selected' : '' }}>Laki - Laki</option>
+                                <option value="Perempuan" {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                            </select>
+                            @error('jenis_kelamin')
+                                <p class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Foto Profil -->
+                    <div class="mb-10">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Foto Profil</label>
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <!-- Current Photo -->
+                            @if ($user->foto)
+                                <div class="flex flex-col items-center">
+                                    <p class="text-sm font-medium text-gray-600 mb-2">Foto Saat Ini</p>
+                                    <img :src="currentPhoto" class="w-24 h-24 rounded-full object-cover border-2 border-gray-300 shadow-sm" alt="Foto saat ini">
+                                </div>
+                            @endif
+
+                            <!-- New Photo Upload -->
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4">
+                                    <label
+                                        class="flex flex-col items-center justify-center w-24 h-24 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-50 transition bg-gray-50">
+                                        <div x-show="!previewUrl" class="text-center">
+                                            <i class="fas fa-cloud-upload-alt text-xl text-gray-400"></i>
+                                        </div>
+                                        <img :src="previewUrl" x-show="previewUrl" class="w-full h-full object-cover rounded-xl" alt="Preview baru">
+                                        <input type="file" name="foto" class="hidden" accept="image/*" @change="handleFileSelect">
+                                    </label>
+                                    <div class="text-sm text-gray-600 max-w-md">
+                                        <p class="font-medium">Ganti foto profil</p>
+                                        <p>Format: JPG, PNG, JPEG (maks 2MB)</p>
+                                        <p class="mt-1 text-xs text-gray-500">Biarkan kosong jika tidak ingin mengubah.</p>
+                                    </div>
+                                </div>
+                                @error('foto')
+                                    <p class="mt-2 text-sm text-red-600 flex items-center gap-1">
+                                        <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-wrap gap-3 justify-end pt-6 border-t border-gray-200">
+                        <a href="{{ route('manajemen-user.index') }}"
+                            class="inline-flex items-center gap-2 px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 font-medium transition">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
+                        <button type="submit"
+                            class="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-700 text-white font-medium rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-800 transition shadow-indigo-100">
+                            <i class="fas fa-save"></i> Update User
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    <script>
+        function userEditForm({
+            currentPhoto
+        }) {
+            return {
+                currentPhoto,
+                previewUrl: null,
+
+                openFilePicker() {
+                    this.$refs.fileInput.click();
+                },
+
+                handleFileSelect(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.previewUrl = URL.createObjectURL(file);
+                    }
+                },
+            };
+        }
+    </script>
 @endsection
