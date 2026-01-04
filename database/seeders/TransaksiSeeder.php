@@ -42,7 +42,7 @@ class TransaksiSeeder extends Seeder
                     $nextNumber = $latest ? (int) substr($latest->no_order, strlen($prefix)) + 1 : 1;
                     return $prefix . sprintf('%06d', $nextNumber);
                 })(),
-                'nama_pelanggan' => $faker->name,
+                'id_pelanggan' => rand(0, 10),
                 'tanggal_terima' => $tanggalTerima,
                 'tanggal_selesai' => $tanggalSelesai,
                 'pembayaran' => $pembayaran,

@@ -8,71 +8,60 @@ use App\Http\Controllers\ManajemenUserController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProfileController;
 
 
 use Illuminate\Support\Facades\Route;
 
-//Route Auth
+// Landing Page
 Route::get('/', [LandingPageController::class, 'landingPage'])->name('landing-page');
+Route::post('/cek-status', [LandingPageController::class, 'cekStatus'])->name('cek.status');
+
+// Authentication
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-proses', [AuthController::class, 'loginProses'])->name('loginProses');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// PROFILE ROUTES
-Route::middleware('auth')
-    ->prefix('profile')
-    ->name('profile.')
-    ->group(function () {
-        Route::get('/', [ProfileController::class, 'index'])->name('index');
-        Route::put('/update', [ProfileController::class, 'update'])->name('update');
-        Route::post('/password', [ProfileController::class, 'updatePassword'])->name('password');
-    });
+// Admin Panel
+// Dashboard Admin
+Route::middleware('auth')->get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard-admin');
+// User Profile
+Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
+    Route::put('/update', [ProfileController::class, 'update'])->name('update');
+    Route::post('/password', [ProfileController::class, 'updatePassword'])->name('password');
+});
 
-// Route Resource untuk Paket Laundry
+// Paket Laundry
 Route::middleware('auth')->resource('paket-laundry', PaketLaundryController::class);
 
-// Route Resource untuk Transaksi
+// Transaksi
 Route::middleware('auth')->group(function () {
     Route::resource('transaksi', TransaksiController::class);
-    Route::put('/transaksi/{id}/update-status', [TransaksiController::class, 'updateStatus'])
-        ->name('transaksi.update-status');
-    Route::put('/transaksi/{id}/update-pembayaran', [TransaksiController::class, 'updatePembayaran'])
-        ->name('transaksi.update-pembayaran');
-    // Route untuk export invoice PDF Transaksi
-    Route::get('/invoice/export-pdf/{id}', [TransaksiController::class, 'exportInvoicePdf'])
-        ->name('export.invoice.pdf');
+    Route::put('/transaksi/{id}/update-status', [TransaksiController::class, 'updateStatus'])->name('transaksi.update-status');
+    Route::put('/transaksi/{id}/update-pembayaran', [TransaksiController::class, 'updatePembayaran'])->name('transaksi.update-pembayaran');
+    // export invoice PDF
+    Route::get('/invoice/export-pdf/{id}', [TransaksiController::class, 'exportInvoicePdf'])->name('export.invoice.pdf');
 });
 
-// Route untuk Laporan
-Route::middleware('auth')
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-        // Route untuk export PDF
-        Route::get('/laporan/export-pdf', [LaporanController::class, 'exportLaporanPdf'])
-            ->name('laporan.export.pdf');
-        // Route untuk export Excel
-        Route::get('/laporan/export-excel', [LaporanController::class, 'exportLaporanExcel'])
-            ->name('laporan.export.excel');
-    });
+// Laporan
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    // export PDF
+    Route::get('/laporan/export-pdf', [LaporanController::class, 'exportLaporanPdf'])->name('laporan.export.pdf');
+    // export Excel
+    Route::get('/laporan/export-excel', [LaporanController::class, 'exportLaporanExcel'])->name('laporan.export.excel');
+});
 
-// manajemen_user
+// User
 Route::middleware('auth')->resource('manajemen-user', ManajemenUserController::class);
-
-// pengaturan
+// Pengaturan
 Route::middleware('auth')->group(function () {
-    Route::get('/pengaturan', [PengaturanController::class, 'index'])
-        ->name('pengaturan.index');
-
-    Route::put('/pengaturan', [PengaturanController::class, 'update'])
-        ->name('pengaturan.update');
+    Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
+    Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
 });
 
-// dashboard-admin
-Route::middleware('auth')
-    ->get('/dashboard-admin', [DashboardController::class, 'index'])
-    ->name('dashboard-admin');
-
-Route::post('/cek-status', [LandingPageController::class, 'cekStatus'])->name('cek.status');
+// Pelanggan
+Route::get('/pelanggan/cari', [PelangganController::class, 'cari'])->name('pelanggan.cari');
+Route::post('/pelanggan', [PelangganController::class, 'simpan'])->name('pelanggan.store');

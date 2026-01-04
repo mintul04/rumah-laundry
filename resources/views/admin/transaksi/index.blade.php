@@ -77,10 +77,10 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($transaksis as $item)
-                                <tr x-show="(@js($item->no_order . ' ' . $item->nama_pelanggan)).toLowerCase().includes(searchTerm.toLowerCase())" class="hover:bg-gray-50 transition-colors">
+                                <tr x-show="(@js($item->no_order . ' ' . $item->pelanggan?->nama ?? '-')).toLowerCase().includes(searchTerm.toLowerCase())" class="hover:bg-gray-50 transition-colors">
                                     <td class="px-6 py-4">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4">{{ $item->no_order }}</td>
-                                    <td class="px-6 py-4">{{ $item->nama_pelanggan }}</td>
+                                    <td class="px-6 py-4">{{ $item->pelanggan->nama ?? '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $item->tanggal_terima }}</td>
                                     <td class="px-6 py-4">
                                         @if ($item->pembayaran === 'dp')

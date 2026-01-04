@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pelanggan;
 use App\Models\User;
+use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = Factory::create('id_ID');
         // Admin
         User::create([
             'nama' => 'Admin',
@@ -31,5 +34,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('karyawan123'),
             'role' => 'karyawan',
         ]);
+
+        for ($i=1; $i < 10; $i++) { 
+            Pelanggan::create([
+                'nama'    => $faker->name,
+                'no_telp' => $faker->phoneNumber,
+            ]);
+        }
     }
 }

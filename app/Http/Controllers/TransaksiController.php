@@ -18,8 +18,9 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        
-        $transaksis = Transaksi::latest()->get();
+
+        $transaksis = Transaksi::with('pelanggan')->latest()->get();
+        // dd($transaksis);
 
         return view('admin.transaksi.index', compact('transaksis'));
     }
@@ -43,7 +44,7 @@ class TransaksiController extends Controller
     {
         // Validasi data input termasuk items
         $request->validate([
-            'nama_pelanggan' => 'required|string|max:255',
+            'id_pelanggan' => 'required|string|max:255',
             'tanggal_terima' => 'required|date',
             'tanggal_selesai' => 'required|date',
             'pembayaran' => 'required|in:lunas,dp',
@@ -54,6 +55,29 @@ class TransaksiController extends Controller
             'items.*.paket_id' => 'required|exists:paket_laundries,id',
             'items.*.berat' => 'required|numeric|min:0.1',
             'diskon' => 'nullable|numeric|min:0'
+        ], [
+            'id_pelanggan.required' => 'Nama pelanggan wajib dipilih.',
+            'tanggal_terima.required' => 'Tanggal terima wajib diisi.',
+            'tanggal_selesai.required' => 'Tanggal selesai wajib diisi.',
+            'pembayaran.required' => 'Status pembayaran wajib dipilih.',
+            'pembayaran.in' => 'Status pembayaran harus salah satu dari: lunas atau dp.',
+            'status_order.required' => 'Status order wajib dipilih.',
+            'status_order.in' => 'Status order harus salah satu dari: baru, diproses, selesai, diambil.',
+            'jumlah_dp.numeric' => 'Jumlah DP harus berupa angka.',
+            'jumlah_dp.min' => 'Jumlah DP tidak boleh kurang dari 0.',
+            'total.required' => 'Total transaksi wajib diisi.',
+            'total.numeric' => 'Total transaksi harus berupa angka.',
+            'total.min' => 'Total transaksi tidak boleh kurang dari 0.',
+            'items.required' => 'Detail item laundry wajib diisi minimal satu.',
+            'items.array' => 'Detail item laundry harus berupa array.',
+            'items.min' => 'Detail item laundry minimal harus ada satu item.',
+            'items.*.paket_id.required' => 'Paket laundry wajib dipilih untuk setiap item.',
+            'items.*.paket_id.exists' => 'Paket laundry yang dipilih tidak valid.',
+            'items.*.berat.required' => 'Berat wajib diisi untuk setiap item.',
+            'items.*.berat.numeric' => 'Berat harus berupa angka.',
+            'items.*.berat.min' => 'Berat minimal harus 0.1 kg.',
+            'diskon.numeric' => 'Diskon harus berupa angka.',
+            'diskon.min' => 'Diskon tidak boleh kurang dari 0.',
         ]);
 
         // Validasi khusus untuk DP
@@ -77,7 +101,7 @@ class TransaksiController extends Controller
             // Simpan data ke tabel transaksis
             $transaksi = Transaksi::create([
                 'no_order' => Transaksi::generateNoOrder(), // Pastikan fungsi ini ada di model
-                'nama_pelanggan' => $request->nama_pelanggan,
+                'id_pelanggan' => $request->id_pelanggan,
                 'tanggal_terima' => $request->tanggal_terima,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'pembayaran' => $request->pembayaran,
@@ -115,11 +139,10 @@ class TransaksiController extends Controller
 
     public function show($id)
     {
-        // Gunakan with() untuk mengambil relasi details dan paketnya sekaligus
         $transaksi = Transaksi::with([
             'details' => function ($query) {
                 $query->with('paket'); // Ambil data paket untuk setiap detail
-            }
+            }, 'pelanggan'
         ])->findOrFail($id);
 
         return view('admin.transaksi.detail-transaksi', compact('transaksi'));

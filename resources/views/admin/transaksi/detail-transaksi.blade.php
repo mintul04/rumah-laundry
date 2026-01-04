@@ -38,7 +38,7 @@
                     <!-- Pelanggan -->
                     <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pelanggan</p>
-                        <p class="mt-1 text-lg font-bold text-gray-800">{{ $transaksi->nama_pelanggan }}</p>
+                        <p class="mt-1 text-lg font-bold text-gray-800">{{ $transaksi->pelanggan->nama ?? '-' }}</p>
                     </div>
 
                     <!-- Tanggal Terima -->

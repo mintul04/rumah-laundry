@@ -14,8 +14,8 @@ class Transaksi extends Model
 
     // Kolom yang boleh diisi (fillable)
     protected $fillable = [
+        'id_pelanggan',
         'no_order',
-        'nama_pelanggan',
         'tanggal_terima',
         'tanggal_selesai',
         'jumlah_dp',
@@ -27,6 +27,10 @@ class Transaksi extends Model
     public function details()
     {
         return $this->hasMany(TransaksiDetail::class, 'transaksi_id');
+    }
+
+    public function pelanggan(){
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id');
     }
 
     // Generate nomor order otomatis (misal: ORD-0001)

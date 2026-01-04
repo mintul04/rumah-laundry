@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_pelanggan');
             $table->string('no_order')->unique();
-            $table->string('nama_pelanggan');
             $table->date('tanggal_terima');
             $table->date('tanggal_selesai');
             $table->enum('pembayaran', ['lunas', 'belum_lunas', 'dp'])->default('belum_lunas');
