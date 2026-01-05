@@ -93,7 +93,7 @@ class TransaksiController extends Controller
             $sisa = $total - $dp;
             $noTelp = $pelanggan->no_telp;
             $diskon = $request->diskon ?? 0;
-            $totalAwal = $request->total + $diskon;
+            $totalAwal = $total + $diskon;
 
             $daftarPesanan = '';
             foreach ($request->items as $item) {
@@ -102,12 +102,15 @@ class TransaksiController extends Controller
             }
 
             $diskonText = '';
+            $totalAwalText = '';
 
             if ($diskon > 0) {
                 $diskonText =
                     "🎁 *Diskon*\n" .
                     "Potongan harga: Rp " . number_format($diskon, 0, ',', '.') . "\n\n";
-                $totalAkhir = "Total akhir: Rp " . number_format($totalAwal - $diskon, 0, ',', '.') . "\n\n";
+                $totalAwalText =
+                    "Total sebelum diskon: Rp " .
+                    number_format($totalAwal, 0, ',', '.') . "\n\n";
             }
 
             $message =
@@ -115,9 +118,9 @@ class TransaksiController extends Controller
                 "Terima kasih telah melakukan transaksi di *RumahLaundry*.\n\n" .
                 "🧺 *Detail Pesanan*\n" .
                 $daftarPesanan . "\n" .
-                "Total transaksi: Rp " . number_format($totalAwal, 0, ',', '.') . "\n\n" .
+                "Total transaksi: Rp " . number_format($total, 0, ',', '.') . "\n\n" .
                 $diskonText .
-                $totalAkhir .
+                $totalAwalText .
                 "💰 *Pembayaran*\n" .
                 "DP dibayarkan: Rp " . number_format($dp, 0, ',', '.') . "\n" .
                 "Sisa pembayaran: Rp " . number_format($sisa, 0, ',', '.') . "\n\n" .

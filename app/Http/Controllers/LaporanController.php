@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\LaporanTransaksiExport;
 use App\Http\Controllers\Controller;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,17 +15,20 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $transaksis = Transaksi::orderBy('tanggal_terima', 'desc')
-            ->orderBy('tanggal_selesai', 'desc')
-            ->paginate(10);
+        $transaksis = Transaksi::latest()->paginate(10);
 
         // Hitung statistik dari database
         $totalTransactions = Transaksi::count();
         $totalPendapatan = Transaksi::sum('total');
         $rataRata = $totalTransactions > 0 ? $totalPendapatan / $totalTransactions : 0;
 
-        // Hitung pelanggan aktif (unik)
-        $pelangganAktif = Transaksi::distinct('nama_pelanggan')->count('nama_pelanggan');
+        // Hitung pelanggan aktif: minimal 4 transaksi dalam 30 hari terakhir
+        $pelangganAktif = Pelanggan::whereHas('transaksi', function ($q) {
+            $q->where('tanggal_terima', '>=', Carbon::now()->subDays(30));
+        })
+            ->withCount('transaksi')
+            ->having('transaksi_count', '>', 2)
+            ->count();
 
         // Analisis per tanggal penerimaan (tanggal_terima)
         $transaksiPerTanggal = $transaksis->groupBy('tanggal_terima')
@@ -34,7 +38,7 @@ class LaporanController extends Controller
                     'total' => $items->sum('total')
                 ];
             })
-            ->sortByDesc('total'); // Urutkan berdasarkan total, bukan jumlah jika tidak disebutkan
+            ->sortByDesc('total');
 
         // Analisis status pembayaran
         $statusPembayaran = $transaksis->groupBy('pembayaran')
@@ -43,17 +47,19 @@ class LaporanController extends Controller
             });
 
         // Ambil 7 pelanggan teratas berdasarkan jumlah transaksi
-        $topCustomers = $transaksis
-            ->groupBy('nama_pelanggan')
-            ->sortByDesc(function ($items) {
-                return $items->count();
-            })
-            ->take(7);
+        $topCustomers = Pelanggan::withCount('transaksi')
+            ->withSum('transaksi', 'total')
+            ->orderByDesc('transaksi_count')
+            ->take(7)
+            ->get()
+            ->map(function ($pelanggan) {
+                return [
+                    'nama' => $pelanggan->nama,
+                    'jumlah' => $pelanggan->transaksi_count,
+                    'total' => $pelanggan->transaksi_sum_total
+                ];
+            });
 
-        // Ambil data transaksi per tanggal (sudah diperbaiki sebelumnya)
-        // (Tidak perlu didefinisikan ulang, cukup gunakan $transaksiPerTanggal di atas)
-
-        // Kirim data ke view
         return view('admin.laporan.index', [
             'transactions' => $transaksis,
             'totalTransactions' => $totalTransactions,
@@ -67,10 +73,8 @@ class LaporanController extends Controller
         ]);
     }
 
-    public function exportLaporanPdf(Request $request) // Tambahkan Request $request jika Anda ingin filter
+    public function exportLaporanPdf(Request $request)
     {
-        // Ambil data yang sama seperti di fungsi index
-        // Kita bisa menambahkan filter berdasarkan request jika diperlukan
         $transaksis = Transaksi::orderBy('tanggal_terima', 'desc')
             ->orderBy('tanggal_selesai', 'desc')
             ->get();
@@ -80,7 +84,7 @@ class LaporanController extends Controller
         $rataRata = $totalTransactions > 0 ? $totalPendapatan / $totalTransactions : 0;
         $pelangganAktif = $transaksis->unique('nama_pelanggan')->count();
 
-        $transaksiPerTanggal = $transaksis->groupBy('tanggal_terima') // Gunakan tanggal_terima
+        $transaksiPerTanggal = $transaksis->groupBy('tanggal_terima')
             ->map(function ($items) {
                 return [
                     'jumlah' => $items->count(),
@@ -94,12 +98,18 @@ class LaporanController extends Controller
                 return $items->count();
             });
 
-        $topCustomers = $transaksis
-            ->groupBy('nama_pelanggan')
-            ->sortByDesc(function ($items) {
-                return $items->count();
-            })
-            ->take(7);
+        $topCustomers = Pelanggan::withCount('transaksi')
+            ->withSum('transaksi', 'total')
+            ->orderByDesc('transaksi_count')
+            ->take(7)
+            ->get()
+            ->map(function ($pelanggan) {
+                return [
+                    'nama' => $pelanggan->nama,
+                    'jumlah' => $pelanggan->transaksi_count,
+                    'total' => $pelanggan->transaksi_sum_total
+                ];
+            });
 
         // Buat view PDF
         $pdf = Pdf::loadView('admin.laporan.pdf.laporan-pdf', [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Models\PaketLaundry;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,7 @@ class DashboardController extends Controller
             ->count();
 
         // Total Pelanggan (Dihitung dari transaksi - nama pelanggan unik)
-        $totalPelanggan = Transaksi::select('nama_pelanggan')
-            ->distinct()
-            ->count('nama_pelanggan');
+        $totalPelanggan = Pelanggan::count();
 
         // Total Layanan (Jumlah paket laundry)
         $totalPaket = PaketLaundry::count();
