@@ -70,7 +70,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($paketLaundries as $paket)
                                 <tr x-show="(@js($paket->nama_paket . ' ' . $paket->satuan . ' ' . ($paket->deskripsi ?? ''))).toLowerCase().includes(searchTerm.toLowerCase())" class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                                    <td class="px-6 py-4">{{ ($paketLaundries->currentPage() - 1) * $paketLaundries->perPage() + $loop->iteration }}</td>
                                     <td class="px-6 py-4">
                                         <span
                                             class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 

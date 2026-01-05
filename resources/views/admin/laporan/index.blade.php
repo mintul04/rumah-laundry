@@ -183,7 +183,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($transactions as $transaction)
                                 <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-5 py-4 text-gray-700">{{ $loop->iteration }}</td>
+                                    <td class="px-6 py-4">{{ ($transactions->currentPage() - 1) * $transactions->perPage() + $loop->iteration }}</td>
                                     <td class="px-5 py-4 font-mono font-medium text-gray-800">{{ $transaction->no_order }}</td>
                                     <td class="px-5 py-4 text-gray-700">{{ $transaction->pelanggan->nama ?? '-' }}</td>
                                     <td class="px-5 py-4 text-gray-600">

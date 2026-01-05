@@ -12,6 +12,10 @@
 
     {{-- Font Awesome --}}
     <link href="{{ asset('assets/vendor/fontawesome/all.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('assets/vendor/fontawesome/all.min.js') }}"></script>
+    {{-- SweetAlert2 --}}
+    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.min.css') }}">
+    <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
 
     {{-- Tailwind (compiled) --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -490,11 +494,6 @@
         </footer>
     </div>
 
-    {{-- SweetAlert --}}
-    <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
-    {{-- Fontawesome --}}
-    <script src="{{ asset('assets/vendor/fontawesome/all.min.js') }}"></script>
-
     {{-- Core JS (vanilla) --}}
     <script>
         // Smooth scroll
@@ -632,6 +631,55 @@
             }
         }
     </script>
+
+    <!-- SweetAlert Flash Messages -->
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: "{{ session('success') }}",
+                position: "top-end",
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-lg shadow-lg'
+                }
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: "{{ session('error') }}",
+                position: "top-end",
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-lg shadow-lg'
+                }
+            });
+        </script>
+    @endif
+
+    @if (session('info'))
+        <script>
+            Swal.fire({
+                icon: 'info',
+                title: "{{ session('info') }}",
+                position: "top-end",
+                toast: true,
+                timer: 3000,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-lg shadow-lg'
+                }
+            });
+        </script>
+    @endif
 
     @stack('scripts')
 </body>
