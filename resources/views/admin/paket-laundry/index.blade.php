@@ -58,6 +58,7 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
+                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">No</th>
                                 <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Jenis Paket</th>
                                 <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Harga</th>
                                 <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Satuan</th>
@@ -69,6 +70,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($paketLaundries as $paket)
                                 <tr x-show="(@js($paket->nama_paket . ' ' . $paket->satuan . ' ' . ($paket->deskripsi ?? ''))).toLowerCase().includes(searchTerm.toLowerCase())" class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4">
                                         <span
                                             class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
@@ -119,10 +121,41 @@
                     </div>
                 </div>
 
-                <!-- Pagination Info -->
-                <div class="mt-4 text-sm text-gray-500">
-                    Menampilkan {{ $paketLaundries->count() }} paket
-                </div>
+                <!-- Pagination -->
+                @if ($paketLaundries->hasPages())
+                    <div class="border-t border-slate-200/30 px-6 py-4 bg-slate-50/50">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                            <p class="text-sm text-slate-600 text-center sm:text-left">
+                                Menampilkan <span class="font-bold text-slate-800">{{ $paketLaundries->firstItem() }}</span>–
+                                <span class="font-bold text-slate-800">{{ $paketLaundries->lastItem() }}</span> dari
+                                <span class="font-bold text-slate-800">{{ $paketLaundries->total() }}</span> hasil
+                            </p>
+                            <div class="flex gap-2">
+                                @if ($paketLaundries->onFirstPage())
+                                    <span class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-slate-100 text-slate-400 cursor-not-allowed font-medium">
+                                        <i class="fa-solid fa-chevron-left mr-1 text-xs"></i> Sebelumnya
+                                    </span>
+                                @else
+                                    <a href="{{ $paketLaundries->previousPageUrl() }}"
+                                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-medium shadow-sm hover:shadow transition-colors">
+                                        <i class="fa-solid fa-chevron-left mr-1 text-xs"></i> Sebelumnya
+                                    </a>
+                                @endif
+
+                                @if ($paketLaundries->hasMorePages())
+                                    <a href="{{ $paketLaundries->nextPageUrl() }}"
+                                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-linear-to-r from-blue-600 to-cyan-600 text-white font-medium shadow-md hover:shadow-lg hover:from-blue-700 hover:to-cyan-700 transition-all">
+                                        Selanjutnya <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                                    </a>
+                                @else
+                                    <span class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-slate-100 text-slate-400 cursor-not-allowed font-medium">
+                                        Selanjutnya <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
             @else
                 <div class="text-center py-12 text-gray-500">
                     <i class="fas fa-box-open text-4xl opacity-50 mb-4"></i>

@@ -15,12 +15,20 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $transaksis = Transaksi::latest()->paginate(10);
+        $transaksis = Transaksi::with('pelanggan')
+            ->orderBy('tanggal_terima', 'desc')
+            ->orderBy('tanggal_selesai', 'desc')
+            ->paginate(10);
 
         // Hitung statistik dari database
         $totalTransactions = Transaksi::count();
-        $totalPendapatan = Transaksi::sum('total');
+        $totalPendapatan = Transaksi::where('pembayaran', 'lunas')->sum('total');
         $rataRata = $totalTransactions > 0 ? $totalPendapatan / $totalTransactions : 0;
+
+        $totalPendapatanHalaman = $transaksis
+            ->getCollection()
+            ->where('pembayaran', 'lunas')
+            ->sum('total');
 
         // Hitung pelanggan aktif: minimal 4 transaksi dalam 30 hari terakhir
         $pelangganAktif = Pelanggan::whereHas('transaksi', function ($q) {
@@ -46,9 +54,35 @@ class LaporanController extends Controller
                 return $items->count();
             });
 
+        // Card pelanggan teraktif minimal 3 transaksi dalam sebulan
+        $pelangganTeraktif = Pelanggan::withCount([
+            'transaksi' => function ($q) {
+                $q->where('tanggal_terima', '>=', Carbon::now()->subDays(30))
+                  ->where('pembayaran', 'lunas');
+            }
+        ])
+            ->having('transaksi_count', '>=', 3)
+            ->orderByDesc('transaksi_count')
+            ->get()
+            ->map(function ($pelanggan) {
+                return [
+                    'nama' => $pelanggan->nama,
+                    'jumlah' => $pelanggan->transaksi_count
+                ];
+            });
+
         // Ambil 7 pelanggan teratas berdasarkan jumlah transaksi
-        $topCustomers = Pelanggan::withCount('transaksi')
-            ->withSum('transaksi', 'total')
+        $topCustomers = Pelanggan::withCount([
+            'transaksi' => function ($q) {
+                $q->where('pembayaran', 'lunas');
+            }
+        ])
+            ->withSum([
+                'transaksi as transaksi_sum_total' => function ($q) {
+                    $q->where('pembayaran', 'lunas');
+                }
+            ], 'total')
+            ->having('transaksi_count', '>', 0)
             ->orderByDesc('transaksi_count')
             ->take(7)
             ->get()
@@ -64,8 +98,10 @@ class LaporanController extends Controller
             'transactions' => $transaksis,
             'totalTransactions' => $totalTransactions,
             'totalPendapatan' => $totalPendapatan,
+            'totalPendapatanHalaman' => $totalPendapatanHalaman,
             'rataRata' => $rataRata,
-            'pelangganAktif' => $pelangganAktif, // Jika ingin menampilkan jumlah pelanggan unik
+            'pelangganAktif' => $pelangganAktif,
+            'pelangganTeraktif' => $pelangganTeraktif,
             'transaksiPerTanggal' => $transaksiPerTanggal,
             'statusPembayaran' => $statusPembayaran,
             'topCustomers' => $topCustomers,
@@ -75,14 +111,19 @@ class LaporanController extends Controller
 
     public function exportLaporanPdf(Request $request)
     {
-        $transaksis = Transaksi::orderBy('tanggal_terima', 'desc')
+        $transaksis = Transaksi::with('pelanggan')->orderBy('tanggal_terima', 'desc')
             ->orderBy('tanggal_selesai', 'desc')
             ->get();
 
         $totalTransactions = $transaksis->count();
-        $totalPendapatan = $transaksis->sum('total');
+        $totalPendapatan = $transaksis->where('pembayaran', 'lunas')->sum('total');
         $rataRata = $totalTransactions > 0 ? $totalPendapatan / $totalTransactions : 0;
-        $pelangganAktif = $transaksis->unique('nama_pelanggan')->count();
+        $pelangganAktif = Pelanggan::whereHas('transaksi', function ($q) {
+            $q->where('tanggal_terima', '>=', Carbon::now()->subDays(30));
+        })
+            ->withCount('transaksi')
+            ->having('transaksi_count', '>', 2)
+            ->count();
 
         $transaksiPerTanggal = $transaksis->groupBy('tanggal_terima')
             ->map(function ($items) {
@@ -98,8 +139,17 @@ class LaporanController extends Controller
                 return $items->count();
             });
 
-        $topCustomers = Pelanggan::withCount('transaksi')
-            ->withSum('transaksi', 'total')
+        $topCustomers = Pelanggan::withCount([
+            'transaksi' => function ($q) {
+                $q->where('pembayaran', 'lunas');
+            }
+        ])
+            ->withSum([
+                'transaksi as transaksi_sum_total' => function ($q) {
+                    $q->where('pembayaran', 'lunas');
+                }
+            ], 'total')
+            ->having('transaksi_count', '>', 0)
             ->orderByDesc('transaksi_count')
             ->take(7)
             ->get()

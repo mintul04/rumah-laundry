@@ -192,7 +192,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $transaction->no_order }}</td>
-                    <td>{{ $transaction->nama_pelanggan }}</td>
+                    <td>{{ $transaction->pelanggan->nama ?? '-' }}</td>
                     <td>{{ \Carbon\Carbon::parse($transaction->tanggal_terima)->isoFormat('D MMM YYYY') }}</td>
                     <td>{{ \Carbon\Carbon::parse($transaction->tanggal_selesai)->isoFormat('D MMM YYYY') }}</td>
                     <td>{{ ucfirst(str_replace('_', ' ', $transaction->pembayaran)) }}</td>

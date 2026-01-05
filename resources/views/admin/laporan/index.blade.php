@@ -82,9 +82,9 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-sm font-semibold text-gray-600 flex items-center gap-1">
-                                <i class="fas fa-users"></i> Pelanggan Aktif
+                                <i class="fas fa-users"></i> Pelanggan Aktif (1B)
                             </p>
-                            <p class="text-2xl font-bold text-gray-800 mt-1">{{ $topCustomers->count() }}</p>
+                            <p class="text-2xl font-bold text-gray-800 mt-1">{{ $pelangganTeraktif->count() }}</p>
                         </div>
                         <div class="p-3 bg-amber-100 rounded-xl text-amber-600">
                             <i class="fas fa-user-friends fa-lg"></i>
@@ -185,7 +185,7 @@
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-5 py-4 text-gray-700">{{ $loop->iteration }}</td>
                                     <td class="px-5 py-4 font-mono font-medium text-gray-800">{{ $transaction->no_order }}</td>
-                                    <td class="px-5 py-4 text-gray-700">{{ $transaction->nama_pelanggan }}</td>
+                                    <td class="px-5 py-4 text-gray-700">{{ $transaction->pelanggan->nama ?? '-' }}</td>
                                     <td class="px-5 py-4 text-gray-600">
                                         {{ \Carbon\Carbon::parse($transaction->tanggal_terima)->isoFormat('D MMM YYYY') }}
                                     </td>
@@ -212,7 +212,7 @@
                             <!-- Total Row -->
                             <tr class="bg-blue-50 font-bold">
                                 <td colspan="6" class="px-5 py-4 text-right text-gray-800">TOTAL PENDAPATAN:</td>
-                                <td colspan="2" class="px-5 py-4 text-gray-800">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</td>
+                                <td colspan="2" class="px-5 py-4 text-gray-800">Rp {{ number_format($totalPendapatanHalaman, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -257,6 +257,49 @@
                         <i class="fas fa-info-circle text-3xl text-blue-500 mb-3"></i>
                         <h6 class="font-semibold text-lg text-gray-700">Tidak Ada Data</h6>
                         <p>Belum ada transaksi yang dicatat untuk periode ini.</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <!-- Top 7 Pelanggan Berdasarkan Transaksi -->
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden mb-8">
+            <div class="bg-linear-to-r from-purple-600 to-fuchsia-700 px-5 py-4 text-white">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <i class="fas fa-crown"></i> 7 Pelanggan Teraktif
+                </h3>
+                <p class="text-gray-200 text-sm mt-1">Berdasarkan jumlah transaksi</p>
+            </div>
+            <div class="overflow-x-auto">
+                @if ($topCustomers->isNotEmpty())
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Pelanggan</th>
+                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jumlah Transaksi</th>
+                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Transaksi (Rp)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach ($topCustomers as $index => $customer)
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-5 py-4">
+                                        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-purple-100 text-purple-700 font-bold text-sm">
+                                            {{ $index + 1 }}
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-4 font-medium text-gray-800">{{ $customer['nama'] }}</td>
+                                    <td class="px-5 py-4 text-gray-700">{{ $customer['jumlah'] }}</td>
+                                    <td class="px-5 py-4 font-semibold text-gray-800">Rp {{ number_format($customer['total'], 0, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div class="px-5 py-10 text-center text-gray-500">
+                        <i class="fas fa-user-slash text-2xl opacity-60 mb-2"></i>
+                        <p>Belum ada pelanggan dengan transaksi</p>
                     </div>
                 @endif
             </div>

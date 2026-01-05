@@ -19,7 +19,7 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
 
     public function __construct()
     {
-        $this->transaksis = Transaksi::orderBy('tanggal_terima', 'desc')
+        $this->transaksis = Transaksi::with('pelanggan')->orderBy('tanggal_terima', 'desc')
             ->orderBy('tanggal_selesai', 'desc')
             ->get();
     }
@@ -48,9 +48,9 @@ class LaporanTransaksiExport implements FromCollection, WithHeadings, WithMappin
         return [
             $transaksi->id,
             $transaksi->no_order,
-            $transaksi->nama_pelanggan,
+            $transaksi->pelanggan->nama ?? '-',
             $transaksi->tanggal_terima,
-            $transaksi->tanggal_selesai,
+            $transaksi->tanggal_selesai ?? '-',
             ucfirst(str_replace('_', ' ', $transaksi->pembayaran)),
             ucfirst(str_replace('_', ' ', $transaksi->status_order)),
             $transaksi->total,

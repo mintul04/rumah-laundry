@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_pelanggan');
             $table->string('no_order')->unique();
             $table->date('tanggal_terima');
-            $table->date('tanggal_selesai');
+            $table->date('tanggal_selesai')->nullable();
             $table->enum('pembayaran', ['lunas', 'belum_lunas', 'dp'])->default('belum_lunas');
             $table->decimal('jumlah_dp', 15, 2)->nullable();
             $table->enum('status_order', ['baru', 'diproses', 'selesai', 'diambil'])->default('baru');

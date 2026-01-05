@@ -22,7 +22,7 @@ class TransaksiController extends Controller
     public function index()
     {
 
-        $transaksis = Transaksi::with('pelanggan')->latest()->get();
+        $transaksis = Transaksi::with('pelanggan')->latest()->paginate(10);
         // dd($transaksis);
 
         return view('admin.transaksi.index', compact('transaksis'));
@@ -49,7 +49,7 @@ class TransaksiController extends Controller
         $request->validate([
             'id_pelanggan' => 'required|string|max:255',
             'tanggal_terima' => 'required|date',
-            'tanggal_selesai' => 'required|date',
+            'tanggal_selesai' => 'nullable|date',
             'pembayaran' => 'required|in:lunas,dp',
             'status_order' => 'required|in:baru,diproses,selesai,diambil',
             'jumlah_dp' => 'nullable|numeric|min:0',
@@ -244,6 +244,12 @@ class TransaksiController extends Controller
                 Rule::in(['diproses', 'selesai', 'diambil']), // 'baru' dihapus sesuai permintaan
             ],
         ]);
+
+        if ($request->status_order == 'selesai') {
+            Transaksi::where('id', $id)->update([
+                'tanggal_selesai' => now(),
+            ]);
+        }
 
         // Temukan transaksi
         $transaksi = Transaksi::findOrFail($id);

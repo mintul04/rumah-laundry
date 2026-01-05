@@ -28,12 +28,20 @@ class TransaksiSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             // Tanggal terima: acak dalam 30 hari terakhir
             $tanggalTerima = Carbon::now()->subDays(rand(0, 30));
-            // Tanggal selesai: 2–5 hari setelah tanggal terima
-            $tanggalSelesai = (clone $tanggalTerima)->addDays(rand(2, 5));
-
-            // Status pembayaran acak
             $pembayaran = $faker->randomElement(['lunas', 'belum_lunas', 'dp']);
-            $jumlahDp = $pembayaran === 'dp' ? round(rand(10000, 100000) / 100) * 100 : null;
+            $jumlahDp = $pembayaran === 'dp'
+                ? round(rand(10000, 100000) / 100) * 100
+                : null;
+
+            // Default nilai
+            $tanggalSelesai = null;
+            $statusOrder = 'selesai';
+
+            if ($pembayaran === 'lunas') {
+                // Jika lunas, baru boleh ada tanggal selesai
+                $tanggalSelesai = (clone $tanggalTerima)->addDays(rand(2, 5));
+                $statusOrder = $faker->randomElement(['diproses', 'selesai', 'diambil']);
+            }
 
             $transaksi = Transaksi::create([
                 'no_order' => (function () {
@@ -47,8 +55,8 @@ class TransaksiSeeder extends Seeder
                 'tanggal_selesai' => $tanggalSelesai,
                 'pembayaran' => $pembayaran,
                 'jumlah_dp' => $jumlahDp,
-                'status_order' => $faker->randomElement(['baru', 'diproses', 'selesai', 'diambil']),
-                'total' => 0, // Akan diupdate setelah detail dibuat
+                'status_order' => $statusOrder,
+                'total' => 0,
             ]);
 
             // Buat 1–3 detail transaksi
@@ -58,7 +66,7 @@ class TransaksiSeeder extends Seeder
             for ($j = 0; $j < $jumlahItem; $j++) {
                 $paket = $paketLaundries->random();
                 $berat = rand(1, 10) + ($faker->boolean(30) ? 0.5 : 0); // Misal: 3, 5.5, 8 kg
-                $subtotal = round($paket->harga * $berat); // harga dari paket_laundries
+                $subtotal = round($paket->harga * $berat);
 
                 $transaksi->details()->create([
                     'paket_id' => $paket->id,

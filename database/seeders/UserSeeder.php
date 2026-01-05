@@ -35,6 +35,16 @@ class UserSeeder extends Seeder
             'role' => 'karyawan',
         ]);
 
+        // Pelanggan
+        Pelanggan::create([
+            'nama' => 'Amanda',
+            'no_telp' => '6285601398636',
+        ]);
+        Pelanggan::create([
+            'nama' => 'Gilang',
+            'no_telp' => '6287870327957',
+        ]);
+
         for ($i=1; $i < 10; $i++) { 
             Pelanggan::create([
                 'nama'    => $faker->name,

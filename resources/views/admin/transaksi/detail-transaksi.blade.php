@@ -53,7 +53,7 @@
                     <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Tanggal Selesai</p>
                         <p class="mt-1 text-lg font-bold text-gray-800">
-                            {{ \Carbon\Carbon::parse($transaksi->tanggal_selesai)->locale('id')->isoFormat('D MMMM Y') }}
+                            {{ $transaksi->tanggal_selesai ? \Carbon\Carbon::parse($transaksi->tanggal_selesai)->locale('id')->isoFormat('D MMMM Y') : '-' }}
                         </p>
                     </div>
 

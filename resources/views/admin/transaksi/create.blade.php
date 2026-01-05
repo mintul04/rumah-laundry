@@ -87,9 +87,9 @@
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                Tanggal Selesai <span class="text-red-500">*</span>
+                                Tanggal Selesai <span class="text-slate-500">(opsional)</span>
                             </label>
-                            <input type="date" name="tanggal_selesai" required value="{{ date('Y-m-d') }}"
+                            <input type="date" name="tanggal_selesai"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                         </div>
                     </div>
