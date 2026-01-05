@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use App\Models\PaketLaundry;
+use App\Models\Pelanggan;
+use App\Services\FonnteService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class TransaksiController extends Controller
@@ -40,7 +43,7 @@ class TransaksiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, FonnteService $fonnteService)
     {
         // Validasi data input termasuk items
         $request->validate([
@@ -82,6 +85,57 @@ class TransaksiController extends Controller
 
         // Validasi khusus untuk DP
         if ($request->pembayaran === 'dp') {
+            // kirim pesan wa
+            $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
+            $namaPelanggan = $pelanggan->nama;
+            $dp = $request->jumlah_dp;
+            $total = $request->total;
+            $sisa = $total - $dp;
+            $noTelp = $pelanggan->no_telp;
+            $diskon = $request->diskon ?? 0;
+            $totalAwal = $request->total + $diskon;
+
+            $daftarPesanan = '';
+            foreach ($request->items as $item) {
+                $paket = PaketLaundry::find($item['paket_id']);
+                $daftarPesanan .= '• ' . $paket->nama_paket . ' (' . $item['berat'] . " kg)\n";
+            }
+
+            $diskonText = '';
+
+            if ($diskon > 0) {
+                $diskonText =
+                    "🎁 *Diskon*\n" .
+                    "Potongan harga: Rp " . number_format($diskon, 0, ',', '.') . "\n\n";
+                $totalAkhir = "Total akhir: Rp " . number_format($totalAwal - $diskon, 0, ',', '.') . "\n\n";
+            }
+
+            $message =
+                "Halo *{$namaPelanggan}* 👋\n\n" .
+                "Terima kasih telah melakukan transaksi di *RumahLaundry*.\n\n" .
+                "🧺 *Detail Pesanan*\n" .
+                $daftarPesanan . "\n" .
+                "Total transaksi: Rp " . number_format($totalAwal, 0, ',', '.') . "\n\n" .
+                $diskonText .
+                $totalAkhir .
+                "💰 *Pembayaran*\n" .
+                "DP dibayarkan: Rp " . number_format($dp, 0, ',', '.') . "\n" .
+                "Sisa pembayaran: Rp " . number_format($sisa, 0, ',', '.') . "\n\n" .
+                "Pesanan Anda sedang kami proses. Kami akan menghubungi Anda kembali ketika laundry telah selesai.\n\n" .
+                "Terima kasih 🙏\n" .
+                "*RumahLaundry*";
+
+            $response = $fonnteService->send($noTelp, $message);
+            if (isset($response['error'])) {
+                // Log error Fonnte
+                Log::error('Fonnte API Error', [
+                    'target' => $noTelp,
+                    'message' => $message,
+                    'error' => $response['error'],
+                ]);
+                return redirect()->back()->withErrors(['dp' => $response['error']]);
+            }
+
             $request->validate([
                 'jumlah_dp' => [
                     'required',
@@ -142,7 +196,8 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::with([
             'details' => function ($query) {
                 $query->with('paket'); // Ambil data paket untuk setiap detail
-            }, 'pelanggan'
+            },
+            'pelanggan'
         ])->findOrFail($id);
 
         return view('admin.transaksi.detail-transaksi', compact('transaksi'));

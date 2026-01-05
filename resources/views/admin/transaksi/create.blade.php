@@ -103,8 +103,8 @@
                             <select name="pembayaran" x-model="pembayaran" required
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27m6 8 4 4 4-4%27/%3e%3c/svg%3e')] bg-no-repeat bg-position-[1.25em_1.25em] pr-10">
                                 <option value="">- Pembayaran -</option>
-                                <option value="dp">DP</option>
-                                <option value="lunas">Lunas</option>
+                                <option value="dp" {{ old('pembayaran') == 'dp' ? 'selected' : '' }}>DP</option>
+                                <option value="lunas" {{ old('pembayaran') == 'lunas' ? 'selected' : '' }}>Lunas</option>
                             </select>
                         </div>
                     </div>

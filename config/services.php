@@ -14,6 +14,11 @@ return [
     |
     */
 
+    'fonnte' => [
+        'api_key' => env('FONNTE_API_KEY'),
+        'api_url' => env('FONNTE_API_URL'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],
