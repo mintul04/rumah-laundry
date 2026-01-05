@@ -234,7 +234,7 @@ class TransaksiController extends Controller
             ->with('success', 'Transaksi berhasil dihapus!');
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, $id, FonnteService $fonnteService)
     {
         // Validasi input
         $request->validate([
@@ -245,14 +245,88 @@ class TransaksiController extends Controller
             ],
         ]);
 
-        if ($request->status_order == 'selesai') {
+        // Temukan transaksi
+        $transaksi = Transaksi::with('pelanggan', 'details')->findOrFail($id);
+
+        // Default
+        $namaPelanggan = $transaksi->pelanggan->nama;
+        $noTelp = $transaksi->pelanggan->no_telp;
+        $total = $transaksi->total;
+        $diskon = $transaksi->diskon;
+        $dp = $transaksi->jumlah_dp;
+        $sisa = $total - $dp;
+        $totalAwal = $total + $diskon;
+
+        $diskonText = '';
+        $totalAwalText = '';
+        if ($diskon > 0) {
+            $diskonText =
+                "🎁 *Diskon*\n" .
+                "Potongan harga: Rp " . number_format($diskon, 0, ',', '.') . "\n\n";
+            $totalAwalText =
+                "Total sebelum diskon: Rp " .
+                number_format($totalAwal, 0, ',', '.') . "\n\n";
+        }
+
+        $dpText = '';
+        $sisaText = '';
+        if ($transaksi->pembayaran == 'dp') {
+            $dpText =
+                "Sisa pembayaran: Rp " . number_format($sisa, 0, ',', '.') . "\n\n";
+            $sisaText =
+                "Sisa pembayaran: Rp " . number_format($sisa, 0, ',', '.') . "\n\n";
+        }
+
+        $daftarPesanan = '';
+        foreach ($transaksi->details as $item) {
+            $paket = PaketLaundry::find($item['paket_id']);
+            $daftarPesanan .= '• ' . $paket->nama_paket . ' (' . $item['berat'] . " kg)\n";
+        }
+
+        $messageProses =
+            "Halo *{$namaPelanggan}* 👋\n\n" .
+            "Pesanan laundry Anda di *RumahLaundry* telah kami terima.\n\n" .
+            "🧺 *Detail Pesanan*\n" .
+            $daftarPesanan . "\n" .
+            "Total transaksi: Rp " . number_format($total, 0, ',', '.') . "\n\n" .
+            $diskonText .
+            $totalAwalText .
+            $dpText .
+            "Pesanan Anda sedang kami proses.\n" .
+            "Terima kasih 🙏\n" .
+            "*RumahLaundry*";
+        $messageSelesai =
+            "Halo *{$namaPelanggan}* 👋\n\n" .
+            "Kabar baik 🎉\n" .
+            "Pesanan laundry Anda di *RumahLaundry* telah *selesai*.\n\n" .
+            "🧺 *Ringkasan Pesanan*\n" .
+            $daftarPesanan . "\n" .
+            $sisaText .
+            "Silakan datang untuk pengambilan laundry.\n" .
+            "Terima kasih 🙏\n" .
+            "*RumahLaundry*";
+        $messageDiambil =
+            "Halo *{$namaPelanggan}* 👋\n\n" .
+            "Terima kasih telah mengambil laundry Anda di *RumahLaundry*.\n\n" .
+            "Kami harap hasil laundry kami memuaskan 😊\n" .
+            "Jika berkenan, silakan gunakan layanan kami kembali.\n\n" .
+            "Terima kasih 🙏\n" .
+            "*RumahLaundry*";
+
+        if ($request->status_order == 'diproses') {
+            $response = $fonnteService->send($noTelp, $messageProses);
+        } elseif ($request->status_order == 'selesai') {
             Transaksi::where('id', $id)->update([
                 'tanggal_selesai' => now(),
             ]);
+            $response = $fonnteService->send($noTelp, $messageSelesai);
+        } elseif ($request->status_order == 'diambil') {
+            Transaksi::where('id', $id)->update([
+                'pembayaran' => 'lunas',
+            ]);
+            $response = $fonnteService->send($noTelp, $messageDiambil);
         }
 
-        // Temukan transaksi
-        $transaksi = Transaksi::findOrFail($id);
 
         // Update status
         $transaksi->update([
@@ -270,7 +344,7 @@ class TransaksiController extends Controller
             'pembayaran' => [
                 'required',
                 'string',
-                Rule::in(['belum_lunas', 'dp', 'lunas']),
+                Rule::in(['dp', 'lunas']),
             ],
         ]);
 

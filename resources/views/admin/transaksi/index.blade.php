@@ -85,26 +85,23 @@
                                     <td class="px-6 py-4">
                                         @if ($item->pembayaran === 'dp')
                                             <div class="flex items-center gap-2">
-                                                <span class="badge-lunas">DP</span>
-                                                <span class="text-sm text-gray-600">
-                                                    {{ number_format($item->jumlah_dp, 0, ',', '.') }}
-                                                </span>
+                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-200 text-orange-800">DP</span>
                                             </div>
                                         @elseif ($item->pembayaran === 'lunas')
-                                            <span class="badge-lunas">Lunas</span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Lunas</span>
                                         @else
-                                            <span class="badge-belum-lunas">Belum Bayar</span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Belum Bayar</span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         @if ($item->status_order == 'baru')
-                                            <span class="badge-baru">Baru</span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Baru</span>
                                         @elseif ($item->status_order == 'diproses')
-                                            <span class="badge-diproses">Diproses</span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800">Diproses</span>
                                         @elseif ($item->status_order == 'selesai')
-                                            <span class="badge-selesai">Selesai</span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Selesai</span>
                                         @else
-                                            <span class="badge-diambil">Diambil</span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Diambil</span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">

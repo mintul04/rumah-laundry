@@ -28,19 +28,19 @@ class TransaksiSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             // Tanggal terima: acak dalam 30 hari terakhir
             $tanggalTerima = Carbon::now()->subDays(rand(0, 30));
-            $pembayaran = $faker->randomElement(['lunas', 'belum_lunas', 'dp']);
+            $pembayaran = $faker->randomElement(['lunas', 'dp']);
             $jumlahDp = $pembayaran === 'dp'
                 ? round(rand(10000, 100000) / 100) * 100
                 : null;
 
             // Default nilai
             $tanggalSelesai = null;
-            $statusOrder = 'selesai';
-
+            $statusOrder = $faker->randomElement(['diproses', 'selesai', 'diambil']);
+            
             if ($pembayaran === 'lunas') {
                 // Jika lunas, baru boleh ada tanggal selesai
                 $tanggalSelesai = (clone $tanggalTerima)->addDays(rand(2, 5));
-                $statusOrder = $faker->randomElement(['diproses', 'selesai', 'diambil']);
+                $statusOrder = 'selesai';
             }
 
             $transaksi = Transaksi::create([
