@@ -366,7 +366,8 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::with([
             'details' => function ($query) {
                 $query->with('paket');
-            }
+            },
+            'pelanggan'
         ])->findOrFail($id);
 
         // Buat view PDF untuk invoice
@@ -376,5 +377,21 @@ class TransaksiController extends Controller
 
         // Download PDF
         return $pdf->download('invoice_' . $transaksi->no_order . '_' . \Carbon\Carbon::now()->format('Y-m-d') . '.pdf');
+    }
+
+    public function previewInvoice($id)
+    {
+        // Ambil data transaksi beserta details dan paketnya
+        $transaksi = Transaksi::with([
+            'details' => function ($query) {
+                $query->with('paket');
+            },
+            'pelanggan'
+        ])->findOrFail($id);
+
+        // Kembalikan view HTML untuk preview
+        return view('admin.transaksi.pdf.invoice-pdf', [
+            'transaksi' => $transaksi,
+        ]);
     }
 }

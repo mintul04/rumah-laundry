@@ -30,12 +30,24 @@ class LandingPageController extends Controller
             ]);
         }
 
+        // Tentukan nama pelanggan dari berbagai sumber
+        $nama_pelanggan = $transaksi->nama_pelanggan;
+
+        // Jika nama kosong di transaksi, coba ambil dari relasi
+        if (empty($nama_pelanggan) && $transaksi->pelanggan) {
+            $nama_pelanggan = $transaksi->pelanggan->nama;
+        } elseif (empty($nama_pelanggan) && $transaksi->user) {
+            $nama_pelanggan = $transaksi->user->name;
+        } elseif (empty($nama_pelanggan)) {
+            $nama_pelanggan = 'Pelanggan'; // Fallback
+        }
+
         return response()->json([
             'success' => true,
             'data' => [
                 'no_order'        => $transaksi->no_order,
                 'status_order'    => $transaksi->status_order,
-                'nama_pelanggan'  => $transaksi->nama_pelanggan,
+                'nama_pelanggan'  => $nama_pelanggan,
                 'tanggal_terima'  => Carbon::parse($transaksi->tanggal_terima)->format('d F Y'),
                 'tanggal_selesai' => Carbon::parse($transaksi->tanggal_selesai)->format('d F Y'),
                 'total'           => 'Rp ' . number_format($transaksi->total, 0, ',', '.'),

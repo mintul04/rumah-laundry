@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/transaksi/{id}/update-status', [TransaksiController::class, 'updateStatus'])->name('transaksi.update-status');
     Route::put('/transaksi/{id}/update-pembayaran', [TransaksiController::class, 'updatePembayaran'])->name('transaksi.update-pembayaran');
     // export invoice PDF
+    Route::get('/transaksi/invoice/preview/{id}', [TransaksiController::class, 'previewInvoice'])->name('preview.invoice.pdf');
     Route::get('/invoice/export-pdf/{id}', [TransaksiController::class, 'exportInvoicePdf'])->name('export.invoice.pdf');
 });
 

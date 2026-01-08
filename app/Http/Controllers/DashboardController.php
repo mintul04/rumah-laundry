@@ -68,7 +68,9 @@ class DashboardController extends Controller
 
     private function getStatusOrdersData()
     {
-        $selesai = Transaksi::where('status_order', 'selesai')->count();
+        $selesai = Transaksi::where('status_order', 'selesai')
+            ->orWhere('status_order', 'diambil')
+            ->count();
         $diproses = Transaksi::where('status_order', 'diproses')->count();
         $baru = Transaksi::where('status_order', 'baru')->count();
 

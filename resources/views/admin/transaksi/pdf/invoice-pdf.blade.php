@@ -130,7 +130,7 @@
         </div>
         <div class="info-box">
             <div class="info-label">Pelanggan</div>
-            <div class="info-value">{{ $transaksi->nama_pelanggan }}</div>
+            <div class="info-value">{{ $transaksi->pelanggan->nama }}</div>
         </div>
         <div class="info-box">
             <div class="info-label">Status Pembayaran</div>
@@ -175,11 +175,6 @@
             </tr>
             <tr class="total-row">
                 <td colspan="2" class="text-end"><strong>Diskon:</strong></td>
-                <td></td>
-                <td><strong>Rp 0</strong></td>
-            </tr>
-            <tr class="total-row">
-                <td colspan="2" class="text-end"><strong>Pajak:</strong></td>
                 <td></td>
                 <td><strong>Rp 0</strong></td>
             </tr>
