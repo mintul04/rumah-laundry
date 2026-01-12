@@ -1,16 +1,16 @@
 <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
     <div class="flex items-center justify-between px-6 py-4">
         <!-- Page Title -->
-        <div>
+        <div class="flex items-center gap-3">
             <h1 class="text-2xl font-bold text-gray-800">@yield('page-title', 'Dashboard')</h1>
         </div>
-
+        
         <!-- User Dropdown (Alpine.js) -->
         <div x-data="{ open: false }" class="relative">
             <button @click="open = !open" @click.away="open = false" class="flex items-center gap-3 text-gray-800 hover:text-gray-600 focus:outline-none transition-colors" :aria-expanded="open"
-                aria-haspopup="true">
-                <div class="text-right hidden sm:block">
-                    <div class="text-sm font-medium text-gray-700">{{ auth()->user()->nama ?? 'Manda' }}</div>
+            aria-haspopup="true">
+            <div class="text-right hidden sm:block">
+                <div class="text-sm font-medium text-gray-700">{{ auth()->user()->nama ?? 'Manda' }}</div>
                 </div>
                 @if (auth()->user()->foto)
                     <img src="{{ Storage::url(auth()->user()->foto) }}" alt="Foto Profil" class="w-10 h-10 rounded-full object-cover">

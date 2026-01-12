@@ -66,42 +66,72 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">No</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">No Order</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Nama Pelanggan</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Tanggal Terima</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Pembayaran</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Status Order</th>
-                                <th class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Aksi</th>
+                                <th
+                                    class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    No</th>
+                                <th
+                                    class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    No Order</th>
+                                <th
+                                    class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    Nama Pelanggan</th>
+                                <th
+                                    class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    Tanggal Terima</th>
+                                <th
+                                    class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    Pembayaran</th>
+                                <th
+                                    class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    Status Order</th>
+                                <th
+                                    class="px-6 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($transaksis as $item)
-                                <tr x-show="(@js($item->no_order . ' ' . $item->pelanggan?->nama ?? '-')).toLowerCase().includes(searchTerm.toLowerCase())" class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4">{{ ($transaksis->currentPage() - 1) * $transaksis->perPage() + $loop->iteration }}</td>
+                                <tr x-show="(@js($item->no_order . ' ' . $item->pelanggan?->nama ?? '-')).toLowerCase().includes(searchTerm.toLowerCase())"
+                                    class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        {{ ($transaksis->currentPage() - 1) * $transaksis->perPage() + $loop->iteration }}
+                                    </td>
                                     <td class="px-6 py-4">{{ $item->no_order }}</td>
                                     <td class="px-6 py-4">{{ $item->pelanggan->nama ?? '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $item->tanggal_terima }}</td>
                                     <td class="px-6 py-4">
                                         @if ($item->pembayaran === 'dp')
                                             <div class="flex items-center gap-2">
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-200 text-orange-800">DP</span>
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-200 text-orange-800">DP</span>
+                                                @if (isset($item->jumlah_dp) || isset($item->dp_amount))
+                                                    <span class="text-sm font-medium text-gray-700">
+                                                        {{ number_format($item->jumlah_dp ?? $item->dp_amount, 0, ',', '.') }}
+                                                    </span>
+                                                @endif
                                             </div>
                                         @elseif ($item->pembayaran === 'lunas')
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Lunas</span>
+                                            <span
+                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Lunas</span>
                                         @else
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Belum Bayar</span>
+                                            <span
+                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Belum
+                                                Bayar</span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         @if ($item->status_order == 'baru')
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Baru</span>
+                                            <span
+                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Baru</span>
                                         @elseif ($item->status_order == 'diproses')
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800">Diproses</span>
+                                            <span
+                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800">Diproses</span>
                                         @elseif ($item->status_order == 'selesai')
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Selesai</span>
+                                            <span
+                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Selesai</span>
                                         @else
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Diambil</span>
+                                            <span
+                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Diambil</span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -112,12 +142,15 @@
                                             </a>
 
                                             <!-- Hidden Form for Delete -->
-                                            <form id="hapus-transaksi-{{ $item->id }}" action="{{ route('transaksi.destroy', $item->id) }}" method="POST" style="display: none;">
+                                            <form id="hapus-transaksi-{{ $item->id }}"
+                                                action="{{ route('transaksi.destroy', $item->id) }}" method="POST"
+                                                style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
 
-                                            <button type="button" onclick="konfirmasiHapusTransaksi({{ $item->id }}, '{{ addslashes($item->no_order) }}')"
+                                            <button type="button"
+                                                onclick="konfirmasiHapusTransaksi({{ $item->id }}, '{{ addslashes($item->no_order) }}')"
                                                 class="inline-flex items-center gap-1 px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-800 font-medium rounded text-xs transition-colors">
                                                 <i class="fa fa-trash text-xs"></i> Hapus
                                             </button>
@@ -129,7 +162,8 @@
                     </table>
 
                     <!-- Empty filtered result -->
-                    <div x-show="!Array.from($root.querySelectorAll('tbody tr')).some(tr => tr.style.display !== 'none')" class="text-center py-10 text-gray-500" x-cloak>
+                    <div x-show="!Array.from($root.querySelectorAll('tbody tr')).some(tr => tr.style.display !== 'none')"
+                        class="text-center py-10 text-gray-500" x-cloak>
                         <i class="fas fa-search fa-2x opacity-50 mb-3"></i>
                         <p>Tidak ada transaksi yang cocok</p>
                     </div>
@@ -146,7 +180,8 @@
                             </p>
                             <div class="flex gap-2">
                                 @if ($transaksis->onFirstPage())
-                                    <span class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-slate-100 text-slate-400 cursor-not-allowed font-medium">
+                                    <span
+                                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-slate-100 text-slate-400 cursor-not-allowed font-medium">
                                         <i class="fa-solid fa-chevron-left mr-1 text-xs"></i> Sebelumnya
                                     </span>
                                 @else
@@ -162,7 +197,8 @@
                                         Selanjutnya <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
                                     </a>
                                 @else
-                                    <span class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-slate-100 text-slate-400 cursor-not-allowed font-medium">
+                                    <span
+                                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm bg-slate-100 text-slate-400 cursor-not-allowed font-medium">
                                         Selanjutnya <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
                                     </span>
                                 @endif

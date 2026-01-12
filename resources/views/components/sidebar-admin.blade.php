@@ -80,6 +80,18 @@
                         <span>Pengaturan</span>
                     </a>
                 </li>
+
+              <li class="mt-6 pt-4 border-t border-white/20">
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                       class="text-white/90 hover:bg-blue-800 flex items-center gap-3 px-3 py-2.5 rounded transition-colors">
+                        <i class="fas fa-sign-out-alt w-5 text-center"></i>
+                        <span>Logout</span>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
+                </li>
             @endif
         </ul>
     </nav>

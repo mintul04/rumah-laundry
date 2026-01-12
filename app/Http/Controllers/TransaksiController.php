@@ -285,7 +285,7 @@ class TransaksiController extends Controller
 
         $messageProses =
             "Halo *{$namaPelanggan}* 👋\n\n" .
-            "Pesanan laundry Anda di *RumahLaundry* telah kami terima.\n\n" .
+            "Pesanan laundry Anda di *RumahLaundry* telah kami proses.\n\n" .
             "🧺 *Detail Pesanan*\n" .
             $daftarPesanan . "\n" .
             "Total transaksi: Rp " . number_format($total, 0, ',', '.') . "\n\n" .
