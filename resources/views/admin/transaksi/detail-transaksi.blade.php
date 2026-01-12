@@ -1,282 +1,213 @@
 @extends('layouts.main')
 
-@section('title', 'Detail Transaksi - RumahLaundry')
-@section('page-title', 'Detail Transaksi Laundry')
+@section('title', 'Detail Transaksi - ' . $transaksi->no_order)
 
 @section('content')
-    <div x-data="{ openPrint: false }" class="mx-auto px-4 py-3">
-        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-            <!-- Header -->
-            <div class="px-6 py-6 border-b border-gray-200 bg-linear-to-r from-indigo-50 to-blue-50">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Detail Transaksi</h1>
-                        <p class="text-gray-600 mt-1">No. Order: <span class="font-mono font-semibold text-indigo-700">{{ $transaksi->no_order }}</span></p>
-                    </div>
-                    <a href="{{ route('transaksi.index') }}"
-                        class="inline-flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-indigo-700 bg-white hover:bg-indigo-50 rounded-lg border border-gray-300 transition-all duration-200 shadow-sm hover:shadow-md">
-                        <i class="fas fa-arrow-left text-sm"></i>
-                        <span>Kembali</span>
-                    </a>
-                </div>
+    <div class="min-h-screen pb-12 bg-gray-50/50" x-data="{ loading: false }">
+        <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 px-1">
+            <div>
+                <nav class="flex mb-2" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm font-medium text-gray-500">
+                        <li class="inline-flex items-center"><a href="#" class="hover:text-indigo-600">Dashboard</a></li>
+                        <li><i class="fas fa-chevron-right text-[10px] mx-1"></i></li>
+                        <li class="text-indigo-600 font-semibold">Detail Transaksi</li>
+                    </ol>
+                </nav>
+                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Invoice <span class="text-indigo-600">#{{ $transaksi->no_order }}</span></h1>
             </div>
+            <div class="flex gap-2">
+                <a href="{{ route('transaksi.index') }}"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold shadow-sm hover:bg-gray-50 transition-all active:scale-95">
+                    <i class="fas fa-arrow-left text-xs"></i> Kembali
+                </a>
+                <button @click="window.print()" class="p-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl hover:text-indigo-600 shadow-sm transition-all">
+                    <i class="fas fa-print"></i>
+                </button>
+            </div>
+        </div>
 
-            <!-- Informasi Transaksi -->
-            <div class="px-6 py-6 bg-linear-to-br from-gray-50 to-white border-b border-gray-200">
-                <h2 class="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-                    <i class="fas fa-info-circle text-indigo-600"></i>
-                    Informasi Transaksi
-                </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-8">
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                    <!-- No Order -->
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">No. Order</p>
-                        <p class="mt-1 font-mono text-lg font-bold text-gray-800">{{ $transaksi->no_order }}</p>
-                    </div>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                    @php
+                        $statuses = ['baru', 'diproses', 'selesai', 'diambil'];
+                        $currentIdx = array_search($transaksi->status_order, $statuses);
+                        $isKadaluarsa = $transaksi->status_order === 'kadaluarsa';
+                    @endphp
 
-                    <!-- Pelanggan -->
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pelanggan</p>
-                        <p class="mt-1 text-lg font-bold text-gray-800">{{ $transaksi->pelanggan->nama ?? '-' }}</p>
-                    </div>
+                    <div class="relative flex justify-between">
+                        <div class="absolute top-5 left-0 w-full h-1 bg-gray-100 z-0"></div>
+                        @if (!$isKadaluarsa)
+                            <div class="absolute top-5 left-0 h-1 bg-indigo-500 transition-all duration-500 z-0" style="width: {{ ($currentIdx / 3) * 100 }}%"></div>
+                        @endif
 
-                    <!-- Tanggal Terima -->
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Tanggal Terima</p>
-                        <p class="mt-1 text-lg font-bold text-gray-800">
-                            {{ \Carbon\Carbon::parse($transaksi->tanggal_terima)->locale('id')->isoFormat('D MMMM Y') }}
-                        </p>
-                    </div>
-
-                    <!-- Tanggal Selesai -->
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Tanggal Selesai</p>
-                        <p class="mt-1 text-lg font-bold text-gray-800">
-                            {{ $transaksi->tanggal_selesai ? \Carbon\Carbon::parse($transaksi->tanggal_selesai)->locale('id')->isoFormat('D MMMM Y') : '-' }}
-                        </p>
-                    </div>
-
-                    @if ($transaksi->jatuh_tempo_at)
-                        <!-- Jatuh Tempo -->
-                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Jatuh Tempo</p>
-                            <p class="mt-1 text-lg font-bold text-gray-800">
-                                {{ $transaksi->jatuh_tempo_at ? \Carbon\Carbon::parse($transaksi->jatuh_tempo_at)->locale('id')->isoFormat('D MMMM Y') : '-' }}
-                            </p>
-                        </div>
-                    @endif
-
-                    <!-- Status Pembayaran -->
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pembayaran</p>
-                        <div class="mt-1">
-                            @if ($transaksi->pembayaran == 'lunas')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-sm font-semibold">
-                                    <i class="fas fa-check-circle"></i> Lunas
+                        @foreach ($statuses as $index => $status)
+                            <div class="relative z-10 flex flex-col items-center">
+                                <div
+                                    class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 {{ $index <= $currentIdx && !$isKadaluarsa ? 'bg-indigo-600 text-white ring-4 ring-indigo-100' : 'bg-white border-2 border-gray-200 text-gray-400' }}">
+                                    <i
+                                        class="fas {{ $index < $currentIdx ? 'fa-check' : ($status == 'baru' ? 'fa-plus' : ($status == 'diproses' ? 'fa-spinner fa-spin' : ($status == 'selesai' ? 'fa-flag-checkered' : 'fa-hand-holding-heart'))) }} text-sm"></i>
+                                </div>
+                                <span class="mt-2 text-xs font-bold uppercase tracking-tighter {{ $index <= $currentIdx && !$isKadaluarsa ? 'text-indigo-600' : 'text-gray-400' }}">
+                                    {{ $status }}
                                 </span>
-                            @elseif($transaksi->pembayaran == 'dp')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-semibold">
-                                    <i class="fas fa-coins"></i> DP
-                                </span>
-                            @else
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-100 text-red-800 text-sm font-semibold">
-                                    <i class="fas fa-times-circle"></i> Belum Bayar
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- Status Order -->
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                        <div class="mt-1">
-                            @if ($transaksi->status_order == 'baru')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold">
-                                    <i class="fas fa-clock"></i> Baru
-                                </span>
-                            @elseif($transaksi->status_order == 'diproses')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-sm font-semibold">
-                                    <i class="fas fa-cog"></i> Diproses
-                                </span>
-                            @elseif($transaksi->status_order == 'selesai')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-sm font-semibold">
-                                    <i class="fas fa-check"></i> Selesai
-                                </span>
-                            @elseif($transaksi->status_order == 'diambil')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-sm font-semibold">
-                                    <i class="fas fa-check-double"></i> Diambil
-                                </span>
-                            @else
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-100 text-gray-800 text-sm font-semibold">
-                                    <i class="fas fa-calendar-times"></i> Kadaluarsa
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    @if ($transaksi->pembayaran == 'dp')
-                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Jumlah DP</p>
-                            <p class="mt-1 text-lg font-bold text-amber-700">Rp
-                                {{ number_format($transaksi->jumlah_dp, 0, ',', '.') }}</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Sisa</p>
-                            <p class="mt-1 text-lg font-bold text-red-600">Rp
-                                {{ number_format($transaksi->total - $transaksi->jumlah_dp, 0, ',', '.') }}</p>
-                        </div>
-                    @endif
-
-                    @if ($transaksi->jatuh_tempo_at)
-                        @php
-                            $hari_terlambat = max(
-                                0,
-                                \Carbon\Carbon::parse($transaksi->jatuh_tempo_at)
-                                    ->startOfDay()
-                                    ->diffInDays(now()->startOfDay(), false),
-                            );
-
-                            if ($hari_terlambat >= 4) {
-                                $total_denda = 35000;
-                            } else {
-                                $total_denda = $hari_terlambat * 5000;
-                            }
-                        @endphp
-                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Denda</p>
-                            <p class="mt-1 text-xl font-bold text-gray-800">Rp
-                                {{ number_format($total_denda, 0, ',', '.') }}</p>
-                        </div>
-                    @endif
-
-                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Total</p>
-                        <p class="mt-1 text-xl font-bold text-gray-800">Rp
-                            {{ number_format($transaksi->total, 0, ',', '.') }}</p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-            </div>
 
-            <!-- Detail Layanan -->
-            <div class="px-6 py-6 border-b border-gray-200">
-                <h2 class="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-                    <i class="fas fa-list-ul text-indigo-600"></i>
-                    Detail Layanan
-                </h2>
-
-                @if ($transaksi->details->isNotEmpty())
-                    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Layanan</th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Harga Satuan</th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Berat</th>
-                                    <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Subtotal</th>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-linear-to-r from-white to-indigo-50/30">
+                        <h3 class="font-bold text-gray-800 flex items-center gap-3">
+                            <span class="p-2 bg-indigo-600 rounded-lg text-white"><i class="fas fa-concierge-bell"></i></span>
+                            Rincian Pesanan
+                        </h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50/50">
+                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest">Item Layanan</th>
+                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-center">Qty / Berat</th>
+                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-right">Harga</th>
+                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-right">Subtotal</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="divide-y divide-gray-50">
                                 @foreach ($transaksi->details as $item)
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="px-5 py-4 font-medium text-gray-800">{{ $item->paket->nama_paket }}</td>
-                                        <td class="px-5 py-4 text-gray-700">Rp
-                                            {{ number_format($item->paket->harga, 0, ',', '.') }}</td>
-                                        <td class="px-5 py-4 text-gray-700">{{ $item->berat }} {{ $item->paket->satuan }}
+                                    <tr class="group hover:bg-indigo-50/30 transition-colors">
+                                        <td class="px-8 py-5">
+                                            <p class="font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">{{ $item->paket->nama_paket }}</p>
+                                            <p class="text-xs text-gray-400 font-medium">Kategori: {{ $item->paket->satuan }}</p>
                                         </td>
-                                        <td class="px-5 py-4 font-semibold text-gray-800">Rp
-                                            {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                                        <td class="px-8 py-5 text-center font-semibold text-gray-700">
+                                            {{ $item->berat }} <span class="text-xs text-gray-400">{{ $item->paket->satuan }}</span>
+                                        </td>
+                                        <td class="px-8 py-5 text-right text-gray-600">
+                                            Rp {{ number_format($item->paket->harga, 0, ',', '.') }}
+                                        </td>
+                                        <td class="px-8 py-5 text-right font-bold text-gray-900">
+                                            Rp {{ number_format($item->subtotal, 0, ',', '.') }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
 
-                    <!-- Ringkasan Total -->
-                    <div class="mt-6 bg-linear-to-r from-gray-50 to-gray-100 rounded-xl p-5 border border-gray-200 max-w-md ml-auto">
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Subtotal</span>
-                                <span class="font-medium">Rp
-                                    {{ number_format($transaksi->details->sum('subtotal'), 0, ',', '.') }}</span>
+                    <div class="p-8 bg-gray-50/50 border-t border-gray-100">
+                        <div class="flex flex-col gap-3 max-w-xs ml-auto">
+                            <div class="flex justify-between text-gray-500 font-medium">
+                                <span>Subtotal</span>
+                                <span>Rp {{ number_format($transaksi->details->sum('subtotal'), 0, ',', '.') }}</span>
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Diskon</span>
-                                <span class="font-medium">Rp 0</span>
-                            </div>
-                            <div class="border-t border-gray-300 pt-3 mt-2 flex justify-between text-lg font-bold text-gray-800">
-                                <span>Total Akhir</span>
-                                <span>Rp {{ number_format($transaksi->total, 0, ',', '.') }}</span>
+                            @if ($transaksi->jatuh_tempo_at)
+                                @php
+                                    $hari_terlambat = max(
+                                        0,
+                                        \Carbon\Carbon::parse($transaksi->jatuh_tempo_at)
+                                            ->startOfDay()
+                                            ->diffInDays(now()->startOfDay(), false),
+                                    );
+                                    $total_denda = $hari_terlambat >= 4 ? 35000 : $hari_terlambat * 5000;
+                                @endphp
+                                <div class="flex justify-between text-rose-500 font-medium italic">
+                                    <span>Denda Terlambat ({{ $hari_terlambat }} hari)</span>
+                                    <span>+ Rp {{ number_format($total_denda, 0, ',', '.') }}</span>
+                                </div>
+                            @endif
+                            <div class="pt-3 border-t border-gray-200 flex justify-between items-center text-xl font-black text-indigo-600">
+                                <span>Total</span>
+                                <span>Rp {{ number_format($transaksi->total + ($total_denda ?? 0), 0, ',', '.') }}</span>
                             </div>
                         </div>
                     </div>
-                @else
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-inbox text-3xl opacity-60 mb-2"></i>
-                        <p>Tidak ada detail layanan.</p>
-                    </div>
-                @endif
+                </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="px-6 py-6 bg-gray-50">
-                <div class="flex flex-wrap gap-3 items-center justify-end">
-                    <!-- Status Order Dropdown -->
-                    <form action="{{ route('transaksi.update-status', $transaksi->id) }}" method="POST" class="inline-block">
-                        @csrf @method('PUT')
-                        <select name="status_order"
-                            class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                            onchange="this.form.submit()" {{ $transaksi->status_order == 'diambil' ? 'disabled' : '' }}>
-                            <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>Status: Baru
-                            </option>
-                            <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>Status:
-                                Diproses</option>
-                            <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>Status:
-                                Selesai</option>
-                            <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>Status:
-                                Diambil</option>
-                            <option disabled value="kadaluarsa" {{ $transaksi->status_order == 'kadaluarsa' ? 'selected' : '' }}>Status:
-                                Kadaluarsa</option>
-                        </select>
-                    </form>
+            <div class="space-y-8">
+                <div class="bg-linear-to-br from-indigo-600 to-violet-700 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
+                    <i class="fas fa-circle-nodes absolute -right-10 -top-10 text-9xl text-white/10 group-hover:rotate-45 transition-transform duration-700"></i>
 
-                    <!-- Pembayaran Dropdown -->
-                    <form action="{{ route('transaksi.update-pembayaran', $transaksi->id) }}" method="POST" class="inline-block">
-                        @csrf @method('PUT')
-                        <select name="pembayaran"
-                            class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
-                            onchange="this.form.submit()" {{ $transaksi->pembayaran == 'lunas' ? 'disabled' : '' }}>
-                            <option value="dp" {{ $transaksi->pembayaran == 'dp' ? 'selected' : '' }}>Pembayaran: DP
-                            </option>
-                            <option value="lunas" {{ $transaksi->pembayaran == 'lunas' ? 'selected' : '' }}>Pembayaran:
-                                Lunas</option>
-                        </select>
-                    </form>
+                    <h3 class="text-indigo-100 text-xs font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <i class="fas fa-user-circle"></i> Informasi Pelanggan
+                    </h3>
+                    <div class="space-y-4 relative z-10">
+                        <div>
+                            <p class="text-2xl font-black">{{ $transaksi->pelanggan->nama ?? '-' }}</p>
+                            <p class="text-indigo-200 text-sm italic">{{ $transaksi->pelanggan->no_telp ?? 'No. Telp Tidak Ada' }}</p>
+                        </div>
+                        <div class="pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-indigo-200">Terima</p>
+                                <p class="text-sm font-semibold">{{ \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d M Y') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-indigo-200">Selesai</p>
+                                <p class="text-sm font-semibold">{{ $transaksi->tanggal_selesai ? \Carbon\Carbon::parse($transaksi->tanggal_selesai)->format('d M Y') : '---' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    {{-- Button untuk preview --}}
-                    <a href="{{ route('preview.invoice.pdf', $transaksi->id) }}" target="_blank"
-                        class="inline-flex items-center gap-2 rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-600 transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                        <i class="fas fa-eye"></i> Preview Invoice
-                    </a>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Update Status Order</label>
+                        <form action="{{ route('transaksi.update-status', $transaksi->id) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="relative">
+                                <select name="status_order" onchange="this.form.submit()"
+                                    class="w-full pl-4 pr-10 py-3 bg-gray-50 border-none rounded-xl font-bold text-gray-700 appearance-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer {{ $transaksi->status_order == 'diambil' ? 'opacity-50' : '' }}"
+                                    {{ $transaksi->status_order == 'diambil' ? 'disabled' : '' }}>
+                                    <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>🆕 Pesanan Baru</option>
+                                    <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>⚙️ Sedang Diproses</option>
+                                    <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>✅ Sudah Selesai</option>
+                                    <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>📦 Sudah Diambil</option>
+                                    <option disabled value="kadaluarsa" {{ $transaksi->status_order == 'kadaluarsa' ? 'selected' : '' }}>⚠️ Kadaluarsa</option>
+                                </select>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
-                    {{-- Button untuk download --}}
-                    <a href="{{ route('export.invoice.pdf', $transaksi->id) }}"
-                        class="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-emerald-600 transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-400">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Status Pembayaran</label>
+                        <form action="{{ route('transaksi.update-pembayaran', $transaksi->id) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="grid grid-cols-2 gap-2 bg-gray-50 p-1.5 rounded-2xl">
+                                <button name="pembayaran" value="dp"
+                                    class="py-2.5 rounded-xl text-sm font-bold transition-all {{ $transaksi->pembayaran == 'dp' ? 'bg-white text-amber-600 shadow-sm' : 'text-gray-400 hover:text-gray-600' }}">
+                                    DP
+                                </button>
+                                <button name="pembayaran" value="lunas"
+                                    class="py-2.5 rounded-xl text-sm font-bold transition-all {{ $transaksi->pembayaran == 'lunas' ? 'bg-white text-emerald-600 shadow-sm' : 'text-gray-400 hover:text-gray-600' }}">
+                                    Lunas
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
-                    <!-- Delete Button -->
-                    <form id="hapus-transaksi-{{ $transaksi->id }}" action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" class="inline-block">
-                        @csrf @method('DELETE')
+                    <div class="pt-4 space-y-3">
+                        <a href="{{ route('preview.invoice.pdf', $transaksi->id) }}" target="_blank"
+                            class="flex items-center justify-center gap-2 w-full py-3 bg-blue-50 text-blue-600 rounded-xl font-bold hover:bg-blue-100 transition-all">
+                            <i class="fas fa-eye"></i> Preview Invoice
+                        </a>
+                        <a href="{{ route('export.invoice.pdf', $transaksi->id) }}"
+                            class="flex items-center justify-center gap-2 w-full py-3 bg-emerald-50 text-emerald-600 rounded-xl font-bold hover:bg-emerald-100 transition-all">
+                            <i class="fas fa-cloud-download-alt"></i> Download PDF
+                        </a>
+
                         <button type="button" onclick="konfirmasiHapusTransaksi({{ $transaksi->id }}, '{{ $transaksi->no_order }}')"
-                            class="inline-flex items-center gap-2 rounded-lg bg-linear-to-r from-red-500 to-rose-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:from-red-600 hover:to-rose-700 transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400">
-                            <i class="fas fa-trash-alt"></i> Hapus
+                            class="flex items-center justify-center gap-2 w-full py-3 text-rose-500 font-bold hover:bg-rose-50 rounded-xl transition-all">
+                            <i class="fas fa-trash-alt"></i> Hapus Transaksi
                         </button>
-                    </form>
+                        <form id="hapus-transaksi-{{ $transaksi->id }}" action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" class="hidden">
+                            @csrf @method('DELETE')
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
