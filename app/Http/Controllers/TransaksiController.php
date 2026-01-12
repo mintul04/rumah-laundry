@@ -280,7 +280,7 @@ class TransaksiController extends Controller
         $daftarPesanan = '';
         foreach ($transaksi->details as $item) {
             $paket = PaketLaundry::find($item['paket_id']);
-            $daftarPesanan .= '• ' . $paket->nama_paket . ' (' . $item['berat'] . " kg)\n";
+            $daftarPesanan .= '• ' . $paket->nama_paket . ' (' . $item['berat'] . " " . $paket['satuan'] . ")\n";
         }
 
         $messageProses =
@@ -316,8 +316,10 @@ class TransaksiController extends Controller
         if ($request->status_order == 'diproses') {
             $response = $fonnteService->send($noTelp, $messageProses);
         } elseif ($request->status_order == 'selesai') {
+            $selesai_at = now();
             Transaksi::where('id', $id)->update([
-                'tanggal_selesai' => now(),
+                'tanggal_selesai' => $selesai_at,
+                'jatuh_tempo_at' => $selesai_at->copy()->addDays(2),
             ]);
             $response = $fonnteService->send($noTelp, $messageSelesai);
         } elseif ($request->status_order == 'diambil') {
