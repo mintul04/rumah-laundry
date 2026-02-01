@@ -13,14 +13,16 @@
                         <li class="text-indigo-600 font-semibold">Detail Transaksi</li>
                     </ol>
                 </nav>
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Invoice <span class="text-indigo-600">#{{ $transaksi->no_order }}</span></h1>
+                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Invoice <span
+                        class="text-indigo-600">#{{ $transaksi->no_order }}</span></h1>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('transaksi.index') }}"
                     class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold shadow-sm hover:bg-gray-50 transition-all active:scale-95">
                     <i class="fas fa-arrow-left text-xs"></i> Kembali
                 </a>
-                <button @click="window.print()" class="p-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl hover:text-indigo-600 shadow-sm transition-all">
+                <button @click="window.print()"
+                    class="p-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl hover:text-indigo-600 shadow-sm transition-all">
                     <i class="fas fa-print"></i>
                 </button>
             </div>
@@ -39,7 +41,8 @@
                     <div class="relative flex justify-between">
                         <div class="absolute top-5 left-0 w-full h-1 bg-gray-100 z-0"></div>
                         @if (!$isKadaluarsa)
-                            <div class="absolute top-5 left-0 h-1 bg-indigo-500 transition-all duration-500 z-0" style="width: {{ ($currentIdx / 3) * 100 }}%"></div>
+                            <div class="absolute top-5 left-0 h-1 bg-indigo-500 transition-all duration-500 z-0"
+                                style="width: {{ ($currentIdx / 3) * 100 }}%"></div>
                         @endif
 
                         @foreach ($statuses as $index => $status)
@@ -49,7 +52,8 @@
                                     <i
                                         class="fas {{ $index < $currentIdx ? 'fa-check' : ($status == 'baru' ? 'fa-plus' : ($status == 'diproses' ? 'fa-spinner fa-spin' : ($status == 'selesai' ? 'fa-flag-checkered' : 'fa-hand-holding-heart'))) }} text-sm"></i>
                                 </div>
-                                <span class="mt-2 text-xs font-bold uppercase tracking-tighter {{ $index <= $currentIdx && !$isKadaluarsa ? 'text-indigo-600' : 'text-gray-400' }}">
+                                <span
+                                    class="mt-2 text-xs font-bold uppercase tracking-tighter {{ $index <= $currentIdx && !$isKadaluarsa ? 'text-indigo-600' : 'text-gray-400' }}">
                                     {{ $status }}
                                 </span>
                             </div>
@@ -58,9 +62,11 @@
                 </div>
 
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-linear-to-r from-white to-indigo-50/30">
+                    <div
+                        class="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-linear-to-r from-white to-indigo-50/30">
                         <h3 class="font-bold text-gray-800 flex items-center gap-3">
-                            <span class="p-2 bg-indigo-600 rounded-lg text-white"><i class="fas fa-concierge-bell"></i></span>
+                            <span class="p-2 bg-indigo-600 rounded-lg text-white"><i
+                                    class="fas fa-concierge-bell"></i></span>
                             Rincian Pesanan
                         </h3>
                     </div>
@@ -68,21 +74,32 @@
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-gray-50/50">
-                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest">Item Layanan</th>
-                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-center">Qty / Berat</th>
-                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-right">Harga</th>
-                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-right">Subtotal</th>
+                                    <th class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest">Item
+                                        Layanan</th>
+                                    <th
+                                        class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-center">
+                                        Qty / Berat</th>
+                                    <th
+                                        class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-right">
+                                        Harga</th>
+                                    <th
+                                        class="px-8 py-4 text-xs font-bold uppercase text-gray-500 tracking-widest text-right">
+                                        Subtotal</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
                                 @foreach ($transaksi->details as $item)
                                     <tr class="group hover:bg-indigo-50/30 transition-colors">
                                         <td class="px-8 py-5">
-                                            <p class="font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">{{ $item->paket->nama_paket }}</p>
-                                            <p class="text-xs text-gray-400 font-medium">Kategori: {{ $item->paket->satuan }}</p>
+                                            <p
+                                                class="font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
+                                                {{ $item->paket->nama_paket }}</p>
+                                            <p class="text-xs text-gray-400 font-medium">Kategori:
+                                                {{ $item->paket->satuan }}</p>
                                         </td>
                                         <td class="px-8 py-5 text-center font-semibold text-gray-700">
-                                            {{ $item->berat }} <span class="text-xs text-gray-400">{{ $item->paket->satuan }}</span>
+                                            {{ $item->berat }} <span
+                                                class="text-xs text-gray-400">{{ $item->paket->satuan }}</span>
                                         </td>
                                         <td class="px-8 py-5 text-right text-gray-600">
                                             Rp {{ number_format($item->paket->harga, 0, ',', '.') }}
@@ -95,6 +112,15 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- Total DP Section -->
+                    @if($transaksi->pembayaran === 'dp' && $transaksi->total_dp)
+                    <div class="p-4 bg-amber-50 border-t border-amber-100">
+                        <div class="flex justify-between items-center max-w-xs ml-auto">
+                            <span class="text-amber-700 font-semibold">Total DP</span>
+                            <span class="text-amber-800 font-bold">Rp {{ number_format($transaksi->total_dp, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="p-8 bg-gray-50/50 border-t border-gray-100">
                         <div class="flex flex-col gap-3 max-w-xs ml-auto">
@@ -117,7 +143,8 @@
                                     <span>+ Rp {{ number_format($total_denda, 0, ',', '.') }}</span>
                                 </div>
                             @endif
-                            <div class="pt-3 border-t border-gray-200 flex justify-between items-center text-xl font-black text-indigo-600">
+                            <div
+                                class="pt-3 border-t border-gray-200 flex justify-between items-center text-xl font-black text-indigo-600">
                                 <span>Total</span>
                                 <span>Rp {{ number_format($transaksi->total + ($total_denda ?? 0), 0, ',', '.') }}</span>
                             </div>
@@ -127,8 +154,10 @@
             </div>
 
             <div class="space-y-8">
-                <div class="bg-linear-to-br from-indigo-600 to-violet-700 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
-                    <i class="fas fa-circle-nodes absolute -right-10 -top-10 text-9xl text-white/10 group-hover:rotate-45 transition-transform duration-700"></i>
+                <div
+                    class="bg-linear-to-br from-indigo-600 to-violet-700 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
+                    <i
+                        class="fas fa-circle-nodes absolute -right-10 -top-10 text-9xl text-white/10 group-hover:rotate-45 transition-transform duration-700"></i>
 
                     <h3 class="text-indigo-100 text-xs font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
                         <i class="fas fa-user-circle"></i> Informasi Pelanggan
@@ -136,16 +165,20 @@
                     <div class="space-y-4 relative z-10">
                         <div>
                             <p class="text-2xl font-black">{{ $transaksi->pelanggan->nama ?? '-' }}</p>
-                            <p class="text-indigo-200 text-sm italic">{{ $transaksi->pelanggan->no_telp ?? 'No. Telp Tidak Ada' }}</p>
+                            <p class="text-indigo-200 text-sm italic">
+                                {{ $transaksi->pelanggan->no_telp ?? 'No. Telp Tidak Ada' }}</p>
                         </div>
                         <div class="pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
                             <div>
                                 <p class="text-[10px] uppercase font-bold text-indigo-200">Terima</p>
-                                <p class="text-sm font-semibold">{{ \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d M Y') }}</p>
+                                <p class="text-sm font-semibold">
+                                    {{ \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d M Y') }}</p>
                             </div>
                             <div>
                                 <p class="text-[10px] uppercase font-bold text-indigo-200">Selesai</p>
-                                <p class="text-sm font-semibold">{{ $transaksi->tanggal_selesai ? \Carbon\Carbon::parse($transaksi->tanggal_selesai)->format('d M Y') : '---' }}</p>
+                                <p class="text-sm font-semibold">
+                                    {{ $transaksi->tanggal_selesai ? \Carbon\Carbon::parse($transaksi->tanggal_selesai)->format('d M Y') : '---' }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -153,18 +186,26 @@
 
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 space-y-6">
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Update Status Order</label>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Update Status
+                            Order</label>
                         <form action="{{ route('transaksi.update-status', $transaksi->id) }}" method="POST">
                             @csrf @method('PUT')
                             <div class="relative">
                                 <select name="status_order" onchange="this.form.submit()"
                                     class="w-full pl-4 pr-10 py-3 bg-gray-50 border-none rounded-xl font-bold text-gray-700 appearance-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer {{ $transaksi->status_order == 'diambil' ? 'opacity-50' : '' }}"
                                     {{ $transaksi->status_order == 'diambil' ? 'disabled' : '' }}>
-                                    <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>🆕 Pesanan Baru</option>
-                                    <option value="diproses" {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>⚙️ Sedang Diproses</option>
-                                    <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>✅ Sudah Selesai</option>
-                                    <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>📦 Sudah Diambil</option>
-                                    <option disabled value="kadaluarsa" {{ $transaksi->status_order == 'kadaluarsa' ? 'selected' : '' }}>⚠️ Kadaluarsa</option>
+                                    <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>🆕
+                                        Pesanan Baru</option>
+                                    <option value="diproses"
+                                        {{ $transaksi->status_order == 'diproses' ? 'selected' : '' }}>⚙️ Sedang Diproses
+                                    </option>
+                                    <option value="selesai" {{ $transaksi->status_order == 'selesai' ? 'selected' : '' }}>✅
+                                        Sudah Selesai</option>
+                                    <option value="diambil" {{ $transaksi->status_order == 'diambil' ? 'selected' : '' }}>
+                                        📦 Sudah Diambil</option>
+                                    <option disabled value="kadaluarsa"
+                                        {{ $transaksi->status_order == 'kadaluarsa' ? 'selected' : '' }}>⚠️ Kadaluarsa
+                                    </option>
                                 </select>
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                                     <i class="fas fa-chevron-down text-xs"></i>
@@ -174,17 +215,22 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Status Pembayaran</label>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Status
+                            Pembayaran</label>
                         <form action="{{ route('transaksi.update-pembayaran', $transaksi->id) }}" method="POST">
                             @csrf @method('PUT')
                             <div class="grid grid-cols-2 gap-2 bg-gray-50 p-1.5 rounded-2xl">
-                                <button name="pembayaran" value="dp"
-                                    class="py-2.5 rounded-xl text-sm font-bold transition-all {{ $transaksi->pembayaran == 'dp' ? 'bg-white text-amber-600 shadow-sm' : 'text-gray-400 hover:text-gray-600' }}">
-                                    DP
-                                </button>
+                                <!-- Tombol Lunas: disabled hanya jika sudah lunas -->
                                 <button name="pembayaran" value="lunas"
-                                    class="py-2.5 rounded-xl text-sm font-bold transition-all {{ $transaksi->pembayaran == 'lunas' ? 'bg-white text-emerald-600 shadow-sm' : 'text-gray-400 hover:text-gray-600' }}">
+                                    {{ $transaksi->pembayaran == 'lunas' ? 'disabled' : '' }}
+                                    class="py-2.5 rounded-xl text-sm font-bold transition-all {{ $transaksi->pembayaran == 'lunas' ? 'bg-white text-emerald-600 shadow-sm' : 'text-gray-400' }}">
                                     Lunas
+                                </button>
+                                <!-- Tombol DP: disabled jika status sudah lunas -->
+                                <button name="pembayaran" value="dp"
+                                    {{ $transaksi->pembayaran == 'lunas' ? 'disabled' : '' }}
+                                    class="py-2.5 rounded-xl text-sm font-bold transition-all {{ $transaksi->pembayaran == 'dp' ? 'bg-white text-amber-600 shadow-sm' : 'text-gray-400' }}">
+                                    DP
                                 </button>
                             </div>
                         </form>
@@ -200,11 +246,13 @@
                             <i class="fas fa-cloud-download-alt"></i> Download PDF
                         </a>
 
-                        <button type="button" onclick="konfirmasiHapusTransaksi({{ $transaksi->id }}, '{{ $transaksi->no_order }}')"
+                        <button type="button"
+                            onclick="konfirmasiHapusTransaksi({{ $transaksi->id }}, '{{ $transaksi->no_order }}')"
                             class="flex items-center justify-center gap-2 w-full py-3 text-rose-500 font-bold hover:bg-rose-50 rounded-xl transition-all">
                             <i class="fas fa-trash-alt"></i> Hapus Transaksi
                         </button>
-                        <form id="hapus-transaksi-{{ $transaksi->id }}" action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" class="hidden">
+                        <form id="hapus-transaksi-{{ $transaksi->id }}"
+                            action="{{ route('transaksi.destroy', $transaksi->id) }}" method="POST" class="hidden">
                             @csrf @method('DELETE')
                         </form>
                     </div>

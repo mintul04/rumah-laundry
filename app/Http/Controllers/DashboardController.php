@@ -138,7 +138,8 @@ class DashboardController extends Controller
         return PaketLaundry::select(
             'paket_laundries.id',
             'paket_laundries.nama_paket',
-            DB::raw('SUM(transaksi_details.subtotal) as total_pendapatan')
+            DB::raw('COUNT(transaksi_details.id) AS total_transaksi'),
+            DB::raw('SUM(transaksi_details.subtotal) AS total_pendapatan')
         )
             ->join('transaksi_details', 'paket_laundries.id', '=', 'transaksi_details.paket_id')
             ->join('transaksis', 'transaksi_details.transaksi_id', '=', 'transaksis.id')
@@ -147,7 +148,7 @@ class DashboardController extends Controller
                 Carbon::now()->endOfMonth()
             ])
             ->groupBy('paket_laundries.id', 'paket_laundries.nama_paket')
-            ->orderByRaw('SUM(transaksi_details.subtotal) DESC')
+            ->orderByDesc('total_transaksi') // bisa juga pakai total_pendapatan
             ->limit(5)
             ->get();
     }

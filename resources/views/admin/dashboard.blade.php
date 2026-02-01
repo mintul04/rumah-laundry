@@ -19,7 +19,8 @@
             </div>
 
             <!-- Total Pelanggan -->
-            <div class="rounded-2xl p-5 shadow-sm hover:shadow-md transition bg-linear-to-br  from-emerald-400 to-emerald-500">
+            <div
+                class="rounded-2xl p-5 shadow-sm hover:shadow-md transition bg-linear-to-br  from-emerald-400 to-emerald-500">
                 <div class="flex items-center justify-center w-14 h-14 rounded-xl bg-green-50 text-green-600">
                     <i class="fas fa-users text-xl"></i>
                 </div>
@@ -65,7 +66,8 @@
             </div>
 
             <!-- Welcome -->
-            <div class="bg-[linear-gradient(135deg,#4f6ae4_0%,#6a5af9_100%)] rounded-xl shadow-md p-6 text-white relative overflow-hidden">
+            <div
+                class="bg-[linear-gradient(135deg,#4f6ae4_0%,#6a5af9_100%)] rounded-xl shadow-md p-6 text-white relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
                 <h2 class="text-lg md:text-xl font-extrabold relative z-10">
                     Selamat Datang,
@@ -152,15 +154,20 @@
                             <div class="me-4">
                                 <div
                                     class="w-10 h-10 rounded-full flex items-center justify-center
-                                    font-bold text-sm border shadow-sm
-                                    {{ $badgeColor }} {{ $glowColor }}">
+                                            font-bold text-sm border shadow-sm
+                                            {{ $badgeColor }} {{ $glowColor }}">
                                     {{ $rank }}<i class="fa fa-medal text-{{ $medalColor }}"></i>
                                 </div>
                             </div>
 
-                            <h4 class="font-medium text-gray-800">
-                                {{ $paket->nama_paket }}
-                            </h4>
+                            <div>
+                                <h4 class="font-medium text-gray-800">
+                                    {{ $paket->nama_paket }}
+                                </h4>
+                                <p class="text-xs text-gray-500">
+                                    {{ number_format($paket->total_transaksi ?? 0) }}x transaksi
+                                </p>
+                            </div>
 
                             <span class="ms-auto bg-green-50 text-green-700 font-bold px-3 py-1.5 rounded-full text-sm">
                                 {{ 'Rp ' . number_format($paket->total_pendapatan, 0, ',', '.') }}
@@ -269,8 +276,10 @@
                                         callbacks: {
                                             label: function(context) {
                                                 let value = context.raw;
-                                                if (value >= 1000000) return 'Rp ' + (value / 1000000).toFixed(1) + 'JT';
-                                                if (value >= 1000) return 'Rp ' + (value / 1000).toFixed(0) + 'RB';
+                                                if (value >= 1000000) return 'Rp ' + (value / 1000000).toFixed(
+                                                    1) + 'JT';
+                                                if (value >= 1000) return 'Rp ' + (value / 1000).toFixed(0) +
+                                                    'RB';
                                                 return 'Rp ' + value.toLocaleString('id-ID');
                                             }
                                         }
@@ -296,7 +305,8 @@
                                                 size: 10
                                             },
                                             callback: function(value) {
-                                                if (value >= 1000000) return (value / 1000000).toFixed(1) + 'JT';
+                                                if (value >= 1000000) return (value / 1000000).toFixed(1) +
+                                                    'JT';
                                                 if (value >= 1000) return (value / 1000).toFixed(0) + 'RB';
                                                 return value;
                                             }

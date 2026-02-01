@@ -286,19 +286,23 @@ class TransaksiController extends Controller
         $messageProses =
             "Halo *{$namaPelanggan}* 👋\n\n" .
             "Pesanan laundry Anda di *RumahLaundry* telah kami proses.\n\n" .
+            "📋 *No. Order*: {$transaksi->no_order}\n" .
+            "*Tanggal Terima*: " . \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d/m/Y') . "\n" .
+            "*Tanggal Selesai*: " . ($transaksi->tanggal_selesai ? \Carbon\Carbon::parse($transaksi->tanggal_selesai)->format('d/m/Y') : '-') . "\n\n" .
             "🧺 *Detail Pesanan*\n" .
             $daftarPesanan . "\n" .
             "Total transaksi: Rp " . number_format($total, 0, ',', '.') . "\n\n" .
             $diskonText .
             $totalAwalText .
             $dpText .
-            "Pesanan Anda sedang kami proses.\n" .
             "Terima kasih 🙏\n" .
             "*RumahLaundry*";
         $messageSelesai =
             "Halo *{$namaPelanggan}* 👋\n\n" .
             "Kabar baik 🎉\n" .
             "Pesanan laundry Anda di *RumahLaundry* telah *selesai*.\n\n" .
+            "📋 *No. Order*: {$transaksi->no_order}\n" .
+            "*Tanggal Selesai*: " . \Carbon\Carbon::parse($transaksi->tanggal_selesai)->format('d/m/Y') . "\n\n" .
             "🧺 *Ringkasan Pesanan*\n" .
             $daftarPesanan . "\n" .
             $sisaText .

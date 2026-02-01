@@ -8,7 +8,8 @@
     <!-- Header: Logo + Nama + Role -->
     <div class="flex items-center gap-3 px-5 py-4 border-b border-white/20 shrink-0">
         @if ($pengaturan->logo)
-            <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo {{ $pengaturan->nama_laundry }}" class="h-8 w-auto object-contain rounded">
+            <img src="{{ Storage::url($pengaturan->logo) }}" alt="Logo {{ $pengaturan->nama_laundry }}"
+                class="h-8 w-auto object-contain rounded">
         @else
             <div class="flex items-center justify-center w-10 h-10 rounded bg-white/20">
                 <i class="fas fa-wind text-lg"></i>
@@ -80,19 +81,18 @@
                         <span>Pengaturan</span>
                     </a>
                 </li>
-
-              <li class="mt-6 pt-4 border-t border-white/20">
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                       class="text-white/90 hover:bg-blue-800 flex items-center gap-3 px-3 py-2.5 rounded transition-colors">
-                        <i class="fas fa-sign-out-alt w-5 text-center"></i>
-                        <span>Logout</span>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                        @csrf
-                    </form>
-                </li>
             @endif
+            <li class="mt-6 pt-4 border-t border-white/20">
+                <a href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                    class="text-white/90 hover:bg-blue-800 flex items-center gap-3 px-3 py-2.5 rounded transition-colors">
+                    <i class="fas fa-sign-out-alt w-5 text-center"></i>
+                    <span>Logout</span>
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
+            </li>
         </ul>
     </nav>
 </aside>

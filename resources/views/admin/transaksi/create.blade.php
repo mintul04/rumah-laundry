@@ -41,7 +41,8 @@
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">No. Order</label>
                             <input type="text" name="no_order" value="{{ $lastOrderNumber }}"
-                                class="w-full px-4 py-3 bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-300 cursor-not-allowed" readonly>
+                                class="w-full px-4 py-3 bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-300 cursor-not-allowed"
+                                readonly>
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -49,8 +50,10 @@
                             </label>
                             <div class="relative">
                                 <!-- Input Pencarian -->
-                                <input type="text" x-model="searchQuery" @input.debounce.300ms="searchCustomers()" @keydown.down.prevent="highlight(1)" @keydown.up.prevent="highlight(-1)"
-                                    @keydown.enter.prevent="selectHighlighted()" @blur="setTimeout(() => showDropdown = false, 150)"
+                                <input type="text" x-model="searchQuery" @input.debounce.300ms="searchCustomers()"
+                                    @keydown.down.prevent="highlight(1)" @keydown.up.prevent="highlight(-1)"
+                                    @keydown.enter.prevent="selectHighlighted()"
+                                    @blur="setTimeout(() => showDropdown = false, 150)"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                                     placeholder="Cari atau tambah pelanggan (nama / no telp)" autocomplete="off">
                                 <!-- Hidden ID -->
@@ -60,7 +63,8 @@
                                 <div x-cloak x-show="showDropdown && customers.length > 0" x-transition
                                     class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                     <template x-for="(cust, index) in customers" :key="cust.id">
-                                        <div @click="selectCustomer(cust)" :class="highlightedIndex === index ? 'bg-blue-50' : 'bg-white'"
+                                        <div @click="selectCustomer(cust)"
+                                            :class="highlightedIndex === index ? 'bg-blue-50' : 'bg-white'"
                                             class="px-4 py-2 cursor-pointer hover:bg-blue-50 border-b border-gray-100 last:border-b-0">
                                             <div class="font-medium text-gray-800" x-text="cust.nama"></div>
                                             <div class="text-sm text-gray-500" x-text="cust.no_telp"></div>
@@ -69,7 +73,9 @@
                                 </div>
 
                                 <!-- Tombol Tambah di Samping -->
-                                <button type="button" @click="openModal()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-800" title="Tambah pelanggan baru">
+                                <button type="button" @click="openModal()"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-800"
+                                    title="Tambah pelanggan baru">
                                     <i class="fas fa-user-plus"></i>
                                 </button>
                             </div>
@@ -82,14 +88,15 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Tanggal Terima <span class="text-red-500">*</span>
                             </label>
-                            <input type="date" name="tanggal_terima" required value="{{ date('Y-m-d') }}"
+                            <input type="date" name="tanggal_terima" x-model="tanggalTerima"
+                                @change="updateTanggalSelesai()" required
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Tanggal Selesai <span class="text-slate-500">(opsional)</span>
                             </label>
-                            <input type="date" name="tanggal_selesai"
+                            <input type="date" name="tanggal_selesai" x-model="tanggalSelesai"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                         </div>
                     </div>
@@ -121,10 +128,14 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Paket</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Berat</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subtotal</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Paket
+                                        </th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Berat
+                                        </th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subtotal
+                                        </th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -133,22 +144,33 @@
                                             <td class="px-4 py-3 text-gray-700" x-text="index + 1"></td>
                                             <td class="px-4 py-3">
                                                 <select :name="`items[${index}][paket_id]`" x-model="item.paketId"
-                                                    class="w-full px-3 py-2 rounded border border-gray-300 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none" required>
+                                                    @change="updateTanggalSelesai()"
+                                                    class="w-full px-3 py-2 rounded border border-gray-300 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                                    required>
                                                     <option value="">- Pilih Paket -</option>
                                                     @foreach ($pakets as $paket)
-                                                        <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}">
-                                                            {{ $paket->nama_paket }} - Rp {{ number_format($paket->harga, 0, ',', '.') }} / {{ $paket->satuan }}
+                                                        <option value="{{ $paket->id }}"
+                                                            data-harga="{{ $paket->harga }}"
+                                                            data-waktu="{{ $paket->waktu ?? 2 }}">
+                                                            {{ $paket->nama_paket }} - Rp
+                                                            {{ number_format($paket->harga, 0, ',', '.') }} |
+                                                            {{ $paket->satuan }} |
+                                                            {{ $paket->waktu_pengerjaan }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                            </td>
+                                            </td>~
                                             <td class="px-4 py-3">
-                                                <input type="number" :name="`items[${index}][berat]`" x-model.number="item.berat" step="0.1" min="0.1" required
+                                                <input type="number" :name="`items[${index}][berat]`"
+                                                    x-model.number="item.berat" step="0.1" min="0.1" required
                                                     class="w-full px-3 py-2 rounded border border-gray-300 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                             </td>
-                                            <td class="px-4 py-3 font-medium text-gray-800" x-text="formatRupiah(getSubtotal(item))"></td>
+                                            <td class="px-4 py-3 font-medium text-gray-800"
+                                                x-text="formatRupiah(getSubtotal(item))"></td>
                                             <td class="px-4 py-3">
-                                                <button type="button" @click="removeItem(index)" class="text-red-600 hover:text-red-800 p-1.5 rounded hover:bg-red-50" :disabled="items.length === 1">
+                                                <button type="button" @click="removeItem(index)"
+                                                    class="text-red-600 hover:text-red-800 p-1.5 rounded hover:bg-red-50"
+                                                    :disabled="items.length === 1">
                                                     <i class="fas fa-trash text-sm"></i>
                                                 </button>
                                             </td>
@@ -177,20 +199,23 @@
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Diskon (Rp)</label>
                                 <input type="number" name="diskon" x-model.number="diskon"
-                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition" min="0">
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+                                    min="0">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Total Akhir</label>
                                 <input type="hidden" name="total" :value="totalAkhir">
                                 <input type="text" :value="formatRupiah(totalAkhir)"
-                                    class="w-full px-4 py-3 bg-gray-100 font-bold text-lg text-gray-800 rounded-lg border border-gray-300 cursor-not-allowed" readonly>
+                                    class="w-full px-4 py-3 bg-gray-100 font-bold text-lg text-gray-800 rounded-lg border border-gray-300 cursor-not-allowed"
+                                    readonly>
                             </div>
                         </div>
 
                         <!-- Jumlah DP (conditional) -->
                         <div x-show="pembayaran === 'dp'" x-cloak class="mt-4">
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Jumlah DP (Rp)</label>
-                            <input type="number" name="jumlah_dp" x-model.number="jumlahDp" :max="totalAkhir" min="0"
+                            <input type="number" name="jumlah_dp" x-model.number="jumlahDp" :max="totalAkhir"
+                                min="0"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition">
                             <p class="mt-1 text-sm text-amber-700 font-medium" x-show="totalAkhir > 0">
                                 Sisa pembayaran: <span x-text="formatRupiah(totalAkhir - jumlahDp)"></span>
@@ -215,15 +240,19 @@
                 </form>
 
                 <!-- Modal Tambah Pelanggan -->
-                <div x-cloak x-show="modalOpen" x-transition.opacity class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div x-show="modalOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                <div x-cloak x-show="modalOpen" x-transition.opacity
+                    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div x-show="modalOpen" x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                         class="bg-linear-to-br from-white to-gray-50 rounded-2xl shadow-2xl w-full max-w-md p-6 border border-gray-200">
                         <!-- Header -->
                         <div class="flex items-center justify-between mb-5">
-                            <h3 class="text-xl font-extrabold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                            <h3
+                                class="text-xl font-extrabold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                                 Tambah Pelanggan Baru
                             </h3>
-                            <button @click="closeModal()" class="text-gray-400 hover:text-red-500 transition transform hover:scale-110">
+                            <button @click="closeModal()"
+                                class="text-gray-400 hover:text-red-500 transition transform hover:scale-110">
                                 <i class="fas fa-times text-xl"></i>
                             </button>
                         </div>
@@ -244,10 +273,12 @@
 
                         <!-- Actions -->
                         <div class="flex gap-3 justify-end mt-6">
-                            <button type="button" @click="closeModal()" class="px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition shadow hover:shadow-md">
+                            <button type="button" @click="closeModal()"
+                                class="px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition shadow hover:shadow-md">
                                 Batal
                             </button>
-                            <button type="button" @click="addNewCustomer()" :disabled="!newCustomer.nama || !newCustomer.no_telp"
+                            <button type="button" @click="addNewCustomer()"
+                                :disabled="!newCustomer.nama || !newCustomer.no_telp"
                                 class="px-5 py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-semibold transition shadow-lg hover:shadow-indigo-300 disabled:opacity-50 disabled:cursor-not-allowed">
                                 Simpan
                             </button>
@@ -266,6 +297,10 @@
                 pembayaran: '',
                 diskon: 0,
                 jumlahDp: 0,
+                tanggalTerima: '{{ date('Y-m-d') }}',
+                tanggalSelesai: '',
+                estimasiHari: 2,
+
                 items: [{
                     paketId: '',
                     berat: 1
@@ -312,6 +347,15 @@
                         currency: 'IDR',
                         minimumFractionDigits: 0
                     }).format(value);
+                },
+
+                updateTanggalSelesai() {
+                    if (!this.tanggalTerima) return;
+
+                    const date = new Date(this.tanggalTerima);
+                    date.setDate(date.getDate() + this.estimasiHari);
+
+                    this.tanggalSelesai = date.toISOString().split('T')[0];
                 },
 
                 // --- Fungsi pelanggan ---

@@ -405,7 +405,7 @@
                         </div>
                         <div
                                 class="w-full h-48 bg-linear-to-br from-amber-100 to-rose-100 rounded-2xl mb-6 flex items-center justify-center overflow-hidden">
-                                <img src="{{ asset('img/cuci setrika.jpg') }}" alt="Cuci Express"
+                                <img src="{{ asset('img/cucisetrika.jpg') }}" alt="Cuci Express"
                                     class="w-full h-full object-cover rounded-2xl">
                             </div>
                         <h3 class="text-2xl font-bold mb-3 text-gray-900">Cuci + Setrika</h3>
