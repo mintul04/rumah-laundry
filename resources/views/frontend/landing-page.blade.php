@@ -355,11 +355,11 @@
                             class="w-full h-48 bg-linear-to-br from-blue-100 to-cyan-100 rounded-2xl mb-6 flex items-center justify-center overflow-hidden">
                             <img src="{{ asset('img/cucibiasa.png') }}" alt="Cuci Biasa" class="w-full h-full object-cover rounded-2xl">
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-gray-900">Cuci Biasa</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-gray-900">Cuci Regular</h3>
                         <p class="text-gray-600 text-base mb-4">Cucian standar dengan deterjen berkualitas tinggi dan
-                            pewangi premium</p>
+                                pewangi premium</p>
                         <div class="flex items-baseline gap-2 mb-3">
-                            <span class="text-3xl font-bold text-blue-600">Rp 5K</span>
+                            <span class="text-3xl font-bold text-blue-600">Rp 7k</span>
                             <span class="text-gray-600 text-sm">/Piece</span>
                         </div>
                     </div>
@@ -382,14 +382,13 @@
                             </div>
                             <div
                                 class="w-full h-48 bg-linear-to-br from-amber-100 to-rose-100 rounded-2xl mb-6 flex items-center justify-center overflow-hidden">
-                                <img src="{{ asset('img/cuciexspress.png') }}" alt="Cuci Express"
+                                <img src="{{ asset('img/drycleaning.jpeg') }}" alt="Cuci Express"
                                     class="w-full h-full object-cover rounded-2xl">
                             </div>
-                            <h3 class="text-2xl font-bold mb-3 text-gray-900">Cuci Express</h3>
-                            <p class="text-gray-600 text-base mb-4">Layanan kilat dalam 24 jam untuk kebutuhan mendesak
-                                Anda</p>
+                            <h3 class="text-2xl font-bold mb-3 text-gray-900">Dry Cleaning</h3>
+                            <p class="text-gray-600 text-base mb-4">Dry cleaning adalah layanan laundry khusus yang membersihkan pakaian tanpa air, tapi pakai cairan kimia (solvent) tertentu.</p>
                             <div class="flex items-baseline gap-2 mb-3">
-                                <span class="text-3xl font-bold text-amber-600">Rp 10K</span>
+                                <span class="text-3xl font-bold text-amber-600">Rp 25K</span>
                                 <span class="text-gray-600 text-sm">/Kg</span>
                             </div>
                         </div>

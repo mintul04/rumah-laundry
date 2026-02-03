@@ -15,14 +15,65 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $transaksis = Transaksi::with('pelanggan')
-            ->orderBy('tanggal_terima', 'desc')
-            ->orderBy('tanggal_selesai', 'desc')
-            ->paginate(10);
+        // Default values
+        $filter = $request->filter ?? 'bulanan';
+        $tahun = $request->tahun ?? now()->year;
+        $bulan = $request->bulan ?? now()->month;
 
-        // Hitung statistik dari database
-        $totalTransactions = Transaksi::count();
-        $totalPendapatan = Transaksi::where('pembayaran', 'lunas')->sum('total');
+        // Set periode berdasarkan filter
+        switch ($filter) {
+            case 'tahunan':
+                $start = Carbon::create($tahun)->startOfYear();
+                $end = Carbon::create($tahun)->endOfYear();
+                $periode = "Tahun " . $tahun;
+                break;
+
+            case 'mingguan':
+                // Jika ada tanggal spesifik dari request, gunakan itu
+                if ($request->has('tanggal_awal')) {
+                    $start = Carbon::parse($request->tanggal_awal)->startOfWeek();
+                    $end = Carbon::parse($request->tanggal_awal)->endOfWeek();
+                } else {
+                    $start = now()->startOfWeek();
+                    $end = now()->endOfWeek();
+                }
+                $periode = "Minggu " . $start->translatedFormat('d M Y') . " - " . $end->translatedFormat('d M Y');
+                break;
+
+            case 'harian':
+                // Jika ada tanggal spesifik dari request, gunakan itu
+                if ($request->has('tanggal_awal')) {
+                    $start = Carbon::parse($request->tanggal_awal)->startOfDay();
+                    $end = Carbon::parse($request->tanggal_awal)->endOfDay();
+                } else {
+                    $start = now()->startOfDay();
+                    $end = now()->endOfDay();
+                }
+                $periode = "Hari " . $start->translatedFormat('d F Y');
+                break;
+
+            default: // bulanan
+                $start = Carbon::create($tahun, $bulan)->startOfMonth();
+                $end = Carbon::create($tahun, $bulan)->endOfMonth();
+                $periode = Carbon::createFromDate($tahun, $bulan, 1)
+                    ->locale('id')
+                    ->translatedFormat('F Y');
+        }
+
+        // Query transaksi
+        $transaksis = Transaksi::with('pelanggan')
+            ->whereBetween('tanggal_terima', [$start, $end])
+            ->orderBy('tanggal_terima', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        // Hitung statistik
+        $totalTransactions = Transaksi::whereBetween('tanggal_terima', [$start, $end])->count();
+
+        $totalPendapatan = Transaksi::whereBetween('tanggal_terima', [$start, $end])
+            ->where('pembayaran', 'lunas')
+            ->sum('total');
+
         $rataRata = $totalTransactions > 0 ? $totalPendapatan / $totalTransactions : 0;
 
         $totalPendapatanHalaman = $transaksis
@@ -30,67 +81,50 @@ class LaporanController extends Controller
             ->where('pembayaran', 'lunas')
             ->sum('total');
 
-        // Hitung pelanggan aktif: minimal 4 transaksi dalam 30 hari terakhir
-        $pelangganAktif = Pelanggan::whereHas('transaksi', function ($q) {
-            $q->where('tanggal_terima', '>=', Carbon::now()->subDays(30));
+        // Pelanggan aktif
+        $pelangganAktif = Pelanggan::whereHas('transaksi', function ($q) use ($start, $end) {
+            $q->whereBetween('tanggal_terima', [$start, $end]);
         })
             ->withCount('transaksi')
-            ->having('transaksi_count', '>', 2)
+            ->having('transaksi_count', '>=', 3)
             ->count();
 
-        // Analisis per tanggal penerimaan (tanggal_terima)
-        $transaksiPerTanggal = $transaksis->groupBy('tanggal_terima')
-            ->map(function ($items) {
-                return [
-                    'jumlah' => $items->count(),
-                    'total' => $items->sum('total')
-                ];
-            })
+        // Analisis per tanggal
+        $transaksiPerTanggal = Transaksi::whereBetween('tanggal_terima', [$start, $end])
+            ->get()
+            ->groupBy(fn($t) => Carbon::parse($t->tanggal_terima)->format('Y-m-d'))
+            ->map(fn($items) => [
+                'jumlah' => $items->count(),
+                'total' => $items->sum('total')
+            ])
             ->sortByDesc('total');
 
         // Analisis status pembayaran
-        $statusPembayaran = $transaksis->groupBy('pembayaran')
-            ->map(function ($items) {
-                return $items->count();
-            });
-
-        // Card pelanggan teraktif minimal 3 transaksi dalam sebulan
-        $pelangganTeraktif = Pelanggan::withCount([
-            'transaksi' => function ($q) {
-                $q->where('tanggal_terima', '>=', Carbon::now()->subDays(30))
-                  ->where('pembayaran', 'lunas');
-            }
-        ])
-            ->having('transaksi_count', '>=', 3)
-            ->orderByDesc('transaksi_count')
+        $statusPembayaran = Transaksi::whereBetween('tanggal_terima', [$start, $end])
             ->get()
-            ->map(function ($pelanggan) {
-                return [
-                    'nama' => $pelanggan->nama,
-                    'jumlah' => $pelanggan->transaksi_count
-                ];
-            });
+            ->groupBy('pembayaran')
+            ->map->count();
 
-        // Ambil 7 pelanggan teratas berdasarkan jumlah transaksi
+        // Top customers
         $topCustomers = Pelanggan::withCount([
-            'transaksi' => function ($q) {
-                $q->where('pembayaran', 'lunas');
-            }
+            'transaksi' => fn($q) =>
+            $q->whereBetween('tanggal_terima', [$start, $end])
+                ->where('pembayaran', 'lunas')
         ])
             ->withSum([
-                'transaksi as transaksi_sum_total' => function ($q) {
-                    $q->where('pembayaran', 'lunas');
-                }
+                'transaksi as transaksi_sum_total' => fn($q) =>
+                $q->whereBetween('tanggal_terima', [$start, $end])
+                    ->where('pembayaran', 'lunas')
             ], 'total')
             ->having('transaksi_count', '>', 0)
             ->orderByDesc('transaksi_count')
             ->take(7)
             ->get()
-            ->map(function ($pelanggan) {
+            ->map(function ($p) {
                 return [
-                    'nama' => $pelanggan->nama,
-                    'jumlah' => $pelanggan->transaksi_count,
-                    'total' => $pelanggan->transaksi_sum_total
+                    'nama' => $p->nama,
+                    'jumlah' => $p->transaksi_count,
+                    'total' => $p->transaksi_sum_total
                 ];
             });
 
@@ -101,23 +135,29 @@ class LaporanController extends Controller
             'totalPendapatanHalaman' => $totalPendapatanHalaman,
             'rataRata' => $rataRata,
             'pelangganAktif' => $pelangganAktif,
-            'pelangganTeraktif' => $pelangganTeraktif,
             'transaksiPerTanggal' => $transaksiPerTanggal,
             'statusPembayaran' => $statusPembayaran,
             'topCustomers' => $topCustomers,
-            'periode' => Carbon::now()->isoFormat('MMMM YYYY')
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'periode' => $periode,
+            'filter' => $filter,
+            'startDate' => $start,
+            'endDate' => $end,
         ]);
     }
 
     public function exportLaporanPdf(Request $request)
     {
-        $transaksis = Transaksi::with('pelanggan')->orderBy('tanggal_terima', 'desc')
+        $transaksis = Transaksi::with('pelanggan')
+            ->orderBy('tanggal_terima', 'desc')
             ->orderBy('tanggal_selesai', 'desc')
             ->get();
 
         $totalTransactions = $transaksis->count();
         $totalPendapatan = $transaksis->where('pembayaran', 'lunas')->sum('total');
         $rataRata = $totalTransactions > 0 ? $totalPendapatan / $totalTransactions : 0;
+
         $pelangganAktif = Pelanggan::whereHas('transaksi', function ($q) {
             $q->where('tanggal_terima', '>=', Carbon::now()->subDays(30));
         })
@@ -171,16 +211,14 @@ class LaporanController extends Controller
             'transaksiPerTanggal' => $transaksiPerTanggal,
             'statusPembayaran' => $statusPembayaran,
             'topCustomers' => $topCustomers,
-            'periode' => Carbon::now()->locale('id')->isoFormat('MMMM YYYY') // Gunakan Carbon untuk format
+            'periode' => Carbon::now()->locale('id')->isoFormat('MMMM YYYY')
         ]);
 
-        // Download PDF
         return $pdf->download('laporan_transaksi_laundry_' . Carbon::now()->format('Y-m-d') . '.pdf');
     }
 
-    public function exportLaporanExcel(Request $request) // Tambahkan Request $request jika Anda ingin filter
+    public function exportLaporanExcel(Request $request)
     {
-        // Kita akan menggunakan class export untuk logika pengambilan data
         return Excel::download(new LaporanTransaksiExport, 'laporan_transaksi_laundry_' . Carbon::now()->format('Y-m-d') . '.xlsx');
     }
 }

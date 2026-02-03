@@ -103,8 +103,9 @@
                             <select name="waktu_pengerjaan" required
                                 class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none bg-[url('data:image/svg+xml,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22none%22 viewBox=%220 0 20 20%22%3e%3cpath stroke=%22%236b7280%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%221.5%22 d=%22m6 8 4 4 4-4%22/%3e%3c/svg%3e')] bg-right bg-no-repeat bg-size-[1.25em_1.25em] pr-10">
                                 <option value="">Pilih Waktu Pengerjaan</option>
-                                <option value="24 jam" {{ old('waktu_pengerjaan') == '24 jam' ? 'selected' : '' }}>24 Jam</option>
+                                <option value="6-12 jam" {{ old('waktu_pengerjaan') == '6-12 jam' ? 'selected' : '' }}>6-12 Jam</option>
                                 <option value="2-3 hari" {{ old('waktu_pengerjaan') == '2-3 hari' ? 'selected' : '' }}>2-3 Hari</option>
+                                <option value="1-2 hari" {{ old('waktu_pengerjaan') == '1-2 hari' ? 'selected' : '' }}>1-2 Hari</option>
                                 <option value="4-5 hari" {{ old('waktu_pengerjaan') == '4-5 hari' ? 'selected' : '' }}>4-5 Hari</option>
                             </select>
                             @error('waktu_pengerjaan')

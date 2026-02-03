@@ -113,9 +113,12 @@ class TransaksiController extends Controller
                     number_format($totalAwal, 0, ',', '.') . "\n\n";
             }
 
+            $generateOrderId = Transaksi::generateNoOrder();
+
             $message =
                 "Halo *{$namaPelanggan}* 👋\n\n" .
                 "Terima kasih telah melakukan transaksi di *RumahLaundry*.\n\n" .
+                "📋 *No. Order*: {$generateOrderId}\n" .
                 "🧺 *Detail Pesanan*\n" .
                 $daftarPesanan . "\n" .
                 "Total transaksi: Rp " . number_format($total, 0, ',', '.') . "\n\n" .
@@ -157,7 +160,7 @@ class TransaksiController extends Controller
         try {
             // Simpan data ke tabel transaksis
             $transaksi = Transaksi::create([
-                'no_order' => Transaksi::generateNoOrder(), // Pastikan fungsi ini ada di model
+                'no_order' => $generateOrderId, // Pastikan fungsi ini ada di model
                 'id_pelanggan' => $request->id_pelanggan,
                 'tanggal_terima' => $request->tanggal_terima,
                 'tanggal_selesai' => $request->tanggal_selesai,
@@ -287,8 +290,7 @@ class TransaksiController extends Controller
             "Halo *{$namaPelanggan}* 👋\n\n" .
             "Pesanan laundry Anda di *RumahLaundry* telah kami proses.\n\n" .
             "📋 *No. Order*: {$transaksi->no_order}\n" .
-            "*Tanggal Terima*: " . \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d/m/Y') . "\n" .
-            "*Tanggal Selesai*: " . ($transaksi->tanggal_selesai ? \Carbon\Carbon::parse($transaksi->tanggal_selesai)->format('d/m/Y') : '-') . "\n\n" .
+            "*Tanggal Terima*: " . \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d/m/Y') . "\n" .  
             "🧺 *Detail Pesanan*\n" .
             $daftarPesanan . "\n" .
             "Total transaksi: Rp " . number_format($total, 0, ',', '.') . "\n\n" .

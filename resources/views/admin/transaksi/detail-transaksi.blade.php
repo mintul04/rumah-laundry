@@ -123,7 +123,7 @@
                     @endif
 
                     <div class="p-8 bg-gray-50/50 border-t border-gray-100">
-                        <div class="flex flex-col gap-3 max-w-xs ml-auto">
+                        <div class="flex flex-col gap-3 w-full">
                             <div class="flex justify-between text-gray-500 font-medium">
                                 <span>Subtotal</span>
                                 <span>Rp {{ number_format($transaksi->details->sum('subtotal'), 0, ',', '.') }}</span>

@@ -149,8 +149,7 @@
                                                     required>
                                                     <option value="">- Pilih Paket -</option>
                                                     @foreach ($pakets as $paket)
-                                                        <option value="{{ $paket->id }}"
-                                                            data-harga="{{ $paket->harga }}"
+                                                        <option value="{{ $paket->id }}" data-harga="{{ $paket->harga }}"
                                                             data-waktu="{{ $paket->waktu ?? 2 }}">
                                                             {{ $paket->nama_paket }} - Rp
                                                             {{ number_format($paket->harga, 0, ',', '.') }} |
@@ -298,8 +297,6 @@
                 diskon: 0,
                 jumlahDp: 0,
                 tanggalTerima: '{{ date('Y-m-d') }}',
-                tanggalSelesai: '',
-                estimasiHari: 2,
 
                 items: [{
                     paketId: '',
@@ -347,15 +344,6 @@
                         currency: 'IDR',
                         minimumFractionDigits: 0
                     }).format(value);
-                },
-
-                updateTanggalSelesai() {
-                    if (!this.tanggalTerima) return;
-
-                    const date = new Date(this.tanggalTerima);
-                    date.setDate(date.getDate() + this.estimasiHari);
-
-                    this.tanggalSelesai = date.toISOString().split('T')[0];
                 },
 
                 // --- Fungsi pelanggan ---
