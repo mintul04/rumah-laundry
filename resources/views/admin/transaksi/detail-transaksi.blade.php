@@ -193,8 +193,8 @@
                             @csrf @method('PUT')
                             <div class="relative">
                                 <select name="status_order" onchange="this.form.submit()"
-                                    class="w-full pl-4 pr-10 py-3 bg-gray-50 border-none rounded-xl font-bold text-gray-700 appearance-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer {{ $transaksi->status_order == 'diambil' ? 'opacity-50' : '' }}"
-                                    {{ $transaksi->status_order == 'diambil' ? 'disabled' : '' }}>
+                                    class="w-full pl-4 pr-10 py-3 bg-gray-50 border-none rounded-xl font-bold text-gray-700 appearance-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer {{ $transaksi->status_order == 'diambil' || $transaksi->status_order == 'kadaluarsa' ? 'opacity-50' : '' }}"
+                                    {{ $transaksi->status_order == 'diambil' || $transaksi->status_order == 'kadaluarsa' ? 'disabled' : '' }}>
                                     <option value="baru" {{ $transaksi->status_order == 'baru' ? 'selected' : '' }}>🆕
                                         Pesanan Baru</option>
                                     <option value="diproses"

@@ -431,21 +431,21 @@
             <h3 class="text-gray-600 font-medium mb-4 flex items-center justify-center gap-2">
                 <i class="fas fa-download"></i> Ekspor Laporan
             </h3>
-            <div class="flex flex-wrap justify-center gap-3">
-                <a href="{{ route('admin.laporan.export.pdf') }}"
-                    class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-red-500 to-rose-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
-                    <i class="fas fa-file-pdf"></i> PDF
-                </a>
-                <a href="{{ route('admin.laporan.export.excel') }}"
+            <a href="{{ route('admin.laporan.export.pdf', request()->query()) }}"
+                class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-xl">
+                <i class="fas fa-file-pdf"></i> PDF
+            </a>
+
+            {{-- <a href="{{ route('admin.laporan.export.excel') }}"
                     class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
                     <i class="fas fa-file-excel"></i> Excel
-                </a>
-                <a href="javascript:window.print()"
-                    class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
-                    <i class="fas fa-print"></i> Cetak
-                </a>
-            </div>
+                </a> --}}
+            <a href="javascript:window.print()"
+                class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+                <i class="fas fa-print"></i> Cetak
+            </a>
         </div>
+    </div>
     </div>
 @endsection
 
