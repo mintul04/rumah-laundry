@@ -13,7 +13,7 @@
                         <li class="text-indigo-600 font-semibold">Detail Transaksi</li>
                     </ol>
                 </nav>
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Invoice <span
+                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Nomer <span
                         class="text-indigo-600">#{{ $transaksi->no_order }}</span></h1>
             </div>
             <div class="flex gap-2">
@@ -113,13 +113,14 @@
                         </table>
                     </div>
                     <!-- Total DP Section -->
-                    @if($transaksi->pembayaran === 'dp' && $transaksi->total_dp)
-                    <div class="p-4 bg-amber-50 border-t border-amber-100">
-                        <div class="flex justify-between items-center max-w-xs ml-auto">
-                            <span class="text-amber-700 font-semibold">Total DP</span>
-                            <span class="text-amber-800 font-bold">Rp {{ number_format($transaksi->total_dp, 0, ',', '.') }}</span>
+                    @if ($transaksi->pembayaran === 'dp' && $transaksi->total_dp)
+                        <div class="p-4 bg-amber-50 border-t border-amber-100">
+                            <div class="flex justify-between items-center max-w-xs ml-auto">
+                                <span class="text-amber-700 font-semibold">Total DP</span>
+                                <span class="text-amber-800 font-bold">Rp
+                                    {{ number_format($transaksi->total_dp, 0, ',', '.') }}</span>
+                            </div>
                         </div>
-                    </div>
                     @endif
 
                     <div class="p-8 bg-gray-50/50 border-t border-gray-100">
@@ -213,7 +214,6 @@
                             </div>
                         </form>
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Status
                             Pembayaran</label>

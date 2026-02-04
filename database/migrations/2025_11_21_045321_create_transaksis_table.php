@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->datetime('tanggal_selesai')->nullable();
             $table->enum('pembayaran', ['lunas', 'belum_lunas', 'dp'])->default('belum_lunas');
             $table->decimal('jumlah_dp', 15, 2)->nullable();
+            $table->decimal('diskon', 15, 2)->nullable();
             $table->enum('status_order', ['baru', 'diproses', 'selesai', 'diambil', 'kadaluarsa'])->default('baru');
             $table->datetime('jatuh_tempo_at')->nullable();
             $table->datetime('diambil_at')->nullable();

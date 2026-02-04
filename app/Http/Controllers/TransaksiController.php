@@ -45,29 +45,25 @@ class TransaksiController extends Controller
      */
     public function store(Request $request, FonnteService $fonnteService)
     {
-        // Validasi data input termasuk items
-        $request->validate([
-            'id_pelanggan' => 'required|string|max:255',
+        // 1. Validasi data input termasuk items
+        $validated = $request->validate([
+            'id_pelanggan' => 'required|exists:pelanggans,id', // Ubah ke exists
             'tanggal_terima' => 'required|date',
-            'tanggal_selesai' => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_terima',
             'pembayaran' => 'required|in:lunas,dp',
-            'status_order' => 'required|in:baru,diproses,selesai,diambil',
-            'jumlah_dp' => 'nullable|numeric|min:0',
             'total' => 'required|numeric|min:0',
             'items' => 'required|array|min:1',
             'items.*.paket_id' => 'required|exists:paket_laundries,id',
             'items.*.berat' => 'required|numeric|min:0.1',
-            'diskon' => 'nullable|numeric|min:0'
+            'diskon' => 'nullable|numeric|min:0',
+            'jumlah_dp' => 'nullable|numeric|min:0', // Tetap nullable untuk semua
         ], [
             'id_pelanggan.required' => 'Nama pelanggan wajib dipilih.',
+            'id_pelanggan.exists' => 'Pelanggan tidak ditemukan.',
             'tanggal_terima.required' => 'Tanggal terima wajib diisi.',
-            'tanggal_selesai.required' => 'Tanggal selesai wajib diisi.',
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal terima.',
             'pembayaran.required' => 'Status pembayaran wajib dipilih.',
             'pembayaran.in' => 'Status pembayaran harus salah satu dari: lunas atau dp.',
-            'status_order.required' => 'Status order wajib dipilih.',
-            'status_order.in' => 'Status order harus salah satu dari: baru, diproses, selesai, diambil.',
-            'jumlah_dp.numeric' => 'Jumlah DP harus berupa angka.',
-            'jumlah_dp.min' => 'Jumlah DP tidak boleh kurang dari 0.',
             'total.required' => 'Total transaksi wajib diisi.',
             'total.numeric' => 'Total transaksi harus berupa angka.',
             'total.min' => 'Total transaksi tidak boleh kurang dari 0.',
@@ -81,11 +77,27 @@ class TransaksiController extends Controller
             'items.*.berat.min' => 'Berat minimal harus 0.1 kg.',
             'diskon.numeric' => 'Diskon harus berupa angka.',
             'diskon.min' => 'Diskon tidak boleh kurang dari 0.',
+            'jumlah_dp.numeric' => 'Jumlah DP harus berupa angka.',
+            'jumlah_dp.min' => 'Jumlah DP tidak boleh kurang dari 0.',
         ]);
 
-        // Validasi khusus untuk DP
+        // 2. Validasi khusus untuk DP
         if ($request->pembayaran === 'dp') {
-            // kirim pesan wa
+            // Validasi DP lebih ketat
+            $request->validate([
+                'jumlah_dp' => [
+                    'required',
+                    'numeric',
+                    'min:1000', // Minimal DP 1000
+                    'max:' . $request->total
+                ],
+            ], [
+                'jumlah_dp.required' => 'Jumlah DP wajib diisi untuk pembayaran DP.',
+                'jumlah_dp.max' => 'Jumlah DP tidak boleh melebihi total transaksi.',
+                'jumlah_dp.min' => 'Jumlah DP minimal Rp 1.000.',
+            ]);
+
+            // Kirim pesan WA untuk DP
             $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
             $namaPelanggan = $pelanggan->nama;
             $dp = $request->jumlah_dp;
@@ -139,41 +151,32 @@ class TransaksiController extends Controller
                     'message' => $message,
                     'error' => $response['error'],
                 ]);
-                return redirect()->back()->withErrors(['dp' => $response['error']]);
+                return redirect()->back()->withErrors(['dp' => $response['error']])->withInput();
             }
-
-            $request->validate([
-                'jumlah_dp' => [
-                    'required',
-                    'numeric',
-                    'min:1000', // Minimal DP 1000
-                    'max:' . $request->total
-                ],
-            ], [
-                'jumlah_dp.max' => 'Jumlah DP tidak boleh melebihi total transaksi',
-                'jumlah_dp.min' => 'Jumlah DP minimal Rp 1.000',
-            ]);
         }
-        // Mulai transaksi database untuk memastikan konsistensi data
+
+        // 3. Mulai transaksi database
         DB::beginTransaction();
 
         try {
+            // Generate nomor order (pastikan method ini ada di model Transaksi)
+            $generateOrderId = Transaksi::generateNoOrder();
+
             // Simpan data ke tabel transaksis
             $transaksi = Transaksi::create([
-                'no_order' => $generateOrderId, // Pastikan fungsi ini ada di model
+                'no_order' => $generateOrderId,
                 'id_pelanggan' => $request->id_pelanggan,
                 'tanggal_terima' => $request->tanggal_terima,
                 'tanggal_selesai' => $request->tanggal_selesai,
                 'pembayaran' => $request->pembayaran,
                 'jumlah_dp' => $request->pembayaran === 'dp' ? $request->jumlah_dp : null,
-                'status_order' => $request->status_order,
-                'down_payment' => $request->down_payment,
+                'status_order' => 'baru', // Default status untuk transaksi baru
+                'diskon' => $request->diskon ?? 0, // Tambahkan diskon
                 'total' => $request->total,
             ]);
 
             // Simpan detail transaksi ke tabel transaksi_details
             foreach ($request->items as $item) {
-                // Ambil harga paket untuk validasi atau perhitungan ulang jika diperlukan
                 $paket = PaketLaundry::findOrFail($item['paket_id']);
                 $subtotal = $paket->harga * $item['berat'];
 
@@ -182,6 +185,44 @@ class TransaksiController extends Controller
                     'berat' => $item['berat'],
                     'subtotal' => $subtotal,
                 ]);
+            }
+
+            // 4. Kirim WA untuk pembayaran lunas
+            if ($request->pembayaran === 'lunas') {
+                $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
+                $daftarPesanan = '';
+                foreach ($request->items as $item) {
+                    $paket = PaketLaundry::find($item['paket_id']);
+                    $daftarPesanan .= '• ' . $paket->nama_paket . ' (' . $item['berat'] . " kg)\n";
+                }
+
+                $diskonText = '';
+                if ($request->diskon > 0) {
+                    $diskonText = "🎁 *Diskon*\n" .
+                        "Potongan harga: Rp " . number_format($request->diskon, 0, ',', '.') . "\n\n";
+                }
+
+                $messageLunas =
+                    "Halo *{$pelanggan->nama}* 👋\n\n" .
+                    "Terima kasih telah melakukan transaksi di *RumahLaundry*.\n\n" .
+                    "📋 *No. Order*: {$generateOrderId}\n" .
+                    "🧺 *Detail Pesanan*\n" .
+                    $daftarPesanan . "\n" .
+                    $diskonText .
+                    "✅ *Pembayaran*: LUNAS\n" .
+                    "💰 *Total*: Rp " . number_format($request->total, 0, ',', '.') . "\n\n" .
+                    "Pesanan Anda sedang kami proses. Kami akan menghubungi Anda kembali ketika laundry telah selesai.\n\n" .
+                    "Terima kasih 🙏\n" .
+                    "*RumahLaundry*";
+
+                $response = $fonnteService->send($pelanggan->no_telp, $messageLunas);
+                if (isset($response['error'])) {
+                    Log::warning('Fonnte API Error for Lunas', [
+                        'target' => $pelanggan->no_telp,
+                        'error' => $response['error'],
+                    ]);
+                    // Lanjutkan meski WA gagal, jangan rollback
+                }
             }
 
             // Commit transaksi
@@ -193,7 +234,15 @@ class TransaksiController extends Controller
         } catch (\Exception $e) {
             // Rollback transaksi jika terjadi kesalahan
             DB::rollback();
-            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan transaksi. Silakan coba lagi.'])->withInput();
+
+            Log::error('Transaction Store Error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'request' => $request->all()
+            ]);
+
+            return redirect()->back()
+                ->withErrors(['error' => 'Terjadi kesalahan saat menyimpan transaksi: ' . $e->getMessage()])
+                ->withInput();
         }
     }
 
@@ -290,7 +339,7 @@ class TransaksiController extends Controller
             "Halo *{$namaPelanggan}* 👋\n\n" .
             "Pesanan laundry Anda di *RumahLaundry* telah kami proses.\n\n" .
             "📋 *No. Order*: {$transaksi->no_order}\n" .
-            "*Tanggal Terima*: " . \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d/m/Y') . "\n" .  
+            "*Tanggal Terima*: " . \Carbon\Carbon::parse($transaksi->tanggal_terima)->format('d/m/Y') . "\n" .
             "🧺 *Detail Pesanan*\n" .
             $daftarPesanan . "\n" .
             "Total transaksi: Rp " . number_format($total, 0, ',', '.') . "\n\n" .

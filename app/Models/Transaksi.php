@@ -19,6 +19,7 @@ class Transaksi extends Model
         'tanggal_terima',
         'tanggal_selesai',
         'jumlah_dp',
+        'diskon',
         'pembayaran',
         'status_order',
         'total',
